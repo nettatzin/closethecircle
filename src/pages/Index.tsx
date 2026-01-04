@@ -1,13 +1,76 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { Helmet } from 'react-helmet-async';
+import { WelcomeModal } from '@/components/circle/WelcomeModal';
+import { RippleModal } from '@/components/circle/RippleModal';
+import { MainContent } from '@/components/circle/MainContent';
+import { useCircleStore } from '@/hooks/useCircleStore';
+import type { Activity } from '@/data/activities';
 
 const Index = () => {
+  const store = useCircleStore();
+
+  const handleCloseCircle = (activity: Activity) => {
+    if (activity.showCommunityMessage) {
+      store.setRippleActivity(activity);
+      store.setShowRipple('community');
+    } else {
+      store.setRippleActivity(activity);
+      store.setShowRipple('ripple');
+      setTimeout(() => {
+        window.open(activity.url, '_blank');
+        setTimeout(() => store.setShowRipple(false), 2000);
+      }, 2000);
+    }
+  };
+
+  const handleCommunityConfirm = () => {
+    store.setShowRipple('ripple');
+    setTimeout(() => {
+      window.open(store.rippleActivity?.url, '_blank');
+      setTimeout(() => store.setShowRipple(false), 2000);
+    }, 2000);
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <>
+      <Helmet>
+        <title>The Circle - Discover Circular Design Activities</title>
+        <meta name="description" content="Discover activities that resonate with your vision of circular design. Find workshops, communities, and hands-on experiences near you." />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <meta name="theme-color" content="#4a7c6f" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+      </Helmet>
+
+      <WelcomeModal 
+        isOpen={store.showWelcome} 
+        onClose={() => store.setShowWelcome(false)} 
+      />
+
+      <RippleModal
+        mode={store.showRipple}
+        activity={store.rippleActivity}
+        onConfirm={handleCommunityConfirm}
+        onClose={() => store.setShowRipple(false)}
+      />
+
+      <MainContent
+        selectedDraws={store.selectedDraws}
+        toggleDraw={store.toggleDraw}
+        selectedEnergy={store.selectedEnergy}
+        setSelectedEnergy={store.setSelectedEnergy}
+        locationFormat={store.locationFormat}
+        toggleFormat={store.toggleFormat}
+        physicalLocation={store.physicalLocation}
+        setPhysicalLocation={store.setPhysicalLocation}
+        physicalRadius={store.physicalRadius}
+        setPhysicalRadius={store.setPhysicalRadius}
+        digitalReach={store.digitalReach}
+        toggleDigitalReach={store.toggleDigitalReach}
+        selectedArtworks={store.selectedArtworks}
+        toggleArtwork={store.toggleArtwork}
+        onCloseCircle={handleCloseCircle}
+      />
+    </>
   );
 };
 
