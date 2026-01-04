@@ -90,24 +90,21 @@ export function LocationFilter({
               </select>
             </div>
             
-            <div>
-              <label className="text-xs text-muted-foreground block mb-1.5">Within:</label>
-              <div className="flex gap-1.5">
-                {radiusOptions.map(radius => (
-                  <button
-                    key={radius}
-                    onClick={() => setPhysicalRadius(radius)}
-                    className={cn(
-                      'flex-1 py-1.5 px-2 rounded-md text-xs font-bold border-2 transition-all',
-                      physicalRadius === radius
-                        ? 'border-primary bg-primary text-primary-foreground'
-                        : 'border-border/40 text-muted-foreground'
-                    )}
-                  >
-                    {radius}
-                  </button>
-                ))}
-              </div>
+            <div className="flex gap-1.5">
+              {radiusOptions.map(radius => (
+                <button
+                  key={radius}
+                  onClick={() => setPhysicalRadius(radius)}
+                  className={cn(
+                    'flex-1 py-1.5 px-2 rounded-md text-xs font-bold border-2 transition-all',
+                    physicalRadius === radius
+                      ? 'border-primary bg-primary text-primary-foreground'
+                      : 'border-border/40 text-muted-foreground'
+                  )}
+                >
+                  {radius}
+                </button>
+              ))}
             </div>
           </motion.div>
         )}
