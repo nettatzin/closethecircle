@@ -38,12 +38,20 @@ export const energyOptions = [
   { id: 'deep-work', icon: '💪', label: 'Deep work', time: 'Ongoing commitment' }
 ];
 
+import mitumbaImg from '@/assets/artworks/mitumba.png';
+import insectsTypologyImg from '@/assets/artworks/insects-typology.png';
+import kiteprideImg from '@/assets/artworks/kitepride.png';
+import plasticRiversImg from '@/assets/artworks/plastic-rivers.png';
+import cityTransformerImg from '@/assets/artworks/city-transformer.png';
+import livingRootBridgesImg from '@/assets/artworks/living-root-bridges.png';
+
 export const artworks = [
-  { id: 1, name: 'Biomaterial Vessels', image: '🏺' },
-  { id: 2, name: 'Textile Cycles', image: '🧵' },
-  { id: 3, name: 'Fermentation Process', image: '🫙' },
-  { id: 4, name: 'Urban Garden', image: '🌿' },
-  { id: 5, name: 'Repair Culture', image: '🔧' }
+  { id: 1, name: 'Mitumba', artist: 'Maya Arazi & Merav Gazit', image: mitumbaImg },
+  { id: 2, name: 'Insects Typology', artist: 'Ori Orisun Merhav', image: insectsTypologyImg },
+  { id: 3, name: 'Kitepride', artist: 'Matthias and Tabea Oppliger', image: kiteprideImg },
+  { id: 4, name: 'Plastic Rivers', artist: 'Álvaro Catalán de Ocón', image: plasticRiversImg },
+  { id: 5, name: 'City Transformer', artist: 'Nimrod Eliezer', image: cityTransformerImg },
+  { id: 6, name: 'Living Root Bridges', artist: 'Meghalaya district', image: livingRootBridgesImg }
 ];
 
 export const activities: Activity[] = [

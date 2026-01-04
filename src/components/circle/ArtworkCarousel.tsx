@@ -18,19 +18,28 @@ export function ArtworkCarousel({ selectedArtworks, toggleArtwork }: ArtworkCaro
           whileHover={{ y: -4 }}
           whileTap={{ scale: 0.95 }}
           className={cn(
-            'flex-shrink-0 w-24 p-3 rounded-xl border-2 bg-card relative transition-all',
+            'flex-shrink-0 w-32 rounded-xl border-2 bg-card relative transition-all overflow-hidden',
             selectedArtworks.includes(artwork.id)
               ? 'border-primary shadow-soft'
               : 'border-border/40'
           )}
         >
           {selectedArtworks.includes(artwork.id) && (
-            <div className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-primary flex items-center justify-center">
+            <div className="absolute top-1.5 right-1.5 z-10 w-5 h-5 rounded-full bg-primary flex items-center justify-center">
               <Check className="w-3 h-3 text-primary-foreground" />
             </div>
           )}
-          <div className="text-4xl mb-2">{artwork.image}</div>
-          <div className="text-xs text-foreground text-center leading-tight">{artwork.name}</div>
+          <div className="aspect-square w-full overflow-hidden">
+            <img 
+              src={artwork.image} 
+              alt={artwork.name}
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div className="p-2 text-left">
+            <div className="text-xs font-medium text-foreground leading-tight line-clamp-1">{artwork.name}</div>
+            <div className="text-[10px] text-muted-foreground leading-tight mt-0.5 line-clamp-2">{artwork.artist}</div>
+          </div>
         </motion.button>
       ))}
     </div>
