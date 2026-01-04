@@ -15,8 +15,9 @@ export function ArtworkCarousel({ selectedArtworks, toggleArtwork }: ArtworkCaro
         <motion.button
           key={artwork.id}
           onClick={() => toggleArtwork(artwork.id)}
-          whileHover={{ y: -4 }}
+          whileHover={{ scale: 1.08, y: -4 }}
           whileTap={{ scale: 0.95 }}
+          transition={{ type: "spring", stiffness: 300, damping: 20 }}
           className={cn(
             'flex-shrink-0 w-32 rounded-xl border-2 bg-card relative transition-all overflow-hidden',
             selectedArtworks.includes(artwork.id)
