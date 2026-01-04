@@ -12,8 +12,8 @@ import type { Activity } from '@/data/activities';
 interface MainContentProps {
   selectedDraws: string[];
   toggleDraw: (id: string) => void;
-  selectedEnergy: string;
-  setSelectedEnergy: (energy: string) => void;
+  selectedEnergy: string[];
+  toggleEnergy: (energy: string) => void;
   locationFormat: string[];
   toggleFormat: (format: string) => void;
   physicalLocation: string;
@@ -32,7 +32,7 @@ export function MainContent({
   selectedDraws,
   toggleDraw,
   selectedEnergy,
-  setSelectedEnergy,
+  toggleEnergy,
   locationFormat,
   toggleFormat,
   physicalLocation,
@@ -53,8 +53,9 @@ export function MainContent({
       const drawsMatch = selectedDraws.length === 0 || 
         activity.draws.some(draw => selectedDraws.includes(draw));
       
-      // Filter by energy level
-      const energyMatch = activity.energyLevel === selectedEnergy;
+      // Filter by energy level (any match)
+      const energyMatch = selectedEnergy.length === 0 || 
+        selectedEnergy.includes(activity.energyLevel);
       
       // Filter by location format
       const locationMatch = locationFormat.length === 0 || 
@@ -128,8 +129,8 @@ export function MainContent({
                   icon={option.icon}
                   label={option.label}
                   time={option.time}
-                  selected={selectedEnergy === option.id}
-                  onClick={() => setSelectedEnergy(option.id)}
+                  selected={selectedEnergy.includes(option.id)}
+                  onClick={() => toggleEnergy(option.id)}
                 />
               ))}
             </div>

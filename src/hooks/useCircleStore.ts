@@ -3,7 +3,7 @@ import { useState } from 'react';
 export function useCircleStore() {
   const [showWelcome, setShowWelcome] = useState(true);
   const [selectedDraws, setSelectedDraws] = useState<string[]>(['explore', 'meet', 'make']);
-  const [selectedEnergy, setSelectedEnergy] = useState('hands-on');
+  const [selectedEnergy, setSelectedEnergy] = useState<string[]>(['hands-on']);
   const [locationFormat, setLocationFormat] = useState<string[]>(['physical']);
   const [physicalLocation, setPhysicalLocation] = useState('Tel Aviv');
   const [physicalRadius, setPhysicalRadius] = useState('15km');
@@ -37,9 +37,15 @@ export function useCircleStore() {
     );
   };
 
+  const toggleEnergy = (id: string) => {
+    setSelectedEnergy(prev => 
+      prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
+    );
+  };
+
   const resetFilters = () => {
     setSelectedDraws([]);
-    setSelectedEnergy('');
+    setSelectedEnergy([]);
     setLocationFormat([]);
     setDigitalReach([]);
     setSelectedArtworks([]);
@@ -51,7 +57,7 @@ export function useCircleStore() {
     selectedDraws,
     toggleDraw,
     selectedEnergy,
-    setSelectedEnergy,
+    toggleEnergy,
     locationFormat,
     toggleFormat,
     physicalLocation,
