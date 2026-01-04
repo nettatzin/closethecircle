@@ -54,7 +54,7 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
         
         {/* Energy badge */}
         <div className="absolute bottom-3 left-3 bg-card/95 backdrop-blur-sm px-3 py-1.5 rounded-full text-sm font-bold text-foreground flex items-center gap-1.5">
-          {activity.energy} {activity.energyLabel}
+          {activity.energyLevel === 'low-key' ? '🪶' : activity.energyLevel === 'hands-on' ? '🔥' : '💪'} {activity.energyLabel}
         </div>
       </div>
 
@@ -133,13 +133,15 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
 
               <div className="mb-4">
                 <h4 className="text-xs font-bold text-primary uppercase tracking-wider mb-2">
-                  What to expect:
+                  Activity type:
                 </h4>
-                <ul className="text-sm text-muted-foreground space-y-1.5 pl-4">
-                  {activity.expectations.map((exp, i) => (
-                    <li key={i} className="list-disc">{exp}</li>
+                <div className="flex flex-wrap gap-1.5">
+                  {activity.tags.activityType.map((type, i) => (
+                    <span key={i} className="text-[11px] px-2.5 py-1 bg-muted text-muted-foreground rounded-full font-semibold">
+                      {type}
+                    </span>
                   ))}
-                </ul>
+                </div>
               </div>
 
               <div className="mb-4">
@@ -160,17 +162,15 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
 
               <div>
                 <h4 className="text-xs font-bold text-primary uppercase tracking-wider mb-2">
-                  Connected artworks:
+                  Format & Commitment:
                 </h4>
                 <div className="flex flex-wrap gap-1.5">
-                  {activity.connectedArtworks.map(artwork => (
-                    <span
-                      key={artwork}
-                      className="text-[11px] px-2.5 py-1 bg-primary/10 border border-primary/30 rounded-full text-primary font-semibold"
-                    >
-                      ↻ {artwork}
-                    </span>
-                  ))}
+                  <span className="text-[11px] px-2.5 py-1 bg-primary/10 border border-primary/30 rounded-full text-primary font-semibold">
+                    {activity.tags.format}
+                  </span>
+                  <span className="text-[11px] px-2.5 py-1 bg-primary/10 border border-primary/30 rounded-full text-primary font-semibold">
+                    {activity.tags.commitment}
+                  </span>
                 </div>
               </div>
             </motion.div>
