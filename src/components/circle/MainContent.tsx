@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { drawOptions, energyOptions, activities } from '@/data/activities';
+import { useMemo } from 'react';
+import { drawOptions, energyOptions, activities, artworks } from '@/data/activities';
 import { FilterChip } from './FilterChip';
 import { EnergyCard } from './EnergyCard';
 import { LocationFilter } from './LocationFilter';
@@ -43,6 +44,34 @@ export function MainContent({
   toggleArtwork,
   onCloseCircle,
 }: MainContentProps) {
+  // Filter activities based on selected filters
+  const filteredActivities = useMemo(() => {
+    return activities.filter(activity => {
+      // Filter by draws (any match)
+      const drawsMatch = selectedDraws.length === 0 || 
+        activity.draws.some(draw => selectedDraws.includes(draw));
+      
+      // Filter by energy level
+      const energyMatch = activity.energyLevel === selectedEnergy;
+      
+      // Filter by location format
+      const locationMatch = locationFormat.length === 0 || 
+        locationFormat.includes(activity.locationFormat) ||
+        (locationFormat.includes('physical') && activity.locationFormat === 'hybrid') ||
+        (locationFormat.includes('digital') && activity.locationFormat === 'hybrid');
+      
+      // Filter by digital reach (if digital is selected)
+      const reachMatch = !locationFormat.includes('digital') || 
+        digitalReach.length === 0 ||
+        digitalReach.includes(activity.region);
+      
+      // Filter by selected artworks (any match)
+      const artworkMatch = selectedArtworks.length === 0 || 
+        activity.connectedArtworks.some(id => selectedArtworks.includes(id));
+      
+      return drawsMatch && energyMatch && locationMatch && reachMatch && artworkMatch;
+    });
+  }, [selectedDraws, selectedEnergy, locationFormat, digitalReach, selectedArtworks]);
   return (
     <div className="min-h-screen pb-8 safe-area-top safe-area-bottom">
       <div className="max-w-lg mx-auto px-4 pt-6">
@@ -161,19 +190,26 @@ export function MainContent({
           transition={{ delay: 0.2 }}
         >
           <h2 className="text-xl font-bold text-foreground mb-4">
-            Showing {activities.length} activities
+            Showing {filteredActivities.length} of {activities.length} activities
           </h2>
 
-          <div className="space-y-4">
-            {activities.map((activity, index) => (
-              <ActivityCard
-                key={activity.id}
-                activity={activity}
-                index={index}
-                onCloseCircle={onCloseCircle}
-              />
-            ))}
-          </div>
+          {filteredActivities.length === 0 ? (
+            <div className="bg-card rounded-2xl p-8 text-center border-2 border-border/30">
+              <p className="text-muted-foreground mb-2">No activities match your current filters.</p>
+              <p className="text-sm text-muted-foreground">Try adjusting your preferences above.</p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {filteredActivities.map((activity, index) => (
+                <ActivityCard
+                  key={activity.id}
+                  activity={activity}
+                  index={index}
+                  onCloseCircle={onCloseCircle}
+                />
+              ))}
+            </div>
+          )}
         </motion.div>
       </div>
     </div>
