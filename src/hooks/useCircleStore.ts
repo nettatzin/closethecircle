@@ -37,6 +37,14 @@ export function useCircleStore() {
     );
   };
 
+  const resetFilters = () => {
+    setSelectedDraws([]);
+    setSelectedEnergy('');
+    setLocationFormat([]);
+    setDigitalReach([]);
+    setSelectedArtworks([]);
+  };
+
   return {
     showWelcome,
     setShowWelcome,
@@ -60,5 +68,6 @@ export function useCircleStore() {
     setShowRipple,
     rippleActivity,
     setRippleActivity,
+    resetFilters,
   };
 }

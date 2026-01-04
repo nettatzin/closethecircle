@@ -25,6 +25,7 @@ interface MainContentProps {
   selectedArtworks: number[];
   toggleArtwork: (id: number) => void;
   onCloseCircle: (activity: Activity) => void;
+  resetFilters: () => void;
 }
 
 export function MainContent({
@@ -43,6 +44,7 @@ export function MainContent({
   selectedArtworks,
   toggleArtwork,
   onCloseCircle,
+  resetFilters,
 }: MainContentProps) {
   // Filter activities based on selected filters
   const filteredActivities = useMemo(() => {
@@ -189,9 +191,20 @@ export function MainContent({
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <h2 className="text-xl font-bold text-foreground mb-4">
+          <h2 className="text-xl font-bold text-foreground mb-2">
             Showing {filteredActivities.length} of {activities.length} activities
           </h2>
+          
+          {filteredActivities.length < activities.length && (
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={resetFilters}
+              className="mb-4 px-4 py-2 text-sm font-medium text-primary border border-primary/30 rounded-full hover:bg-primary/10 transition-colors"
+            >
+              Show all activities
+            </motion.button>
+          )}
 
           {filteredActivities.length === 0 ? (
             <div className="bg-card rounded-2xl p-8 text-center border-2 border-border/30">
