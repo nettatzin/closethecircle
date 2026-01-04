@@ -69,6 +69,7 @@ const Index = () => {
         selectedArtworks={store.selectedArtworks}
         toggleArtwork={store.toggleArtwork}
         onCloseCircle={handleCloseCircle}
+        resetFilters={store.resetFilters}
       />
     </>
   );
