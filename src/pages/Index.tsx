@@ -57,7 +57,7 @@ const Index = () => {
         selectedDraws={store.selectedDraws}
         toggleDraw={store.toggleDraw}
         selectedEnergy={store.selectedEnergy}
-        setSelectedEnergy={store.setSelectedEnergy}
+        toggleEnergy={store.toggleEnergy}
         locationFormat={store.locationFormat}
         toggleFormat={store.toggleFormat}
         physicalLocation={store.physicalLocation}
