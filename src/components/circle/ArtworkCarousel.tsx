@@ -10,7 +10,7 @@ interface ArtworkCarouselProps {
 
 export function ArtworkCarousel({ selectedArtworks, toggleArtwork }: ArtworkCarouselProps) {
   return (
-    <div className="flex gap-3 overflow-x-auto pb-2 -mx-2 px-2 scrollbar-hide">
+    <div className="flex gap-3 overflow-x-auto overflow-y-visible pb-4 pt-2 -mx-2 px-2 scrollbar-hide">
       {artworks.map(artwork => (
         <motion.button
           key={artwork.id}
