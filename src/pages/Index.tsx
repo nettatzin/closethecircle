@@ -1,12 +1,18 @@
 import { Helmet } from 'react-helmet-async';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { WelcomeModal } from '@/components/circle/WelcomeModal';
 import { RippleModal } from '@/components/circle/RippleModal';
 import { MainContent } from '@/components/circle/MainContent';
+import { ArtworksView } from '@/components/circle/ArtworksView';
 import { useCircleStore } from '@/hooks/useCircleStore';
 import type { Activity } from '@/data/activities';
 
+type Tab = 'discover' | 'artworks';
+
 const Index = () => {
   const store = useCircleStore();
+  const [tab, setTab] = useState<Tab>('discover');
 
   const handleCloseCircle = (activity: Activity) => {
     if (activity.showCommunityMessage) {
