@@ -85,28 +85,65 @@ const Index = () => {
               </button>
             ))}
           </div>
+
+          {/* Act / Impact sub-toggle (only on Discover tab) */}
+          <AnimatePresence initial={false}>
+            {tab === 'discover' && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="overflow-hidden"
+              >
+                <div className="flex items-center justify-center gap-1 pt-3 pb-1">
+                  {(['act', 'impact'] as DiscoverMode[]).map((m) => (
+                    <button
+                      key={m}
+                      onClick={() => setDiscoverMode(m)}
+                      className="relative px-4 py-1.5 text-[10px] font-display tracking-[0.3em] uppercase transition-colors"
+                    >
+                      {discoverMode === m && (
+                        <motion.span
+                          layoutId="discover-mode-underline"
+                          className="absolute left-2 right-2 -bottom-0.5 h-px bg-foreground"
+                          transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                        />
+                      )}
+                      <span className={discoverMode === m ? 'text-foreground' : 'text-foreground/45'}>
+                        {m}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
       {tab === 'discover' ? (
-        <MainContent
-          selectedDraws={store.selectedDraws}
-          toggleDraw={store.toggleDraw}
-          selectedEnergy={store.selectedEnergy}
-          toggleEnergy={store.toggleEnergy}
-          locationFormat={store.locationFormat}
-          toggleFormat={store.toggleFormat}
-          physicalLocation={store.physicalLocation}
-          setPhysicalLocation={store.setPhysicalLocation}
-          physicalRadius={store.physicalRadius}
-          setPhysicalRadius={store.setPhysicalRadius}
-          digitalReach={store.digitalReach}
-          toggleDigitalReach={store.toggleDigitalReach}
-          selectedArtworks={store.selectedArtworks}
-          toggleArtwork={store.toggleArtwork}
-          onCloseCircle={handleCloseCircle}
-          resetFilters={store.resetFilters}
-        />
+        discoverMode === 'act' ? (
+          <MainContent
+            selectedDraws={store.selectedDraws}
+            toggleDraw={store.toggleDraw}
+            selectedEnergy={store.selectedEnergy}
+            toggleEnergy={store.toggleEnergy}
+            locationFormat={store.locationFormat}
+            toggleFormat={store.toggleFormat}
+            physicalLocation={store.physicalLocation}
+            setPhysicalLocation={store.setPhysicalLocation}
+            physicalRadius={store.physicalRadius}
+            setPhysicalRadius={store.setPhysicalRadius}
+            digitalReach={store.digitalReach}
+            toggleDigitalReach={store.toggleDigitalReach}
+            selectedArtworks={store.selectedArtworks}
+            toggleArtwork={store.toggleArtwork}
+            onCloseCircle={handleCloseCircle}
+            resetFilters={store.resetFilters}
+          />
+        ) : (
+          <ImpactView />
+        )
       ) : (
         <ArtworksView />
       )}
