@@ -124,6 +124,23 @@ export function MainContent({
       return drawsMatch && energyMatch && locationMatch && reachMatch && artworkMatch;
     });
   }, [selectedDraws, selectedEnergy, locationFormat, digitalReach, selectedArtworks]);
+
+  const [openSections, setOpenSections] = useState<Record<SectionKey, boolean>>({
+    draws: false,
+    energy: false,
+    where: false,
+    artwork: false,
+  });
+
+  const toggleSection = (key: SectionKey) =>
+    setOpenSections(prev => ({ ...prev, [key]: !prev[key] }));
+
+  const handleShuffle = () => {
+    const pool = filteredActivities.length > 0 ? filteredActivities : activities;
+    const random = pool[Math.floor(Math.random() * pool.length)];
+    onCloseCircle(random);
+  };
+
   return (
     <div className="min-h-screen pb-8 safe-area-top safe-area-bottom relative overflow-hidden">
       {/* Decorative line-art background motifs */}
@@ -136,7 +153,7 @@ export function MainContent({
         <motion.header
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-10 text-center"
+          className="mb-8 text-center"
         >
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="h-px flex-1 bg-foreground/20" />
@@ -154,18 +171,39 @@ export function MainContent({
           </p>
         </motion.header>
 
-        {/* Filter Section */}
+        {/* Quick action — Shuffle on top */}
+        <motion.button
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.05 }}
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.99 }}
+          onClick={handleShuffle}
+          className="w-full py-5 mb-4 rounded-sm font-display text-sm tracking-[0.2em] uppercase flex items-center justify-center gap-3 bg-foreground text-background hover:bg-foreground/90 transition-colors shadow-soft"
+        >
+          <Shuffle className="w-4 h-4" />
+          Just show me something
+        </motion.button>
+
+        <div className="flex items-center gap-3 mb-6">
+          <div className="flex-1 h-px bg-foreground/15" />
+          <span className="text-[10px] font-display text-muted-foreground uppercase tracking-[0.3em]">or refine</span>
+          <div className="flex-1 h-px bg-foreground/15" />
+        </div>
+
+        {/* Filter Section — collapsible, any order */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-card/70 backdrop-blur-sm rounded-sm p-6 mb-8 border border-foreground/15 shadow-soft"
+          className="bg-card/70 backdrop-blur-sm rounded-sm px-6 mb-8 border border-foreground/15 shadow-soft"
         >
-          {/* What draws you? */}
-          <div className="mb-7">
-            <label className="block text-[10px] font-normal text-foreground uppercase tracking-[0.25em] mb-3 font-display">
-              What draws you?
-            </label>
+          <FilterSection
+            title="What draws you"
+            count={selectedDraws.length}
+            isOpen={openSections.draws}
+            onToggle={() => toggleSection('draws')}
+          >
             <div className="flex flex-wrap gap-2">
               {drawOptions.map(option => (
                 <FilterChip
@@ -177,13 +215,14 @@ export function MainContent({
                 />
               ))}
             </div>
-          </div>
+          </FilterSection>
 
-          {/* How do you want to show up? */}
-          <div className="mb-7">
-            <label className="block text-[10px] font-normal text-foreground uppercase tracking-[0.25em] mb-3 font-display">
-              How do you want to show up?
-            </label>
+          <FilterSection
+            title="How to show up"
+            count={selectedEnergy.length}
+            isOpen={openSections.energy}
+            onToggle={() => toggleSection('energy')}
+          >
             <div className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1">
               {energyOptions.map(option => (
                 <EnergyCard
@@ -196,13 +235,14 @@ export function MainContent({
                 />
               ))}
             </div>
-          </div>
+          </FilterSection>
 
-          {/* Where? */}
-          <div className="mb-7">
-            <label className="block text-[10px] font-normal text-foreground uppercase tracking-[0.25em] mb-3 font-display">
-              Where?
-            </label>
+          <FilterSection
+            title="Where"
+            count={locationFormat.length}
+            isOpen={openSections.where}
+            onToggle={() => toggleSection('where')}
+          >
             <LocationFilter
               locationFormat={locationFormat}
               toggleFormat={toggleFormat}
@@ -213,13 +253,14 @@ export function MainContent({
               digitalReach={digitalReach}
               toggleDigitalReach={toggleDigitalReach}
             />
-          </div>
+          </FilterSection>
 
-          {/* Artwork connection */}
-          <div className="mb-7">
-            <label className="block text-[10px] font-normal text-foreground uppercase tracking-[0.25em] mb-1 font-display">
-              Artwork I connect with
-            </label>
+          <FilterSection
+            title="Artwork"
+            count={selectedArtworks.length}
+            isOpen={openSections.artwork}
+            onToggle={() => toggleSection('artwork')}
+          >
             <p className="text-xs text-muted-foreground mb-3 italic">
               Tap the artworks that resonate with you
             </p>
@@ -227,24 +268,7 @@ export function MainContent({
               selectedArtworks={selectedArtworks}
               toggleArtwork={toggleArtwork}
             />
-          </div>
-
-          {/* Separator */}
-          <div className="flex items-center gap-3 my-6">
-            <div className="flex-1 h-px bg-foreground/15" />
-            <span className="text-[10px] font-display text-muted-foreground uppercase tracking-[0.3em]">or</span>
-            <div className="flex-1 h-px bg-foreground/15" />
-          </div>
-
-          {/* Random button */}
-          <motion.button
-            whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.99 }}
-            className="w-full py-4 rounded-sm font-display text-sm tracking-[0.2em] uppercase flex items-center justify-center gap-3 bg-foreground text-background hover:bg-foreground/90 transition-colors"
-          >
-            <Shuffle className="w-4 h-4" />
-            Just show me something
-          </motion.button>
+          </FilterSection>
         </motion.div>
 
         {/* Results section */}
