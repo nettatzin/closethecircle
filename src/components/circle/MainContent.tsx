@@ -214,19 +214,19 @@ export function MainContent({
           
           {filteredActivities.length < activities.length && (
             <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={{ scale: 1.01 }}
+              whileTap={{ scale: 0.99 }}
               onClick={resetFilters}
-              className="mb-4 px-4 py-2 text-sm font-medium text-primary border border-primary/30 rounded-full hover:bg-primary/10 transition-colors"
+              className="mb-5 px-4 py-2 text-[10px] font-display uppercase tracking-[0.2em] text-foreground border border-foreground/30 rounded-sm hover:bg-foreground hover:text-background transition-colors"
             >
-              Show all activities
+              Show all
             </motion.button>
           )}
 
           {filteredActivities.length === 0 ? (
-            <div className="bg-card rounded-2xl p-8 text-center border-2 border-border/30">
+            <div className="bg-card rounded-sm p-8 text-center border border-foreground/15">
               <p className="text-muted-foreground mb-2">No activities match your current filters.</p>
-              <p className="text-sm text-muted-foreground">Try adjusting your preferences above.</p>
+              <p className="text-sm text-muted-foreground italic">Try adjusting your preferences above.</p>
             </div>
           ) : (
             <div className="space-y-4">
