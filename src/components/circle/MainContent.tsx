@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion';
-import { useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useMemo, useState } from 'react';
 import { drawOptions, energyOptions, activities, artworks } from '@/data/activities';
 import { FilterChip } from './FilterChip';
 import { EnergyCard } from './EnergyCard';
@@ -7,8 +7,56 @@ import { LocationFilter } from './LocationFilter';
 import { ArtworkCarousel } from './ArtworkCarousel';
 import { ActivityCard } from './ActivityCard';
 import { SpiralLine, EllipseLine, CircleLine, DottedRing } from './LineArt';
-import { Shuffle } from 'lucide-react';
+import { Shuffle, Plus, Minus } from 'lucide-react';
 import type { Activity } from '@/data/activities';
+
+type SectionKey = 'draws' | 'energy' | 'where' | 'artwork';
+
+interface FilterSectionProps {
+  title: string;
+  count: number;
+  isOpen: boolean;
+  onToggle: () => void;
+  children: React.ReactNode;
+}
+
+function FilterSection({ title, count, isOpen, onToggle, children }: FilterSectionProps) {
+  return (
+    <div className="border-t border-foreground/15 first:border-t-0">
+      <button
+        onClick={onToggle}
+        className="w-full flex items-center justify-between py-5 text-left group"
+      >
+        <div className="flex items-center gap-3">
+          <h3 className="font-display text-lg md:text-xl tracking-[0.18em] uppercase text-foreground">
+            {title}
+          </h3>
+          {count > 0 && (
+            <span className="text-[10px] font-display tracking-[0.2em] uppercase px-2 py-0.5 rounded-full bg-foreground text-background">
+              {count}
+            </span>
+          )}
+        </div>
+        <div className="text-foreground/60 group-hover:text-foreground transition-colors">
+          {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+        </div>
+      </button>
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: 'easeInOut' }}
+            className="overflow-hidden"
+          >
+            <div className="pb-6">{children}</div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 interface MainContentProps {
   selectedDraws: string[];
