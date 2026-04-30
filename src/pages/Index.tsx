@@ -5,14 +5,17 @@ import { WelcomeModal } from '@/components/circle/WelcomeModal';
 import { RippleModal } from '@/components/circle/RippleModal';
 import { MainContent } from '@/components/circle/MainContent';
 import { ArtworksView } from '@/components/circle/ArtworksView';
+import { ImpactView } from '@/components/circle/ImpactView';
 import { useCircleStore } from '@/hooks/useCircleStore';
 import type { Activity } from '@/data/activities';
 
 type Tab = 'discover' | 'artworks';
+type DiscoverMode = 'act' | 'impact';
 
 const Index = () => {
   const store = useCircleStore();
   const [tab, setTab] = useState<Tab>('discover');
+  const [discoverMode, setDiscoverMode] = useState<DiscoverMode>('act');
 
   const handleCloseCircle = (activity: Activity) => {
     if (activity.showCommunityMessage) {
