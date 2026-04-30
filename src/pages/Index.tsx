@@ -107,5 +107,8 @@ const Index = () => {
       ) : (
         <ArtworksView />
       )}
+    </>
+  );
+};
 
 export default Index;
