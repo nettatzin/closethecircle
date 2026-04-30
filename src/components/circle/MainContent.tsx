@@ -6,6 +6,7 @@ import { EnergyCard } from './EnergyCard';
 import { LocationFilter } from './LocationFilter';
 import { ArtworkCarousel } from './ArtworkCarousel';
 import { ActivityCard } from './ActivityCard';
+import { SpiralLine, EllipseLine, CircleLine, DottedRing } from './LineArt';
 import { Shuffle } from 'lucide-react';
 import type { Activity } from '@/data/activities';
 
@@ -76,18 +77,31 @@ export function MainContent({
     });
   }, [selectedDraws, selectedEnergy, locationFormat, digitalReach, selectedArtworks]);
   return (
-    <div className="min-h-screen pb-8 safe-area-top safe-area-bottom">
-      <div className="max-w-lg mx-auto px-4 pt-6">
+    <div className="min-h-screen pb-8 safe-area-top safe-area-bottom relative overflow-hidden">
+      {/* Decorative line-art background motifs */}
+      <SpiralLine className="absolute -top-10 -left-16 w-72 h-72 opacity-[0.06] pointer-events-none" />
+      <DottedRing className="absolute top-40 -right-20 w-56 h-56 opacity-[0.08] pointer-events-none" count={12} />
+      <EllipseLine className="absolute bottom-40 -left-20 w-80 h-80 opacity-[0.05] pointer-events-none" />
+
+      <div className="max-w-lg mx-auto px-5 pt-8 relative">
         {/* Header */}
-        <motion.header 
+        <motion.header
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-6"
+          className="mb-10 text-center"
         >
-          <h1 className="font-serif text-4xl font-semibold text-foreground tracking-tight mb-1">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="h-px flex-1 bg-foreground/20" />
+            <CircleLine className="w-8 h-8 opacity-70" strokeWidth={0.8} />
+            <div className="h-px flex-1 bg-foreground/20" />
+          </div>
+          <h1 className="font-display text-4xl md:text-5xl text-foreground tracking-[0.15em] uppercase mb-3">
             The Circle
           </h1>
-          <p className="text-muted-foreground text-sm">
+          <p className="text-muted-foreground text-xs tracking-[0.2em] uppercase">
+            Designing New Realities
+          </p>
+          <p className="text-muted-foreground text-sm mt-4 max-w-sm mx-auto leading-relaxed">
             Discover activities that resonate with your vision of circular design
           </p>
         </motion.header>
