@@ -1,12 +1,18 @@
 import { Helmet } from 'react-helmet-async';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { WelcomeModal } from '@/components/circle/WelcomeModal';
 import { RippleModal } from '@/components/circle/RippleModal';
 import { MainContent } from '@/components/circle/MainContent';
+import { ArtworksView } from '@/components/circle/ArtworksView';
 import { useCircleStore } from '@/hooks/useCircleStore';
 import type { Activity } from '@/data/activities';
 
+type Tab = 'discover' | 'artworks';
+
 const Index = () => {
   const store = useCircleStore();
+  const [tab, setTab] = useState<Tab>('discover');
 
   const handleCloseCircle = (activity: Activity) => {
     if (activity.showCommunityMessage) {
@@ -53,24 +59,54 @@ const Index = () => {
         onClose={() => store.setShowRipple(false)}
       />
 
-      <MainContent
-        selectedDraws={store.selectedDraws}
-        toggleDraw={store.toggleDraw}
-        selectedEnergy={store.selectedEnergy}
-        toggleEnergy={store.toggleEnergy}
-        locationFormat={store.locationFormat}
-        toggleFormat={store.toggleFormat}
-        physicalLocation={store.physicalLocation}
-        setPhysicalLocation={store.setPhysicalLocation}
-        physicalRadius={store.physicalRadius}
-        setPhysicalRadius={store.setPhysicalRadius}
-        digitalReach={store.digitalReach}
-        toggleDigitalReach={store.toggleDigitalReach}
-        selectedArtworks={store.selectedArtworks}
-        toggleArtwork={store.toggleArtwork}
-        onCloseCircle={handleCloseCircle}
-        resetFilters={store.resetFilters}
-      />
+      {/* Tabs */}
+      <div className="sticky top-0 z-30 bg-background/85 backdrop-blur-md border-b border-foreground/10 safe-area-top">
+        <div className="max-w-lg mx-auto px-5 pt-4 pb-2">
+          <div className="relative grid grid-cols-2 gap-1 p-1 border border-foreground/15 rounded-sm bg-card/60">
+            {(['discover', 'artworks'] as Tab[]).map((t) => (
+              <button
+                key={t}
+                onClick={() => setTab(t)}
+                className="relative py-2.5 text-[11px] font-display tracking-[0.25em] uppercase z-10 transition-colors"
+              >
+                {tab === t && (
+                  <motion.span
+                    layoutId="tab-pill"
+                    className="absolute inset-0 bg-foreground rounded-sm -z-10"
+                    transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                  />
+                )}
+                <span className={tab === t ? 'text-background' : 'text-foreground/70'}>
+                  {t === 'discover' ? 'Discover' : 'Artworks'}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {tab === 'discover' ? (
+        <MainContent
+          selectedDraws={store.selectedDraws}
+          toggleDraw={store.toggleDraw}
+          selectedEnergy={store.selectedEnergy}
+          toggleEnergy={store.toggleEnergy}
+          locationFormat={store.locationFormat}
+          toggleFormat={store.toggleFormat}
+          physicalLocation={store.physicalLocation}
+          setPhysicalLocation={store.setPhysicalLocation}
+          physicalRadius={store.physicalRadius}
+          setPhysicalRadius={store.setPhysicalRadius}
+          digitalReach={store.digitalReach}
+          toggleDigitalReach={store.toggleDigitalReach}
+          selectedArtworks={store.selectedArtworks}
+          toggleArtwork={store.toggleArtwork}
+          onCloseCircle={handleCloseCircle}
+          resetFilters={store.resetFilters}
+        />
+      ) : (
+        <ArtworksView />
+      )}
     </>
   );
 };

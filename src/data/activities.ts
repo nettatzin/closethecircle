@@ -47,13 +47,179 @@ export const energyOptions = [
   { id: 'deep-work', icon: '💪', label: 'Deep work', time: 'Ongoing commitment' }
 ];
 
-export const artworks = [
-  { id: 1, name: 'Mitumba', artist: 'Maya Arazi & Merav Gazit', image: mitumbaImg },
-  { id: 2, name: 'Insects Typology', artist: 'Ori Orisun Merhav', image: insectsTypologyImg },
-  { id: 3, name: 'Kitepride', artist: 'Matthias and Tabea Oppliger', image: kiteprideImg },
-  { id: 4, name: 'Plastic Rivers', artist: 'Álvaro Catalán de Ocón', image: plasticRiversImg },
-  { id: 5, name: 'City Transformer', artist: 'Nimrod Eliezer', image: cityTransformerImg },
-  { id: 6, name: 'Living Root Bridges', artist: 'Meghalaya district', image: livingRootBridgesImg }
+export type ArtworkTheme =
+  | 'Textile Waste'
+  | 'Material Reinvention'
+  | 'Upcycling'
+  | 'Ocean & Plastic'
+  | 'Urban Systems'
+  | 'Living Systems';
+
+export type ArtworkSpace =
+  | 'Main Hall'
+  | 'East Wing'
+  | 'Outdoor Garden'
+  | 'Lower Gallery'
+  | 'Project Room';
+
+export interface ArtworkLink {
+  label: string;
+  url: string;
+  type: 'interview' | 'artist' | 'press' | 'video' | 'web';
+}
+
+export interface Artwork {
+  id: number;
+  name: string;
+  artist: string;
+  image: string;
+  gallery: string[];
+  theme: ArtworkTheme;
+  space: ArtworkSpace;
+  year: string;
+  medium: string;
+  about: string;
+  artistBio: string;
+  links: ArtworkLink[];
+}
+
+export const artworkThemes: ArtworkTheme[] = [
+  'Textile Waste',
+  'Material Reinvention',
+  'Upcycling',
+  'Ocean & Plastic',
+  'Urban Systems',
+  'Living Systems',
+];
+
+export const artworkSpaces: ArtworkSpace[] = [
+  'Main Hall',
+  'East Wing',
+  'Outdoor Garden',
+  'Lower Gallery',
+  'Project Room',
+];
+
+export const artworks: Artwork[] = [
+  {
+    id: 1,
+    name: 'Mitumba',
+    artist: 'Maya Arazi & Merav Gazit',
+    image: mitumbaImg,
+    gallery: [mitumbaImg, mitumbaImg, mitumbaImg],
+    theme: 'Textile Waste',
+    space: 'Main Hall',
+    year: '2024',
+    medium: 'Reclaimed garments, mixed textiles, steel armature',
+    about:
+      'Mitumba traces the global afterlife of donated clothing — the bales of secondhand garments shipped from the Global North to East African markets. The work reconstructs these flows as a sculptural archive, asking who carries the weight of our discarded wardrobes.',
+    artistBio:
+      'Maya Arazi and Merav Gazit are Tel Aviv–based designers working at the intersection of textile research and material activism. Their practice investigates colonial supply chains and the hidden geographies of fashion waste.',
+    links: [
+      { label: 'Interview — Designboom', url: 'https://www.designboom.com', type: 'interview' },
+      { label: 'Artist page', url: 'https://www.instagram.com/', type: 'artist' },
+      { label: 'Press feature — Globes', url: 'https://www.globes.co.il', type: 'press' },
+    ],
+  },
+  {
+    id: 2,
+    name: 'Insects Typology',
+    artist: 'Ori Orisun Merhav',
+    image: insectsTypologyImg,
+    gallery: [insectsTypologyImg, insectsTypologyImg],
+    theme: 'Living Systems',
+    space: 'East Wing',
+    year: '2023',
+    medium: 'Cochineal pigment, silk, bio-resin, archival print',
+    about:
+      'A taxonomic study of the insects that have shaped textile colour for centuries. The work reframes pigment-producing species as collaborators rather than resources, proposing a more reciprocal relationship between dye, material, and ecosystem.',
+    artistBio:
+      'Ori Orisun Merhav is a designer and researcher whose practice focuses on biological materials and the cultural histories of colour. She teaches at Bezalel Academy of Arts and Design.',
+    links: [
+      { label: 'Studio interview', url: 'https://www.dezeen.com', type: 'interview' },
+      { label: 'Artist website', url: 'https://www.oriorisunmerhav.com', type: 'artist' },
+      { label: 'Lecture — Vimeo', url: 'https://vimeo.com', type: 'video' },
+    ],
+  },
+  {
+    id: 3,
+    name: 'Kitepride',
+    artist: 'Matthias and Tabea Oppliger',
+    image: kiteprideImg,
+    gallery: [kiteprideImg, kiteprideImg, kiteprideImg],
+    theme: 'Upcycling',
+    space: 'Outdoor Garden',
+    year: '2022',
+    medium: 'Decommissioned kitesurfing sails, webbing, hardware',
+    about:
+      'Kitepride salvages broken kitesurfing sails from beaches around the Mediterranean and reworks them into functional bags and accessories. The exhibition piece is a suspended canopy made from one full season of retired sails.',
+    artistBio:
+      'Matthias and Tabea Oppliger founded Kitepride in Tel Aviv in 2014 as a social enterprise employing people on the margins of the Israeli labour market. Today the studio operates as a fully circular workshop.',
+    links: [
+      { label: 'Founders interview', url: 'https://www.kitepride.com/blogs', type: 'interview' },
+      { label: 'Brand site', url: 'https://www.kitepride.com', type: 'web' },
+      { label: 'Documentary clip', url: 'https://www.youtube.com', type: 'video' },
+    ],
+  },
+  {
+    id: 4,
+    name: 'Plastic Rivers',
+    artist: 'Álvaro Catalán de Ocón',
+    image: plasticRiversImg,
+    gallery: [plasticRiversImg, plasticRiversImg],
+    theme: 'Ocean & Plastic',
+    space: 'Lower Gallery',
+    year: '2021',
+    medium: 'Hand-knotted rugs, recycled PET yarn',
+    about:
+      'A series of rugs whose patterns map the ten rivers carrying the largest volumes of plastic waste into the world\'s oceans. Each rug is woven from yarn spun from the same kind of plastic those rivers transport.',
+    artistBio:
+      'Álvaro Catalán de Ocón is a Madrid-based industrial designer known for the PET Lamp project. His work bridges craft traditions with contemporary environmental concerns.',
+    links: [
+      { label: 'Dezeen interview', url: 'https://www.dezeen.com', type: 'interview' },
+      { label: 'Studio website', url: 'https://www.acdo.es', type: 'artist' },
+      { label: 'Project film', url: 'https://vimeo.com', type: 'video' },
+    ],
+  },
+  {
+    id: 5,
+    name: 'City Transformer',
+    artist: 'Nimrod Eliezer',
+    image: cityTransformerImg,
+    gallery: [cityTransformerImg, cityTransformerImg, cityTransformerImg],
+    theme: 'Urban Systems',
+    space: 'Project Room',
+    year: '2024',
+    medium: 'Steel, recycled aluminium, electronics',
+    about:
+      'A 1:1 prototype of a folding electric micro-vehicle designed for dense Mediterranean cities. The piece is presented alongside the parts library that allows it to be repaired and remanufactured indefinitely.',
+    artistBio:
+      'Nimrod Eliezer is an industrial designer and co-founder of City Transformer, working on circular mobility systems for urban environments.',
+    links: [
+      { label: 'Founder interview', url: 'https://www.calcalist.co.il', type: 'interview' },
+      { label: 'Company site', url: 'https://citytransformer.com', type: 'web' },
+    ],
+  },
+  {
+    id: 6,
+    name: 'Living Root Bridges',
+    artist: 'Meghalaya district',
+    image: livingRootBridgesImg,
+    gallery: [livingRootBridgesImg, livingRootBridgesImg],
+    theme: 'Living Systems',
+    space: 'Main Hall',
+    year: 'Ongoing',
+    medium: 'Photographic documentation, woven Ficus elastica roots',
+    about:
+      'A documentation of the centuries-old practice of guiding fig tree roots across rivers to form living bridges in Meghalaya, India. The bridges grow stronger with use and age — a counter-image to the disposable infrastructures of modernity.',
+    artistBio:
+      'A collaborative project documenting the Khasi and Jaintia communities of Meghalaya, whose intergenerational knowledge has shaped these living structures for over five centuries.',
+    links: [
+      { label: 'Field interview', url: 'https://www.bbc.com', type: 'interview' },
+      { label: 'Research archive', url: 'https://www.livingrootbridges.com', type: 'web' },
+      { label: 'Documentary', url: 'https://www.youtube.com', type: 'video' },
+    ],
+  },
 ];
 
 const gradients = [
