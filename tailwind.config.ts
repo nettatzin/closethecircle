@@ -72,9 +72,10 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Space Mono', 'monospace'],
-        mono: ['Space Mono', 'monospace'],
-        serif: ['Playfair Display', 'serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        mono: ['Inter', 'system-ui', 'sans-serif'],
+        serif: ['Tenor Sans', 'serif'],
+        display: ['Tenor Sans', 'serif'],
       },
       borderRadius: {
         lg: "var(--radius)",

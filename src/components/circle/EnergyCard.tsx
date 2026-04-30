@@ -16,15 +16,15 @@ export function EnergyCard({ icon, label, time, selected, onClick }: EnergyCardP
       whileHover={{ y: -2 }}
       whileTap={{ scale: 0.98 }}
       className={cn(
-        'flex-1 min-w-[140px] p-4 rounded-2xl text-left border-2 transition-all',
-        selected 
-          ? 'border-primary bg-primary/15' 
-          : 'border-border/40 bg-card hover:border-primary/50 hover:shadow-soft'
+        'flex-1 min-w-[140px] p-4 rounded-sm text-left border transition-all relative overflow-hidden',
+        selected
+          ? 'border-foreground bg-foreground text-background'
+          : 'border-foreground/20 bg-transparent text-foreground hover:border-foreground/50'
       )}
     >
-      <div className="text-3xl mb-2">{icon}</div>
-      <div className="font-bold text-foreground mb-0.5">{label}</div>
-      <div className="text-xs text-muted-foreground italic">{time}</div>
+      <div className="text-2xl mb-2 opacity-90">{icon}</div>
+      <div className="font-display text-sm tracking-[0.1em] uppercase mb-1">{label}</div>
+      <div className={cn('text-[10px] italic', selected ? 'text-background/70' : 'text-muted-foreground')}>{time}</div>
     </motion.button>
   );
 }
