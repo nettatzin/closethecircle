@@ -37,23 +37,29 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.1 + index * 0.08, duration: 0.4 }}
-      className="bg-card rounded-2xl overflow-hidden border-2 border-border/30 shadow-soft hover:shadow-medium hover:border-primary/30 transition-all"
+      className="bg-card rounded-sm overflow-hidden border border-foreground/15 hover:border-foreground/40 transition-all"
     >
-      {/* Gradient header */}
-      <div 
-        className="h-40 relative flex items-center justify-center"
-        style={{ background: activity.gradient }}
-      >
-        <span className="text-6xl drop-shadow-lg">{activity.icon}</span>
-        
+      {/* Oval gradient header — inspired by the poster cutouts */}
+      <div className="relative bg-background pt-6 pb-4 flex items-center justify-center">
+        <div
+          className="w-44 h-32 flex items-center justify-center relative"
+          style={{
+            background: activity.gradient,
+            borderRadius: '50% / 50%',
+            transform: 'rotate(-4deg)',
+          }}
+        >
+          <span className="text-5xl drop-shadow-md" style={{ transform: 'rotate(4deg)' }}>{activity.icon}</span>
+        </div>
+
         {/* Saves badge */}
-        <div className="absolute top-3 right-3 bg-card/95 backdrop-blur-sm px-3 py-1.5 rounded-full flex items-center gap-1.5 text-sm font-bold text-foreground">
-          <Heart className="w-4 h-4" />
+        <div className="absolute top-3 right-3 px-2.5 py-1 border border-foreground/20 rounded-full flex items-center gap-1.5 text-[11px] font-sans-thin text-foreground bg-background">
+          <Heart className="w-3 h-3" />
           {activity.saves}
         </div>
-        
+
         {/* Energy badge */}
-        <div className="absolute bottom-3 left-3 bg-card/95 backdrop-blur-sm px-3 py-1.5 rounded-full text-sm font-bold text-foreground flex items-center gap-1.5">
+        <div className="absolute bottom-2 left-3 px-2.5 py-1 border border-foreground/20 rounded-full text-[11px] font-display tracking-wider uppercase text-foreground bg-background flex items-center gap-1.5">
           {activity.energyLevel === 'low-key' ? '🪶' : activity.energyLevel === 'hands-on' ? '🔥' : '💪'} {activity.energyLabel}
         </div>
       </div>
