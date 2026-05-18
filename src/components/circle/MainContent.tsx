@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useMemo, useState } from 'react';
-import { drawOptions, energyOptions, activities, artworks } from '@/data/activities';
+import { useDataset } from '@/i18n/dataset';
+import { useT } from '@/i18n/LanguageContext';
 import { FilterChip } from './FilterChip';
 import { EnergyCard } from './EnergyCard';
 import { LocationFilter } from './LocationFilter';
@@ -95,6 +96,8 @@ export function MainContent({
   onCloseCircle,
   resetFilters,
 }: MainContentProps) {
+  const t = useT();
+  const { drawOptions, energyOptions, activities } = useDataset();
   // Filter activities based on selected filters
   const filteredActivities = useMemo(() => {
     return activities.filter(activity => {
