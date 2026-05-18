@@ -3,6 +3,7 @@ import { X, ExternalLink, ChevronLeft, ChevronRight, Check, Plus } from 'lucide-
 import { useEffect, useRef, useState } from 'react';
 import type { Artwork } from '@/data/activities';
 import { CircleLine } from './LineArt';
+import { useT } from '@/i18n/LanguageContext';
 
 interface Props {
   artwork: Artwork;
@@ -12,6 +13,7 @@ interface Props {
 }
 
 export function ArtworkDetailPanel({ artwork, isSelected, onToggleSelect, onClose }: Props) {
+  const t = useT();
   const [activeImage, setActiveImage] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
 
