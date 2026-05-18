@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, ExternalLink, ChevronLeft, ChevronRight, Check, Plus } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import type { Artwork } from '@/data/activities';
 import { CircleLine } from './LineArt';
@@ -7,9 +7,11 @@ import { CircleLine } from './LineArt';
 interface ArtworkDetailModalProps {
   artwork: Artwork | null;
   onClose: () => void;
+  isSelected?: boolean;
+  onToggleSelect?: (artwork: Artwork) => void;
 }
 
-export function ArtworkDetailModal({ artwork, onClose }: ArtworkDetailModalProps) {
+export function ArtworkDetailModal({ artwork, onClose, isSelected, onToggleSelect }: ArtworkDetailModalProps) {
   const [activeImage, setActiveImage] = useState(0);
 
   useEffect(() => {
@@ -34,16 +36,16 @@ export function ArtworkDetailModal({ artwork, onClose }: ArtworkDetailModalProps
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 bg-background/80 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-6"
+          className="fixed inset-0 z-50 bg-background/85 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-8"
           onClick={onClose}
         >
           <motion.div
-            initial={{ y: '100%', opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: '100%', opacity: 0 }}
+            initial={{ y: '100%', opacity: 0, scale: 0.96 }}
+            animate={{ y: 0, opacity: 1, scale: 1 }}
+            exit={{ y: '100%', opacity: 0, scale: 0.96 }}
             transition={{ type: 'spring', damping: 30, stiffness: 280 }}
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-2xl max-h-[92vh] overflow-y-auto bg-card border border-foreground/15 rounded-t-2xl sm:rounded-sm shadow-soft"
+            className="relative w-full max-w-4xl max-h-[95vh] overflow-y-auto bg-card border border-foreground/15 rounded-t-2xl sm:rounded-sm shadow-2xl"
           >
             <button
               onClick={onClose}
@@ -54,7 +56,7 @@ export function ArtworkDetailModal({ artwork, onClose }: ArtworkDetailModalProps
             </button>
 
             {/* Gallery */}
-            <div className="relative aspect-square sm:aspect-[4/3] w-full overflow-hidden bg-muted">
+            <div className="relative aspect-[4/3] sm:aspect-[16/10] w-full overflow-hidden bg-muted">
               <AnimatePresence mode="wait">
                 <motion.img
                   key={activeImage}
@@ -100,6 +102,23 @@ export function ArtworkDetailModal({ artwork, onClose }: ArtworkDetailModalProps
                 </>
               )}
             </div>
+
+            {/* Thumbnail strip */}
+            {artwork.gallery.length > 1 && (
+              <div className="flex gap-2 overflow-x-auto px-6 sm:px-8 pt-4 pb-1">
+                {artwork.gallery.map((src, i) => (
+                  <button
+                    key={src + i}
+                    onClick={() => setActiveImage(i)}
+                    className={`flex-shrink-0 w-20 h-20 overflow-hidden rounded-sm border-2 transition-all ${
+                      i === activeImage ? 'border-foreground' : 'border-transparent opacity-60 hover:opacity-100'
+                    }`}
+                  >
+                    <img src={src} alt="" className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
+            )}
 
             <div className="p-6 sm:p-8 space-y-6">
               {/* Header */}
@@ -163,6 +182,32 @@ export function ArtworkDetailModal({ artwork, onClose }: ArtworkDetailModalProps
                 </section>
               )}
             </div>
+
+            {onToggleSelect && (
+              <div className="sticky bottom-0 left-0 right-0 bg-card/95 backdrop-blur-md border-t border-foreground/15 p-4 sm:p-6 flex items-center gap-3">
+                <button
+                  onClick={() => {
+                    onToggleSelect(artwork);
+                    if (!isSelected) onClose();
+                  }}
+                  className={`flex-1 flex items-center justify-center gap-2 py-3.5 rounded-sm font-display text-xs tracking-[0.25em] uppercase transition-all ${
+                    isSelected
+                      ? 'bg-foreground/10 text-foreground border border-foreground/30 hover:bg-foreground/15'
+                      : 'bg-foreground text-background hover:bg-foreground/90'
+                  }`}
+                >
+                  {isSelected ? (
+                    <>
+                      <Check className="w-4 h-4" /> Selected — tap to remove
+                    </>
+                  ) : (
+                    <>
+                      <Plus className="w-4 h-4" /> Select this work
+                    </>
+                  )}
+                </button>
+              </div>
+            )}
           </motion.div>
         </motion.div>
       )}
