@@ -7,6 +7,7 @@ import { MainContent } from '@/components/circle/MainContent';
 import { ArtworksView } from '@/components/circle/ArtworksView';
 import { ImpactView } from '@/components/circle/ImpactView';
 import { useCircleStore } from '@/hooks/useCircleStore';
+import { useLang, useT } from '@/i18n/LanguageContext';
 import type { Activity } from '@/data/activities';
 
 type Tab = 'discover' | 'artworks';
@@ -14,6 +15,8 @@ type DiscoverMode = 'act' | 'impact';
 
 const Index = () => {
   const store = useCircleStore();
+  const { lang, setLang } = useLang();
+  const t = useT();
   const [tab, setTab] = useState<Tab>('discover');
   const [discoverMode, setDiscoverMode] = useState<DiscoverMode>('act');
 
@@ -65,25 +68,34 @@ const Index = () => {
       {/* Tabs */}
       <div className="sticky top-0 z-30 bg-background/85 backdrop-blur-md border-b border-foreground/10 safe-area-top">
         <div className="max-w-lg mx-auto px-5 pt-4 pb-2">
-          <div className="relative grid grid-cols-2 gap-1 p-1 border border-foreground/15 rounded-sm bg-card/60">
-            {(['discover', 'artworks'] as Tab[]).map((t) => (
-              <button
-                key={t}
-                onClick={() => setTab(t)}
-                className="relative py-2.5 text-[11px] font-display tracking-[0.25em] uppercase z-10 transition-colors"
-              >
-                {tab === t && (
-                  <motion.span
-                    layoutId="tab-pill"
-                    className="absolute inset-0 bg-foreground rounded-sm -z-10"
-                    transition={{ type: 'spring', stiffness: 350, damping: 30 }}
-                  />
-                )}
-                <span className={tab === t ? 'text-background' : 'text-foreground/70'}>
-                  {t === 'discover' ? 'Discover' : 'Artworks'}
-                </span>
-              </button>
-            ))}
+          <div className="flex items-center gap-2">
+            <div className="relative grid grid-cols-2 gap-1 p-1 border border-foreground/15 rounded-sm bg-card/60 flex-1">
+              {(['discover', 'artworks'] as Tab[]).map((tb) => (
+                <button
+                  key={tb}
+                  onClick={() => setTab(tb)}
+                  className="relative py-2.5 text-[11px] font-display tracking-[0.25em] uppercase z-10 transition-colors"
+                >
+                  {tab === tb && (
+                    <motion.span
+                      layoutId="tab-pill"
+                      className="absolute inset-0 bg-foreground rounded-sm -z-10"
+                      transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                    />
+                  )}
+                  <span className={tab === tb ? 'text-background' : 'text-foreground/70'}>
+                    {tb === 'discover' ? t('tab_discover') : t('tab_artworks')}
+                  </span>
+                </button>
+              ))}
+            </div>
+            <button
+              onClick={() => setLang(lang === 'en' ? 'he' : 'en')}
+              className="px-3 py-2.5 border border-foreground/15 rounded-sm bg-card/60 text-[11px] font-display tracking-[0.2em] uppercase text-foreground/80 hover:text-foreground hover:border-foreground/40 transition-colors"
+              aria-label="Toggle language"
+            >
+              {lang === 'en' ? t('lang_he') : t('lang_en')}
+            </button>
           </div>
 
           {/* Act / Impact sub-toggle (only on Discover tab) */}
