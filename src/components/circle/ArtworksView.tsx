@@ -119,7 +119,11 @@ export function ArtworksView() {
                 whileHover={{ y: -4 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setActive(artwork)}
-                className="group text-left bg-card border border-foreground/15 rounded-sm overflow-hidden hover:border-foreground/40 hover:shadow-soft transition-all"
+                className={`group relative text-left bg-card border rounded-sm overflow-hidden hover:shadow-soft transition-all ${
+                  selected.has(artwork.id)
+                    ? 'border-foreground shadow-soft'
+                    : 'border-foreground/15 hover:border-foreground/40'
+                }`}
               >
                 <div className="aspect-square w-full overflow-hidden bg-muted">
                   <img
@@ -128,6 +132,11 @@ export function ArtworksView() {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
+                {selected.has(artwork.id) && (
+                  <div className="absolute top-2 right-2 w-7 h-7 rounded-full bg-foreground text-background flex items-center justify-center shadow-soft">
+                    <Check className="w-3.5 h-3.5" strokeWidth={2.5} />
+                  </div>
+                )}
                 <div className="p-3">
                   <div className="text-[9px] font-display tracking-[0.2em] uppercase text-muted-foreground mb-1 line-clamp-1">
                     {artwork.theme}
@@ -145,7 +154,12 @@ export function ArtworksView() {
         )}
       </div>
 
-      <ArtworkDetailModal artwork={active} onClose={() => setActive(null)} />
+      <ArtworkDetailModal
+        artwork={active}
+        onClose={() => setActive(null)}
+        isSelected={active ? selected.has(active.id) : false}
+        onToggleSelect={toggleSelect}
+      />
     </div>
   );
 }
