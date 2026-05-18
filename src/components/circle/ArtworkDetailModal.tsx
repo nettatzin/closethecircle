@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, ExternalLink, ChevronLeft, ChevronRight, Check, Plus } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import type { Artwork } from '@/data/activities';
 import { CircleLine } from './LineArt';
@@ -7,9 +7,11 @@ import { CircleLine } from './LineArt';
 interface ArtworkDetailModalProps {
   artwork: Artwork | null;
   onClose: () => void;
+  isSelected?: boolean;
+  onToggleSelect?: (artwork: Artwork) => void;
 }
 
-export function ArtworkDetailModal({ artwork, onClose }: ArtworkDetailModalProps) {
+export function ArtworkDetailModal({ artwork, onClose, isSelected, onToggleSelect }: ArtworkDetailModalProps) {
   const [activeImage, setActiveImage] = useState(0);
 
   useEffect(() => {
