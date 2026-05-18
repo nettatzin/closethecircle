@@ -55,10 +55,10 @@ export function ArtworksView() {
             <div className="h-px flex-1 bg-foreground/20" />
           </div>
           <h1 className="font-display text-2xl md:text-3xl text-foreground tracking-[0.15em] uppercase mb-2">
-            Revisit Your Favorite Artworks
+            {t('artworks_title')}
           </h1>
           <p className="text-muted-foreground text-xs tracking-[0.2em] uppercase">
-            The Exhibition Catalogue
+            {t('artworks_subtitle')}
           </p>
         </motion.header>
 
@@ -69,7 +69,7 @@ export function ArtworksView() {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search artworks, artists, themes…"
+            placeholder={t('search_placeholder')}
             className="w-full pl-11 pr-4 py-3 bg-card border border-foreground/15 rounded-sm text-sm text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:border-foreground/40 transition-colors"
           />
         </div>
@@ -77,13 +77,15 @@ export function ArtworksView() {
         {/* Filter dropdowns */}
         <div className="grid grid-cols-2 gap-3 mb-6">
           <FilterSelect
-            label="Theme"
+            label={t('filter_theme')}
+            allLabel={`${t('all_prefix')}${t('filter_theme')}`}
             value={theme}
             onChange={setTheme}
             options={['all', ...artworkThemes]}
           />
           <FilterSelect
-            label="Space"
+            label={t('filter_space')}
+            allLabel={`${t('all_prefix')}${t('filter_space')}`}
             value={space}
             onChange={setSpace}
             options={['all', ...artworkSpaces]}
