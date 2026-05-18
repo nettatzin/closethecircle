@@ -152,14 +152,19 @@ export function ArtworksView() {
             ))}
           </div>
         )}
-      </div>
 
-      <ArtworkDetailModal
-        artwork={active}
-        onClose={() => setActive(null)}
-        isSelected={active ? selected.has(active.id) : false}
-        onToggleSelect={toggleSelect}
-      />
+        <AnimatePresence mode="wait">
+          {active && (
+            <ArtworkDetailPanel
+              key={active.id}
+              artwork={active}
+              isSelected={selected.has(active.id)}
+              onToggleSelect={toggleSelect}
+              onClose={() => setActive(null)}
+            />
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 }
