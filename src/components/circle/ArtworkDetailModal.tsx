@@ -182,6 +182,32 @@ export function ArtworkDetailModal({ artwork, onClose, isSelected, onToggleSelec
                 </section>
               )}
             </div>
+
+            {onToggleSelect && (
+              <div className="sticky bottom-0 left-0 right-0 bg-card/95 backdrop-blur-md border-t border-foreground/15 p-4 sm:p-6 flex items-center gap-3">
+                <button
+                  onClick={() => {
+                    onToggleSelect(artwork);
+                    if (!isSelected) onClose();
+                  }}
+                  className={`flex-1 flex items-center justify-center gap-2 py-3.5 rounded-sm font-display text-xs tracking-[0.25em] uppercase transition-all ${
+                    isSelected
+                      ? 'bg-foreground/10 text-foreground border border-foreground/30 hover:bg-foreground/15'
+                      : 'bg-foreground text-background hover:bg-foreground/90'
+                  }`}
+                >
+                  {isSelected ? (
+                    <>
+                      <Check className="w-4 h-4" /> Selected — tap to remove
+                    </>
+                  ) : (
+                    <>
+                      <Plus className="w-4 h-4" /> Select this work
+                    </>
+                  )}
+                </button>
+              </div>
+            )}
           </motion.div>
         </motion.div>
       )}
