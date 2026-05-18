@@ -56,7 +56,7 @@ export function ArtworkDetailModal({ artwork, onClose, isSelected, onToggleSelec
             </button>
 
             {/* Gallery */}
-            <div className="relative aspect-square sm:aspect-[4/3] w-full overflow-hidden bg-muted">
+            <div className="relative aspect-[4/3] sm:aspect-[16/10] w-full overflow-hidden bg-muted">
               <AnimatePresence mode="wait">
                 <motion.img
                   key={activeImage}
