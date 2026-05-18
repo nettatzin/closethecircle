@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { artworks as enArtworks, type Artwork } from '@/data/activities';
+import { type Artwork } from '@/data/activities';
 import { useDataset } from '@/i18n/dataset';
 import { Check } from 'lucide-react';
 import { ArtworkDetailPanel } from './ArtworkDetailPanel';
@@ -13,7 +13,6 @@ interface ArtworkCarouselProps {
 
 export function ArtworkCarousel({ selectedArtworks, toggleArtwork }: ArtworkCarouselProps) {
   const { artworks } = useDataset();
-  void enArtworks;
   const [active, setActive] = useState<Artwork | null>(null);
 
   return (
