@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { useT } from '@/i18n/LanguageContext';
 
 interface LocationFilterProps {
   locationFormat: string[];
@@ -22,10 +23,11 @@ export function LocationFilter({
   digitalReach,
   toggleDigitalReach,
 }: LocationFilterProps) {
+  const t = useT();
   const radiusOptions = ['5km', '15km', '50km', 'Anywhere'];
   const reachOptions = [
-    { id: 'israel', label: '🇮🇱 Israel-based' },
-    { id: 'global', label: '🌍 International' }
+    { id: 'israel', label: t('israel_based') },
+    { id: 'global', label: t('international') }
   ];
 
   return (
@@ -42,7 +44,7 @@ export function LocationFilter({
               : 'border-border/40 bg-card text-muted-foreground'
           )}
         >
-          📍 In Person
+          {t('in_person')}
         </motion.button>
         <motion.button
           onClick={() => toggleFormat('digital')}
@@ -54,7 +56,7 @@ export function LocationFilter({
               : 'border-border/40 bg-card text-muted-foreground'
           )}
         >
-          🌐 Online
+          {t('online')}
         </motion.button>
       </div>
 
@@ -73,11 +75,11 @@ export function LocationFilter({
             className="p-4 bg-primary/5 rounded-xl border border-primary/20"
           >
             <div className="text-xs font-bold text-primary uppercase tracking-wider mb-3">
-              Physical Activities
+              {t('physical_activities')}
             </div>
             
             <div className="mb-3">
-              <label className="text-xs text-muted-foreground block mb-1.5">Near:</label>
+              <label className="text-xs text-muted-foreground block mb-1.5">{t('near_label')}</label>
               <select 
                 value={physicalLocation}
                 onChange={(e) => setPhysicalLocation(e.target.value)}
@@ -102,9 +104,9 @@ export function LocationFilter({
             className="p-4 bg-primary/5 rounded-xl border border-primary/20"
           >
             <div className="text-xs font-bold text-primary uppercase tracking-wider mb-3">
-              Digital Activities
+              {t('digital_activities')}
             </div>
-            <div className="text-xs text-muted-foreground mb-2">Reach:</div>
+            <div className="text-xs text-muted-foreground mb-2">{t('reach_label')}</div>
             <div className="space-y-2">
               {reachOptions.map(reach => (
                 <label
