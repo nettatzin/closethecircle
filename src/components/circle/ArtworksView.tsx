@@ -102,7 +102,7 @@ export function ArtworksView() {
         {/* Grid */}
         {filtered.length === 0 ? (
           <div className="bg-card rounded-sm p-8 text-center border border-foreground/15">
-            <p className="text-muted-foreground mb-2">No artworks match your filters.</p>
+            <p className="text-muted-foreground mb-2">{t('no_artworks')}</p>
             <button
               onClick={() => {
                 setQuery('');
@@ -111,7 +111,7 @@ export function ArtworksView() {
               }}
               className="text-xs font-display uppercase tracking-[0.2em] underline mt-2"
             >
-              Reset
+              {t('reset_word')}
             </button>
           </div>
         ) : (
@@ -177,12 +177,13 @@ export function ArtworksView() {
 
 interface FilterSelectProps {
   label: string;
+  allLabel?: string;
   value: string;
   onChange: (v: string) => void;
   options: string[];
 }
 
-function FilterSelect({ label, value, onChange, options }: FilterSelectProps) {
+function FilterSelect({ label, allLabel, value, onChange, options }: FilterSelectProps) {
   return (
     <label className="relative block">
       <span className="absolute left-3 top-1.5 text-[9px] font-display tracking-[0.25em] uppercase text-muted-foreground pointer-events-none">
@@ -195,7 +196,7 @@ function FilterSelect({ label, value, onChange, options }: FilterSelectProps) {
       >
         {options.map((opt) => (
           <option key={opt} value={opt}>
-            {opt === 'all' ? `All ${label.toLowerCase()}s` : opt}
+            {opt === 'all' ? (allLabel ?? `All ${label.toLowerCase()}s`) : opt}
           </option>
         ))}
       </select>
