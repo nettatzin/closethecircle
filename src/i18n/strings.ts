@@ -105,13 +105,13 @@ const he: typeof en = {
 
   app_title: 'המעגל',
   app_tagline: 'מעצבים מציאות חדשה',
-  app_intro: 'גלו יוזמות שמהדהדות עם החזון שלכם לעיצוב מעגלי',
+  app_intro: 'גלו יוזמות שמהדהדות עם חוויית העיצוב המעגלי שלכם ונמצאות ממש ברדיוס שלכם!',
 
   shuffle_cta: 'פשוט הציעו לי משהו',
   or_refine: 'או דייקו',
 
   section_draws: 'מה מושך אותך',
-  section_energy: 'איך להגיע',
+  section_energy: 'כמה בפנים',
   section_where: 'איפה',
   section_artwork: 'יצירות',
   artwork_hint: 'געו ביצירות שמהדהדות עבורכם',
