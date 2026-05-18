@@ -1,8 +1,8 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useMemo, useState } from 'react';
 import { Search, ChevronDown, Check } from 'lucide-react';
 import { artworks, artworkThemes, artworkSpaces, type Artwork } from '@/data/activities';
-import { ArtworkDetailModal } from './ArtworkDetailModal';
+import { ArtworkDetailPanel } from './ArtworkDetailPanel';
 import { CircleLine, EllipseLine, SpiralLine } from './LineArt';
 
 export function ArtworksView() {
