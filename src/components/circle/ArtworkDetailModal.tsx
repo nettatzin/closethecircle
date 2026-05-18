@@ -36,16 +36,16 @@ export function ArtworkDetailModal({ artwork, onClose, isSelected, onToggleSelec
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 bg-background/80 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-6"
+          className="fixed inset-0 z-50 bg-background/85 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-8"
           onClick={onClose}
         >
           <motion.div
-            initial={{ y: '100%', opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: '100%', opacity: 0 }}
+            initial={{ y: '100%', opacity: 0, scale: 0.96 }}
+            animate={{ y: 0, opacity: 1, scale: 1 }}
+            exit={{ y: '100%', opacity: 0, scale: 0.96 }}
             transition={{ type: 'spring', damping: 30, stiffness: 280 }}
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-2xl max-h-[92vh] overflow-y-auto bg-card border border-foreground/15 rounded-t-2xl sm:rounded-sm shadow-soft"
+            className="relative w-full max-w-4xl max-h-[95vh] overflow-y-auto bg-card border border-foreground/15 rounded-t-2xl sm:rounded-sm shadow-2xl"
           >
             <button
               onClick={onClose}
