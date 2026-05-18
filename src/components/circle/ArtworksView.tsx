@@ -1,11 +1,15 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useMemo, useState } from 'react';
 import { Search, ChevronDown, Check } from 'lucide-react';
-import { artworks, artworkThemes, artworkSpaces, type Artwork } from '@/data/activities';
+import { type Artwork } from '@/data/activities';
+import { useDataset } from '@/i18n/dataset';
+import { useT } from '@/i18n/LanguageContext';
 import { ArtworkDetailPanel } from './ArtworkDetailPanel';
 import { CircleLine, EllipseLine, SpiralLine } from './LineArt';
 
 export function ArtworksView() {
+  const t = useT();
+  const { artworks, artworkThemes, artworkSpaces } = useDataset();
   const [query, setQuery] = useState('');
   const [theme, setTheme] = useState<string>('all');
   const [space, setSpace] = useState<string>('all');
