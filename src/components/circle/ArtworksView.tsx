@@ -1,11 +1,15 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useMemo, useState } from 'react';
 import { Search, ChevronDown, Check } from 'lucide-react';
-import { artworks, artworkThemes, artworkSpaces, type Artwork } from '@/data/activities';
+import { type Artwork } from '@/data/activities';
+import { useDataset } from '@/i18n/dataset';
+import { useT } from '@/i18n/LanguageContext';
 import { ArtworkDetailPanel } from './ArtworkDetailPanel';
 import { CircleLine, EllipseLine, SpiralLine } from './LineArt';
 
 export function ArtworksView() {
+  const t = useT();
+  const { artworks, artworkThemes, artworkSpaces } = useDataset();
   const [query, setQuery] = useState('');
   const [theme, setTheme] = useState<string>('all');
   const [space, setSpace] = useState<string>('all');
@@ -51,10 +55,10 @@ export function ArtworksView() {
             <div className="h-px flex-1 bg-foreground/20" />
           </div>
           <h1 className="font-display text-2xl md:text-3xl text-foreground tracking-[0.15em] uppercase mb-2">
-            Revisit Your Favorite Artworks
+            {t('artworks_title')}
           </h1>
           <p className="text-muted-foreground text-xs tracking-[0.2em] uppercase">
-            The Exhibition Catalogue
+            {t('artworks_subtitle')}
           </p>
         </motion.header>
 
@@ -65,7 +69,7 @@ export function ArtworksView() {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search artworks, artists, themes…"
+            placeholder={t('search_placeholder')}
             className="w-full pl-11 pr-4 py-3 bg-card border border-foreground/15 rounded-sm text-sm text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:border-foreground/40 transition-colors"
           />
         </div>
@@ -73,13 +77,15 @@ export function ArtworksView() {
         {/* Filter dropdowns */}
         <div className="grid grid-cols-2 gap-3 mb-6">
           <FilterSelect
-            label="Theme"
+            label={t('filter_theme')}
+            allLabel={`${t('all_prefix')}${t('filter_theme')}`}
             value={theme}
             onChange={setTheme}
             options={['all', ...artworkThemes]}
           />
           <FilterSelect
-            label="Space"
+            label={t('filter_space')}
+            allLabel={`${t('all_prefix')}${t('filter_space')}`}
             value={space}
             onChange={setSpace}
             options={['all', ...artworkSpaces]}
@@ -96,7 +102,7 @@ export function ArtworksView() {
         {/* Grid */}
         {filtered.length === 0 ? (
           <div className="bg-card rounded-sm p-8 text-center border border-foreground/15">
-            <p className="text-muted-foreground mb-2">No artworks match your filters.</p>
+            <p className="text-muted-foreground mb-2">{t('no_artworks')}</p>
             <button
               onClick={() => {
                 setQuery('');
@@ -105,7 +111,7 @@ export function ArtworksView() {
               }}
               className="text-xs font-display uppercase tracking-[0.2em] underline mt-2"
             >
-              Reset
+              {t('reset_word')}
             </button>
           </div>
         ) : (
@@ -171,12 +177,13 @@ export function ArtworksView() {
 
 interface FilterSelectProps {
   label: string;
+  allLabel?: string;
   value: string;
   onChange: (v: string) => void;
   options: string[];
 }
 
-function FilterSelect({ label, value, onChange, options }: FilterSelectProps) {
+function FilterSelect({ label, allLabel, value, onChange, options }: FilterSelectProps) {
   return (
     <label className="relative block">
       <span className="absolute left-3 top-1.5 text-[9px] font-display tracking-[0.25em] uppercase text-muted-foreground pointer-events-none">
@@ -189,7 +196,7 @@ function FilterSelect({ label, value, onChange, options }: FilterSelectProps) {
       >
         {options.map((opt) => (
           <option key={opt} value={opt}>
-            {opt === 'all' ? `All ${label.toLowerCase()}s` : opt}
+            {opt === 'all' ? (allLabel ?? `All ${label.toLowerCase()}s`) : opt}
           </option>
         ))}
       </select>

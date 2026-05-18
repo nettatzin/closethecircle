@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Activity } from '@/data/activities';
+import { useT } from '@/i18n/LanguageContext';
 
 interface RippleModalProps {
   mode: false | 'community' | 'ripple';
@@ -9,6 +10,7 @@ interface RippleModalProps {
 }
 
 export function RippleModal({ mode, activity, onConfirm, onClose }: RippleModalProps) {
+  const t = useT();
   if (!mode || !activity) return null;
 
   return (
@@ -37,9 +39,7 @@ export function RippleModal({ mode, activity, onConfirm, onClose }: RippleModalP
             </motion.div>
             
             <p className="text-foreground text-lg leading-relaxed mb-6">
-              This circle exists because
-              <br />
-              others closed circles before
+              {t('ripple_community')}
             </p>
             
             <motion.button
@@ -49,12 +49,12 @@ export function RippleModal({ mode, activity, onConfirm, onClose }: RippleModalP
               className="w-full py-4 px-6 rounded-xl font-bold text-base mb-4 shadow-glow"
               style={{ background: 'var(--gradient-primary)', color: 'hsl(var(--primary-foreground))' }}
             >
-              Close this circle →
+              {t('ripple_close_cta')}
             </motion.button>
             
             <p className="text-primary font-bold text-sm flex items-center justify-center gap-2">
               <span className="text-lg">↻</span>
-              Your turn keeps it growing
+              {t('ripple_your_turn')}
             </p>
           </motion.div>
         ) : (
@@ -83,9 +83,9 @@ export function RippleModal({ mode, activity, onConfirm, onClose }: RippleModalP
             </motion.div>
             
             <p className="relative z-10 text-primary-foreground text-xl font-bold">
-              Every circle you close
+              {t('ripple_done_1')}
               <br />
-              opens new ones
+              {t('ripple_done_2')}
             </p>
           </div>
         )}

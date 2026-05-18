@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SpiralLine, DottedRing, EllipseLine } from './LineArt';
+import { useT } from '@/i18n/LanguageContext';
 
 interface FeedItem {
   name: string;
@@ -48,6 +49,7 @@ function easeOut(t: number) {
 }
 
 export function ImpactView() {
+  const t = useT();
   const [count, setCount] = useState(0);
   const [feed, setFeed] = useState<FeedItem[]>(SEED);
   const idRef = useRef(100);
@@ -120,17 +122,17 @@ export function ImpactView() {
                 {count.toLocaleString()}
               </p>
               <p className="text-[13px] text-muted-foreground mt-1.5 mb-2.5 font-medium">
-                items given a second life
+                {t('items_second_life')}
               </p>
               <p className="text-xs text-muted-foreground/80 leading-relaxed">
-                = <strong className="text-foreground font-medium">{kg.toLocaleString()} kg</strong> out of landfill
+                = <strong className="text-foreground font-medium">{kg.toLocaleString()} kg</strong> {t('out_of_landfill')}
                 <br />
-                <span className="text-muted-foreground/70">≈ {machines} washing machines not melted down</span>
+                <span className="text-muted-foreground/70">≈ {machines} {t('washing_machines')}</span>
               </p>
             </div>
             <div>
               <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground/80 mb-2">
-                Where this happened
+                {t('where_happened')}
               </p>
               <div>
                 {SPECS.map((s, i) => (
@@ -163,9 +165,9 @@ export function ImpactView() {
               animate={{ opacity: [1, 0.25, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
             />
-            <span className="text-xs text-muted-foreground">Live — the circle right now</span>
+            <span className="text-xs text-muted-foreground">{t('live_now')}</span>
             <span className="text-[11px] text-muted-foreground/70 ml-auto">
-              {feed.length + poolIdxRef.current} actions today
+              {feed.length + poolIdxRef.current} {t('actions_today')}
             </span>
           </div>
           <div>
@@ -190,7 +192,7 @@ export function ImpactView() {
         </motion.div>
 
         <p className="text-center text-[10px] font-display tracking-[0.25em] uppercase text-muted-foreground/60 pt-2">
-          Every action ripples outward
+          {t('ripples_outward')}
         </p>
       </div>
     </div>

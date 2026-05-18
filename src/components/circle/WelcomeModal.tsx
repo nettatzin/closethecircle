@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { EllipseLine, SpiralLine } from './LineArt';
+import { useT } from '@/i18n/LanguageContext';
 
 interface WelcomeModalProps {
   isOpen: boolean;
@@ -7,6 +8,7 @@ interface WelcomeModalProps {
 }
 
 export function WelcomeModal({ isOpen, onClose }: WelcomeModalProps) {
+  const t = useT();
   return (
     <AnimatePresence>
       {isOpen && (
@@ -34,17 +36,17 @@ export function WelcomeModal({ isOpen, onClose }: WelcomeModalProps) {
               >
                 <EllipseLine className="w-24 h-24 opacity-80" strokeWidth={0.6} />
               </motion.div>
-              <span className="font-display text-[10px] tracking-[0.3em] uppercase text-foreground relative">The Circle</span>
+            <span className="font-display text-[10px] tracking-[0.3em] uppercase text-foreground relative">{t('app_title')}</span>
             </div>
 
             <h2 className="font-display text-2xl md:text-3xl text-foreground mb-5 leading-tight tracking-wide">
-              The exhibition sparked it.
+              {t('welcome_h1_line1')}
               <br />
-              You keep it alive.
+              {t('welcome_h1_line2')}
             </h2>
 
             <p className="text-muted-foreground text-sm italic mb-8 max-w-xs mx-auto leading-relaxed">
-              Every circle you close opens new ones
+              {t('welcome_sub')}
             </p>
 
             <motion.button
@@ -53,7 +55,7 @@ export function WelcomeModal({ isOpen, onClose }: WelcomeModalProps) {
               whileTap={{ scale: 0.99 }}
               className="w-full py-4 px-8 rounded-sm font-display text-xs tracking-[0.25em] uppercase bg-foreground text-background hover:bg-foreground/90 transition-colors"
             >
-              Start exploring
+              {t('start_exploring')}
             </motion.button>
           </motion.div>
         </motion.div>

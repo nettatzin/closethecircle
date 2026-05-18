@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useMemo, useState } from 'react';
-import { drawOptions, energyOptions, activities, artworks } from '@/data/activities';
+import { useDataset } from '@/i18n/dataset';
+import { useT } from '@/i18n/LanguageContext';
 import { FilterChip } from './FilterChip';
 import { EnergyCard } from './EnergyCard';
 import { LocationFilter } from './LocationFilter';
@@ -95,6 +96,8 @@ export function MainContent({
   onCloseCircle,
   resetFilters,
 }: MainContentProps) {
+  const t = useT();
+  const { drawOptions, energyOptions, activities } = useDataset();
   // Filter activities based on selected filters
   const filteredActivities = useMemo(() => {
     return activities.filter(activity => {
@@ -123,7 +126,7 @@ export function MainContent({
       
       return drawsMatch && energyMatch && locationMatch && reachMatch && artworkMatch;
     });
-  }, [selectedDraws, selectedEnergy, locationFormat, digitalReach, selectedArtworks]);
+  }, [activities, selectedDraws, selectedEnergy, locationFormat, digitalReach, selectedArtworks]);
 
   const [openSections, setOpenSections] = useState<Record<SectionKey, boolean>>({
     draws: false,
@@ -161,13 +164,13 @@ export function MainContent({
             <div className="h-px flex-1 bg-foreground/20" />
           </div>
           <h1 className="font-display text-4xl md:text-5xl text-foreground tracking-[0.15em] uppercase mb-3">
-            The Circle
+            {t('app_title')}
           </h1>
           <p className="text-muted-foreground text-xs tracking-[0.2em] uppercase">
-            Designing New Realities
+            {t('app_tagline')}
           </p>
           <p className="text-muted-foreground text-sm mt-4 max-w-sm mx-auto leading-relaxed">
-            Discover activities that resonate with your vision of circular design
+            {t('app_intro')}
           </p>
         </motion.header>
 
@@ -182,12 +185,12 @@ export function MainContent({
           className="w-full py-5 mb-4 rounded-sm font-display text-sm tracking-[0.2em] uppercase flex items-center justify-center gap-3 bg-foreground text-background hover:bg-foreground/90 transition-colors shadow-soft"
         >
           <Shuffle className="w-4 h-4" />
-          Just show me something
+          {t('shuffle_cta')}
         </motion.button>
 
         <div className="flex items-center gap-3 mb-6">
           <div className="flex-1 h-px bg-foreground/15" />
-          <span className="text-[10px] font-display text-muted-foreground uppercase tracking-[0.3em]">or refine</span>
+          <span className="text-[10px] font-display text-muted-foreground uppercase tracking-[0.3em]">{t('or_refine')}</span>
           <div className="flex-1 h-px bg-foreground/15" />
         </div>
 
@@ -199,7 +202,7 @@ export function MainContent({
           className="bg-card/70 backdrop-blur-sm rounded-sm px-6 mb-8 border border-foreground/15 shadow-soft"
         >
           <FilterSection
-            title="What draws you"
+            title={t('section_draws')}
             count={selectedDraws.length}
             isOpen={openSections.draws}
             onToggle={() => toggleSection('draws')}
@@ -218,7 +221,7 @@ export function MainContent({
           </FilterSection>
 
           <FilterSection
-            title="How to show up"
+            title={t('section_energy')}
             count={selectedEnergy.length}
             isOpen={openSections.energy}
             onToggle={() => toggleSection('energy')}
@@ -238,7 +241,7 @@ export function MainContent({
           </FilterSection>
 
           <FilterSection
-            title="Where"
+            title={t('section_where')}
             count={locationFormat.length}
             isOpen={openSections.where}
             onToggle={() => toggleSection('where')}
@@ -256,13 +259,13 @@ export function MainContent({
           </FilterSection>
 
           <FilterSection
-            title="Artwork"
+            title={t('section_artwork')}
             count={selectedArtworks.length}
             isOpen={openSections.artwork}
             onToggle={() => toggleSection('artwork')}
           >
             <p className="text-xs text-muted-foreground mb-3 italic">
-              Tap the artworks that resonate with you
+              {t('artwork_hint')}
             </p>
             <ArtworkCarousel
               selectedArtworks={selectedArtworks}
@@ -279,7 +282,7 @@ export function MainContent({
         >
           <div className="flex items-center gap-3 mb-4">
             <h2 className="font-display text-sm uppercase tracking-[0.2em] text-foreground">
-              {filteredActivities.length} of {activities.length} activities
+              {filteredActivities.length} {t('of_word')} {activities.length} {t('activities_word')}
             </h2>
             <div className="flex-1 h-px bg-foreground/15" />
           </div>
@@ -291,14 +294,14 @@ export function MainContent({
               onClick={resetFilters}
               className="mb-5 px-4 py-2 text-[10px] font-display uppercase tracking-[0.2em] text-foreground border border-foreground/30 rounded-sm hover:bg-foreground hover:text-background transition-colors"
             >
-              Show all
+              {t('show_all')}
             </motion.button>
           )}
 
           {filteredActivities.length === 0 ? (
             <div className="bg-card rounded-sm p-8 text-center border border-foreground/15">
-              <p className="text-muted-foreground mb-2">No activities match your current filters.</p>
-              <p className="text-sm text-muted-foreground italic">Try adjusting your preferences above.</p>
+              <p className="text-muted-foreground mb-2">{t('no_activities')}</p>
+              <p className="text-sm text-muted-foreground italic">{t('no_activities_hint')}</p>
             </div>
           ) : (
             <div className="space-y-4">

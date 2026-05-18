@@ -3,6 +3,7 @@ import { X, ExternalLink, ChevronLeft, ChevronRight, Check, Plus } from 'lucide-
 import { useEffect, useRef, useState } from 'react';
 import type { Artwork } from '@/data/activities';
 import { CircleLine } from './LineArt';
+import { useT } from '@/i18n/LanguageContext';
 
 interface Props {
   artwork: Artwork;
@@ -12,6 +13,7 @@ interface Props {
 }
 
 export function ArtworkDetailPanel({ artwork, isSelected, onToggleSelect, onClose }: Props) {
+  const t = useT();
   const [activeImage, setActiveImage] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -35,7 +37,7 @@ export function ArtworkDetailPanel({ artwork, isSelected, onToggleSelect, onClos
       {/* Top bar */}
       <div className="flex items-center justify-between px-5 py-3 border-b border-foreground/10 bg-foreground/[0.03]">
         <span className="text-[10px] font-display tracking-[0.3em] uppercase text-muted-foreground">
-          Now viewing
+          {t('now_viewing')}
         </span>
         <button
           onClick={onClose}
@@ -123,7 +125,7 @@ export function ArtworkDetailPanel({ artwork, isSelected, onToggleSelect, onClos
 
         <section>
           <h3 className="font-display text-xs tracking-[0.25em] uppercase text-foreground mb-2">
-            About the work
+            {t('about_work')}
           </h3>
           <p className="text-sm leading-relaxed text-foreground/80">{artwork.about}</p>
           <p className="text-xs text-muted-foreground italic mt-3">{artwork.medium}</p>
@@ -131,7 +133,7 @@ export function ArtworkDetailPanel({ artwork, isSelected, onToggleSelect, onClos
 
         <section>
           <h3 className="font-display text-xs tracking-[0.25em] uppercase text-foreground mb-2">
-            About the artist
+            {t('about_artist')}
           </h3>
           <p className="text-sm leading-relaxed text-foreground/80">{artwork.artistBio}</p>
         </section>
@@ -139,7 +141,7 @@ export function ArtworkDetailPanel({ artwork, isSelected, onToggleSelect, onClos
         {artwork.links.length > 0 && (
           <section>
             <h3 className="font-display text-xs tracking-[0.25em] uppercase text-foreground mb-3">
-              Read & watch
+              {t('read_watch')}
             </h3>
             <ul className="space-y-2">
               {artwork.links.map((link) => (
@@ -180,11 +182,11 @@ export function ArtworkDetailPanel({ artwork, isSelected, onToggleSelect, onClos
         >
           {isSelected ? (
             <>
-              <Check className="w-4 h-4" /> Selected — tap to remove
+              <Check className="w-4 h-4" /> {t('selected_remove')}
             </>
           ) : (
             <>
-              <Plus className="w-4 h-4" /> Select this work
+              <Plus className="w-4 h-4" /> {t('select_work')}
             </>
           )}
         </button>

@@ -3,6 +3,7 @@ import { Heart, MapPin, Share2, Bookmark, ChevronDown, ChevronUp, ExternalLink }
 import { useState } from 'react';
 import type { Activity } from '@/data/activities';
 import { cn } from '@/lib/utils';
+import { useT } from '@/i18n/LanguageContext';
 
 interface ActivityCardProps {
   activity: Activity;
@@ -11,6 +12,7 @@ interface ActivityCardProps {
 }
 
 export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardProps) {
+  const t = useT();
   const [expanded, setExpanded] = useState(false);
   const [saved, setSaved] = useState(false);
 
@@ -78,7 +80,7 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
         {/* Values tags */}
         <div className="mb-3">
           <div className="text-[9px] font-display text-muted-foreground uppercase tracking-[0.25em] mb-2">
-            Values
+            {t('values_label')}
           </div>
           <div className="flex flex-wrap gap-1.5">
             {activity.tags.values.map(tag => (
@@ -95,7 +97,7 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
         {/* Benefits tags */}
         <div className="mb-5">
           <div className="text-[9px] font-display text-muted-foreground uppercase tracking-[0.25em] mb-2">
-            Benefits
+            {t('benefits_label')}
           </div>
           <div className="flex flex-wrap gap-1.5">
             {activity.tags.benefits.slice(0, 3).map(tag => (
@@ -108,7 +110,7 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
             ))}
             {activity.tags.benefits.length > 3 && (
               <span className="text-[10px] px-2.5 py-1 border border-foreground/15 text-muted-foreground rounded-full font-sans-thin italic">
-                +{activity.tags.benefits.length - 3} more
+                +{activity.tags.benefits.length - 3} {t('more_word')}
               </span>
             )}
           </div>
@@ -120,7 +122,7 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
           whileTap={{ scale: 0.99 }}
           className="w-full py-2.5 mb-3 rounded-sm font-display text-[11px] tracking-[0.2em] uppercase text-foreground border border-foreground/25 bg-transparent hover:bg-foreground/5 transition-all flex items-center justify-center gap-2"
         >
-          {expanded ? 'Hide details' : 'View details'}
+          {expanded ? t('hide_details') : t('view_details')}
           {expanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
         </motion.button>
 
@@ -139,7 +141,7 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
 
               <div className="mb-4">
                 <h4 className="text-[9px] font-display text-muted-foreground uppercase tracking-[0.25em] mb-2">
-                  Activity type
+                  {t('activity_type_label')}
                 </h4>
                 <div className="flex flex-wrap gap-1.5">
                   {activity.tags.activityType.map((type, i) => (
@@ -152,7 +154,7 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
 
               <div className="mb-4">
                 <h4 className="text-[9px] font-display text-muted-foreground uppercase tracking-[0.25em] mb-2">
-                  All benefits
+                  {t('all_benefits_label')}
                 </h4>
                 <div className="flex flex-wrap gap-1.5">
                   {activity.tags.benefits.map(tag => (
@@ -168,7 +170,7 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
 
               <div>
                 <h4 className="text-[9px] font-display text-muted-foreground uppercase tracking-[0.25em] mb-2">
-                  Format & Commitment
+                  {t('format_commitment_label')}
                 </h4>
                 <div className="flex flex-wrap gap-1.5">
                   <span className="text-[10px] px-2.5 py-1 border border-foreground/30 text-foreground rounded-full font-sans-thin">
@@ -191,7 +193,7 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
             whileTap={{ scale: 0.99 }}
             className="flex-1 py-3 rounded-sm font-display text-[11px] tracking-[0.25em] uppercase flex items-center justify-center gap-2 bg-foreground text-background hover:bg-foreground/90 transition-colors"
           >
-            Close this circle
+            {t('close_circle')}
             <ExternalLink className="w-3.5 h-3.5" />
           </motion.button>
 
