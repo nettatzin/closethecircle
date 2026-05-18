@@ -103,6 +103,23 @@ export function ArtworkDetailModal({ artwork, onClose, isSelected, onToggleSelec
               )}
             </div>
 
+            {/* Thumbnail strip */}
+            {artwork.gallery.length > 1 && (
+              <div className="flex gap-2 overflow-x-auto px-6 sm:px-8 pt-4 pb-1">
+                {artwork.gallery.map((src, i) => (
+                  <button
+                    key={src + i}
+                    onClick={() => setActiveImage(i)}
+                    className={`flex-shrink-0 w-20 h-20 overflow-hidden rounded-sm border-2 transition-all ${
+                      i === activeImage ? 'border-foreground' : 'border-transparent opacity-60 hover:opacity-100'
+                    }`}
+                  >
+                    <img src={src} alt="" className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
+            )}
+
             <div className="p-6 sm:p-8 space-y-6">
               {/* Header */}
               <div>
