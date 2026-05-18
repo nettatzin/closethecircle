@@ -122,7 +122,7 @@ const Index = () => {
                         />
                       )}
                       <span className={discoverMode === m ? 'text-foreground' : 'text-foreground/45'}>
-                        {m}
+                        {m === 'act' ? t('mode_act') : t('mode_impact')}
                       </span>
                     </button>
                   ))}
