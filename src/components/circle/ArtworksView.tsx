@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useMemo, useState } from 'react';
-import { Search, ChevronDown } from 'lucide-react';
+import { Search, ChevronDown, Check } from 'lucide-react';
 import { artworks, artworkThemes, artworkSpaces, type Artwork } from '@/data/activities';
 import { ArtworkDetailModal } from './ArtworkDetailModal';
 import { CircleLine, EllipseLine, SpiralLine } from './LineArt';
@@ -10,6 +10,14 @@ export function ArtworksView() {
   const [theme, setTheme] = useState<string>('all');
   const [space, setSpace] = useState<string>('all');
   const [active, setActive] = useState<Artwork | null>(null);
+  const [selected, setSelected] = useState<Set<number>>(new Set());
+
+  const toggleSelect = (a: Artwork) =>
+    setSelected((prev) => {
+      const next = new Set(prev);
+      next.has(a.id) ? next.delete(a.id) : next.add(a.id);
+      return next;
+    });
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
