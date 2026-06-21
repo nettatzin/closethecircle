@@ -52,9 +52,9 @@ export const drawOptions = [
 export const energyQuestion = 'כמה בפנים אני כעת?';
 
 export const energyOptions = [
-  { id: 'low-key', icon: '🪶', label: 'בקטנה', time: 'עד כמה דקות' },
-  { id: 'hands-on', icon: '🔥', label: 'בעניין', time: 'עד כשעה בחודש' },
-  { id: 'deep-work', icon: '💪', label: 'צלילה פנימה', time: 'עד כמה שעות בחודש' }
+  { id: 'low-key', icon: '🪶', label: 'בלי מחויבות', time: 'חד פעמי / עד כמה דקות' },
+  { id: 'hands-on', icon: '🔥', label: 'מחויבות נמוכה', time: 'עד כשעה בחודש' },
+  { id: 'deep-work', icon: '💪', label: 'נכונות להתמסר', time: 'עד כמה שעות בחודש' }
 ];
 
 export type ArtworkTheme =
