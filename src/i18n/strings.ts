@@ -112,8 +112,8 @@ const he: typeof en = {
 
   section_draws: 'מה מושך אותך',
   section_energy: 'מידת המחויבות שלך',
-  section_where: 'איפה',
-  section_artwork: 'יצירות',
+  section_where: 'המימד הכי נוח לך',
+  section_artwork: 'היצירות שהכי דיברו אליך',
   artwork_hint: 'געו ביצירות שמהדהדות עבורכם',
 
   of_word: 'מתוך',
