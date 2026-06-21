@@ -40,12 +40,12 @@ export interface Activity {
 }
 
 export const drawOptions = [
-  { id: 'explore', icon: '🌱', label: 'לחקור וללמוד' },
-  { id: 'meet', icon: '🤝', label: 'להכיר אנשים' },
+  { id: 'explore', icon: '🌱', label: 'להרחיב אופקים' },
+  { id: 'meet', icon: '🤝', label: 'להכיר א.נשים' },
   { id: 'make', icon: '🛠️', label: 'ליצור' },
   { id: 'amplify', icon: '📣', label: 'להשמיע קול' },
-  { id: 'exchange', icon: '🔄', label: 'להחליף חפצים' },
-  { id: 'witness', icon: '👁️', label: 'לגלול ולצפות' }
+  { id: 'exchange', icon: '🔄', label: 'למצוא הזדמנויות' },
+  { id: 'witness', icon: '👁️', label: 'להתבונן מהצד' }
 ];
 
 // כותרת השאלה שמופיעה מעל בחירת רמת האנרגיה
