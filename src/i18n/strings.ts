@@ -111,7 +111,7 @@ const he: typeof en = {
   or_refine: 'או דייקו',
 
   section_draws: 'מה מושך אותך',
-  section_energy: 'כמה בפנים',
+  section_energy: 'מידת מחויבות',
   section_where: 'איפה',
   section_artwork: 'יצירות',
   artwork_hint: 'געו ביצירות שמהדהדות עבורכם',
