@@ -12,7 +12,7 @@ import { useLang, useT } from '@/i18n/LanguageContext';
 import type { Activity } from '@/data/activities';
 
 type Tab = 'discover' | 'artworks';
-type DiscoverMode = 'act' | 'impact';
+type DiscoverMode = 'act' | 'impact' | 'cashback';
 
 const Index = () => {
   const store = useCircleStore();
