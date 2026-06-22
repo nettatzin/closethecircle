@@ -109,7 +109,7 @@ const Index = () => {
                 className="overflow-hidden"
               >
                 <div className="flex items-center justify-center gap-1 pt-3 pb-1">
-                  {(['act', 'impact'] as DiscoverMode[]).map((m) => (
+                  {(['act', 'impact', 'cashback'] as DiscoverMode[]).map((m) => (
                     <button
                       key={m}
                       onClick={() => setDiscoverMode(m)}
@@ -123,7 +123,7 @@ const Index = () => {
                         />
                       )}
                       <span className={discoverMode === m ? 'text-foreground' : 'text-foreground/45'}>
-                        {m === 'act' ? t('mode_act') : t('mode_impact')}
+                        {m === 'act' ? t('mode_act') : m === 'impact' ? t('mode_impact') : t('mode_cashback')}
                       </span>
                     </button>
                   ))}
