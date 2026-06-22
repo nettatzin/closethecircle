@@ -6,6 +6,7 @@ const en = {
   tab_artworks: 'Artworks',
   mode_act: 'act',
   mode_impact: 'impact',
+  mode_cashback: 'Cash back',
 
   // Header
   app_title: 'The Circle',
@@ -102,6 +103,7 @@ const he: typeof en = {
   tab_artworks: 'יצירות',
   mode_act: 'נכנסים למעגל',
   mode_impact: 'השפעה בשטח',
+  mode_cashback: 'מרוויחים בחזרה',
 
   app_title: 'המעגל',
   app_tagline: 'מעצבים מציאות חדשה',

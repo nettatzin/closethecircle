@@ -6,12 +6,13 @@ import { RippleModal } from '@/components/circle/RippleModal';
 import { MainContent } from '@/components/circle/MainContent';
 import { ArtworksView } from '@/components/circle/ArtworksView';
 import { ImpactView } from '@/components/circle/ImpactView';
+import { CashbackView } from '@/components/circle/CashbackView';
 import { useCircleStore } from '@/hooks/useCircleStore';
 import { useLang, useT } from '@/i18n/LanguageContext';
 import type { Activity } from '@/data/activities';
 
 type Tab = 'discover' | 'artworks';
-type DiscoverMode = 'act' | 'impact';
+type DiscoverMode = 'act' | 'impact' | 'cashback';
 
 const Index = () => {
   const store = useCircleStore();
@@ -108,7 +109,7 @@ const Index = () => {
                 className="overflow-hidden"
               >
                 <div className="flex items-center justify-center gap-1 pt-3 pb-1">
-                  {(['act', 'impact'] as DiscoverMode[]).map((m) => (
+                  {(['act', 'impact', 'cashback'] as DiscoverMode[]).map((m) => (
                     <button
                       key={m}
                       onClick={() => setDiscoverMode(m)}
@@ -122,7 +123,7 @@ const Index = () => {
                         />
                       )}
                       <span className={discoverMode === m ? 'text-foreground' : 'text-foreground/45'}>
-                        {m === 'act' ? t('mode_act') : t('mode_impact')}
+                        {m === 'act' ? t('mode_act') : m === 'impact' ? t('mode_impact') : t('mode_cashback')}
                       </span>
                     </button>
                   ))}
@@ -153,8 +154,10 @@ const Index = () => {
             onCloseCircle={handleCloseCircle}
             resetFilters={store.resetFilters}
           />
-        ) : (
+        ) : discoverMode === 'impact' ? (
           <ImpactView />
+        ) : (
+          <CashbackView />
         )
       ) : (
         <ArtworksView />
