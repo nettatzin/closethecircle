@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDataset } from '@/i18n/dataset';
-import { useT } from '@/i18n/LanguageContext';
+import { useT, useLang } from '@/i18n/LanguageContext';
 import { FilterChip } from './FilterChip';
 import { EnergyCard } from './EnergyCard';
 import { LocationFilter } from './LocationFilter';
@@ -9,7 +9,8 @@ import { ArtworkCarousel } from './ArtworkCarousel';
 import { ActivityCard } from './ActivityCard';
 import { SpiralLine, EllipseLine, CircleLine, DottedRing } from './LineArt';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Shuffle } from 'lucide-react';
+import { Shuffle, Sparkles, ArrowDown } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 import type { Activity } from '@/data/activities';
 
 type SectionKey = 'draws' | 'energy' | 'where' | 'artwork';
