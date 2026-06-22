@@ -115,7 +115,11 @@ export function MainContent({
   resetFilters,
 }: MainContentProps) {
   const t = useT();
+  const { lang } = useLang();
   const { drawOptions, energyOptions, activities } = useDataset();
+  const resultsRef = useRef<HTMLDivElement>(null);
+  const [vibe, setVibe] = useState<string>('');
+  const [vibeLoading, setVibeLoading] = useState(false);
   // Filter activities based on selected filters
   const filteredActivities = useMemo(() => {
     return activities.filter(activity => {
