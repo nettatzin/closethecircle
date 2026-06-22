@@ -152,6 +152,53 @@ export function MainContent({
 
   const [activeSection, setActiveSection] = useState<SectionKey | null>(null);
 
+  const hasAnySelection =
+    selectedDraws.length + selectedEnergy.length + locationFormat.length +
+    digitalReach.length + selectedArtworks.length > 0;
+
+  // Fetch climate vibe sentence when preferences change (debounced)
+  useEffect(() => {
+    if (!hasAnySelection) {
+      setVibe('');
+      return;
+    }
+    const handle = setTimeout(async () => {
+      setVibeLoading(true);
+      try {
+        const { data, error } = await supabase.functions.invoke('climate-vibes', {
+          body: {
+            lang,
+            draws: selectedDraws,
+            energy: selectedEnergy,
+            locationFormat,
+            digitalReach,
+            artworkCount: selectedArtworks.length,
+            activityCount: filteredActivities.length,
+          },
+        });
+        if (!error && data?.vibe) setVibe(data.vibe);
+      } catch (_) {
+        // silent fail
+      } finally {
+        setVibeLoading(false);
+      }
+    }, 700);
+    return () => clearTimeout(handle);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    lang,
+    selectedDraws.join(','),
+    selectedEnergy.join(','),
+    locationFormat.join(','),
+    digitalReach.join(','),
+    selectedArtworks.join(','),
+    filteredActivities.length,
+  ]);
+
+  const handleReadyClick = () => {
+    resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   const sectionContent: Record<SectionKey, { title: string; count: number; body: React.ReactNode }> = {
     draws: {
       title: t('section_draws'),
