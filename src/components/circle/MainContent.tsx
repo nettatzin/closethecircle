@@ -275,85 +275,49 @@ export function MainContent({
           <div className="flex-1 h-px bg-foreground/15" />
         </div>
 
-        {/* Filter Section — collapsible, any order */}
+        {/* Spiral filter map — tap a node to refine */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-card/70 backdrop-blur-sm rounded-sm px-6 mb-8 border border-foreground/15 shadow-soft"
+          className="relative w-full mx-auto mb-10"
+          style={{ height: 'min(78vw, 360px)' }}
         >
-          <FilterSection
-            title={t('section_draws')}
-            count={selectedDraws.length}
-            isOpen={openSections.draws}
-            onToggle={() => toggleSection('draws')}
-          >
-            <div className="flex flex-wrap gap-2">
-              {drawOptions.map(option => (
-                <FilterChip
-                  key={option.id}
-                  icon={option.icon}
-                  label={option.label}
-                  selected={selectedDraws.includes(option.id)}
-                  onClick={() => toggleDraw(option.id)}
-                />
-              ))}
-            </div>
-          </FilterSection>
+          {/* Decorative spiral guide */}
+          <SpiralLine
+            className="absolute inset-0 w-full h-full opacity-25 pointer-events-none"
+            strokeWidth={0.4}
+          />
 
-          <FilterSection
-            title={t('section_energy')}
-            count={selectedEnergy.length}
-            isOpen={openSections.energy}
-            onToggle={() => toggleSection('energy')}
-          >
-            <div className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1">
-              {energyOptions.map(option => (
-                <EnergyCard
-                  key={option.id}
-                  icon={option.icon}
-                  label={option.label}
-                  time={option.time}
-                  selected={selectedEnergy.includes(option.id)}
-                  onClick={() => toggleEnergy(option.id)}
-                />
-              ))}
-            </div>
-          </FilterSection>
-
-          <FilterSection
-            title={t('section_where')}
-            count={locationFormat.length}
-            isOpen={openSections.where}
-            onToggle={() => toggleSection('where')}
-          >
-            <LocationFilter
-              locationFormat={locationFormat}
-              toggleFormat={toggleFormat}
-              physicalLocation={physicalLocation}
-              setPhysicalLocation={setPhysicalLocation}
-              physicalRadius={physicalRadius}
-              setPhysicalRadius={setPhysicalRadius}
-              digitalReach={digitalReach}
-              toggleDigitalReach={toggleDigitalReach}
+          {nodes.map((n, i) => (
+            <SpiralNode
+              key={n.key}
+              index={n.index}
+              title={sectionContent[n.key].title}
+              count={sectionContent[n.key].count}
+              position={n.position as { top?: string; bottom?: string; left?: string; right?: string }}
+              labelSide={n.labelSide}
+              delay={0.15 + i * 0.08}
+              onClick={() => setActiveSection(n.key)}
             />
-          </FilterSection>
-
-          <FilterSection
-            title={t('section_artwork')}
-            count={selectedArtworks.length}
-            isOpen={openSections.artwork}
-            onToggle={() => toggleSection('artwork')}
-          >
-            <p className="text-xs text-muted-foreground mb-3 italic">
-              {t('artwork_hint')}
-            </p>
-            <ArtworkCarousel
-              selectedArtworks={selectedArtworks}
-              toggleArtwork={toggleArtwork}
-            />
-          </FilterSection>
+          ))}
         </motion.div>
+
+        <Dialog open={activeSection !== null} onOpenChange={(open) => !open && setActiveSection(null)}>
+          <DialogContent className="max-w-md max-h-[85vh] overflow-y-auto">
+            {activeSection && (
+              <>
+                <DialogHeader>
+                  <DialogTitle className="font-display text-xl tracking-[0.18em] uppercase text-foreground text-center">
+                    {sectionContent[activeSection].title}
+                  </DialogTitle>
+                </DialogHeader>
+                <div className="pt-4">{sectionContent[activeSection].body}</div>
+              </>
+            )}
+          </DialogContent>
+        </Dialog>
+
 
         {/* Results section */}
         <motion.div
