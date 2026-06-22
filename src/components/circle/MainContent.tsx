@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDataset } from '@/i18n/dataset';
-import { useT } from '@/i18n/LanguageContext';
+import { useT, useLang } from '@/i18n/LanguageContext';
 import { FilterChip } from './FilterChip';
 import { EnergyCard } from './EnergyCard';
 import { LocationFilter } from './LocationFilter';
@@ -9,7 +9,8 @@ import { ArtworkCarousel } from './ArtworkCarousel';
 import { ActivityCard } from './ActivityCard';
 import { SpiralLine, EllipseLine, CircleLine, DottedRing } from './LineArt';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Shuffle } from 'lucide-react';
+import { Shuffle, Sparkles, ArrowDown } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 import type { Activity } from '@/data/activities';
 
 type SectionKey = 'draws' | 'energy' | 'where' | 'artwork';
@@ -114,7 +115,11 @@ export function MainContent({
   resetFilters,
 }: MainContentProps) {
   const t = useT();
+  const { lang } = useLang();
   const { drawOptions, energyOptions, activities } = useDataset();
+  const resultsRef = useRef<HTMLDivElement>(null);
+  const [vibe, setVibe] = useState<string>('');
+  const [vibeLoading, setVibeLoading] = useState(false);
   // Filter activities based on selected filters
   const filteredActivities = useMemo(() => {
     return activities.filter(activity => {
@@ -146,6 +151,53 @@ export function MainContent({
   }, [activities, selectedDraws, selectedEnergy, locationFormat, digitalReach, selectedArtworks]);
 
   const [activeSection, setActiveSection] = useState<SectionKey | null>(null);
+
+  const hasAnySelection =
+    selectedDraws.length + selectedEnergy.length + locationFormat.length +
+    digitalReach.length + selectedArtworks.length > 0;
+
+  // Fetch climate vibe sentence when preferences change (debounced)
+  useEffect(() => {
+    if (!hasAnySelection) {
+      setVibe('');
+      return;
+    }
+    const handle = setTimeout(async () => {
+      setVibeLoading(true);
+      try {
+        const { data, error } = await supabase.functions.invoke('climate-vibes', {
+          body: {
+            lang,
+            draws: selectedDraws,
+            energy: selectedEnergy,
+            locationFormat,
+            digitalReach,
+            artworkCount: selectedArtworks.length,
+            activityCount: filteredActivities.length,
+          },
+        });
+        if (!error && data?.vibe) setVibe(data.vibe);
+      } catch (_) {
+        // silent fail
+      } finally {
+        setVibeLoading(false);
+      }
+    }, 700);
+    return () => clearTimeout(handle);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    lang,
+    selectedDraws.join(','),
+    selectedEnergy.join(','),
+    locationFormat.join(','),
+    digitalReach.join(','),
+    selectedArtworks.join(','),
+    filteredActivities.length,
+  ]);
+
+  const handleReadyClick = () => {
+    resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   const sectionContent: Record<SectionKey, { title: string; count: number; body: React.ReactNode }> = {
     draws: {
@@ -320,9 +372,43 @@ export function MainContent({
           </DialogContent>
         </Dialog>
 
+        {/* Ready CTA + AI vibe sentence */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.18 }}
+          className="mb-8 flex flex-col items-center text-center"
+        >
+          <button
+            onClick={handleReadyClick}
+            className="group inline-flex items-center gap-2 px-6 py-3 rounded-sm border border-accent/60 bg-accent/10 hover:bg-accent hover:text-accent-foreground text-foreground font-display text-[11px] tracking-[0.22em] uppercase transition-all shadow-soft"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-accent group-hover:text-accent-foreground transition-colors" />
+            {t('ready_cta')}
+            <ArrowDown className="w-3.5 h-3.5 transition-transform group-hover:translate-y-0.5" />
+          </button>
+
+          <div className="mt-4 min-h-[2.5rem] max-w-sm">
+            {vibeLoading && !vibe ? (
+              <p className="text-xs text-muted-foreground italic animate-pulse">
+                {t('vibe_loading')}
+              </p>
+            ) : vibe ? (
+              <motion.p
+                key={vibe}
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-sm text-foreground/80 italic leading-relaxed"
+              >
+                {vibe}
+              </motion.p>
+            ) : null}
+          </div>
+        </motion.div>
 
         {/* Results section */}
         <motion.div
+          ref={resultsRef}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}

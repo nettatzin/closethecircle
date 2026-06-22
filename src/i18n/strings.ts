@@ -16,6 +16,8 @@ const en = {
   // CTAs
   shuffle_cta: 'Just show me something',
   or_refine: 'or refine',
+  ready_cta: 'Ready to see what suits you?',
+  vibe_loading: 'Reading your climate vibe…',
 
   // Filter sections
   section_draws: 'What draws you',
@@ -111,6 +113,8 @@ const he: typeof en = {
 
   shuffle_cta: 'פשוט הציעו לי משהו',
   or_refine: 'או דייקו',
+  ready_cta: 'מוכנים לראות מה מתאים לכם?',
+  vibe_loading: 'קוראים את הוייב הסביבתי שלכם…',
 
   section_draws: 'מה מושך אותך',
   section_energy: 'מידת המחויבות שלך',
