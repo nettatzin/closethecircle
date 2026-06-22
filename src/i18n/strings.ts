@@ -113,6 +113,8 @@ const he: typeof en = {
 
   shuffle_cta: 'פשוט הציעו לי משהו',
   or_refine: 'או דייקו',
+  ready_cta: 'מוכנים לראות מה מתאים לכם?',
+  vibe_loading: 'קוראים את הוייב הסביבתי שלכם…',
 
   section_draws: 'מה מושך אותך',
   section_energy: 'מידת המחויבות שלך',
