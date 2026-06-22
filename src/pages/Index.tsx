@@ -6,6 +6,7 @@ import { RippleModal } from '@/components/circle/RippleModal';
 import { MainContent } from '@/components/circle/MainContent';
 import { ArtworksView } from '@/components/circle/ArtworksView';
 import { ImpactView } from '@/components/circle/ImpactView';
+import { CashbackView } from '@/components/circle/CashbackView';
 import { useCircleStore } from '@/hooks/useCircleStore';
 import { useLang, useT } from '@/i18n/LanguageContext';
 import type { Activity } from '@/data/activities';
