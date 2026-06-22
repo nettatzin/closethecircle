@@ -6,6 +6,7 @@ const en = {
   tab_artworks: 'Artworks',
   mode_act: 'act',
   mode_impact: 'impact',
+  mode_cashback: 'Cash back',
 
   // Header
   app_title: 'The Circle',
