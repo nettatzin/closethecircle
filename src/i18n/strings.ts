@@ -16,6 +16,8 @@ const en = {
   // CTAs
   shuffle_cta: 'Just show me something',
   or_refine: 'or refine',
+  ready_cta: 'Ready to see what suits you?',
+  vibe_loading: 'Reading your climate vibe…',
 
   // Filter sections
   section_draws: 'What draws you',
