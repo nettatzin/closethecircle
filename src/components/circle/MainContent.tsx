@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useMemo, useState } from 'react';
 import { useDataset } from '@/i18n/dataset';
 import { useT } from '@/i18n/LanguageContext';
@@ -8,54 +8,71 @@ import { LocationFilter } from './LocationFilter';
 import { ArtworkCarousel } from './ArtworkCarousel';
 import { ActivityCard } from './ActivityCard';
 import { SpiralLine, EllipseLine, CircleLine, DottedRing } from './LineArt';
-import { Shuffle, Plus, Minus } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Shuffle } from 'lucide-react';
 import type { Activity } from '@/data/activities';
 
 type SectionKey = 'draws' | 'energy' | 'where' | 'artwork';
 
-interface FilterSectionProps {
+interface SpiralNodeProps {
+  index: number;
   title: string;
   count: number;
-  isOpen: boolean;
-  onToggle: () => void;
-  children: React.ReactNode;
+  position: { top?: string; bottom?: string; left?: string; right?: string };
+  labelSide: 'left' | 'right';
+  onClick: () => void;
+  delay?: number;
 }
 
-function FilterSection({ title, count, isOpen, onToggle, children }: FilterSectionProps) {
+function SpiralNode({ index, title, count, position, labelSide, onClick, delay = 0 }: SpiralNodeProps) {
+  const active = count > 0;
   return (
-    <div className="border-t border-foreground/15 first:border-t-0">
-      <button
-        onClick={onToggle}
-        className="w-full flex items-center justify-between py-5 text-left group"
-      >
-        <div className="flex items-center gap-3">
-          <h3 className="font-display text-lg md:text-xl tracking-[0.18em] uppercase text-foreground">
-            {title}
-          </h3>
-          {count > 0 && (
-            <span className="text-[10px] font-display tracking-[0.2em] uppercase px-2 py-0.5 rounded-full bg-foreground text-background">
-              {count}
-            </span>
-          )}
-        </div>
-        <div className="text-foreground/60 group-hover:text-foreground transition-colors">
-          {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-        </div>
-      </button>
-      <AnimatePresence initial={false}>
-        {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className="overflow-hidden"
-          >
-            <div className="pb-6">{children}</div>
-          </motion.div>
+    <motion.button
+      initial={{ opacity: 0, scale: 0.7 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ delay, duration: 0.4, ease: 'easeOut' }}
+      whileHover={{ scale: 1.06 }}
+      whileTap={{ scale: 0.96 }}
+      onClick={onClick}
+      style={position}
+      className="absolute flex items-center gap-2 group"
+      aria-label={title}
+    >
+      {labelSide === 'right' && (
+        <span
+          className={`font-display text-[11px] md:text-xs tracking-[0.18em] uppercase whitespace-nowrap transition-colors ${
+            active ? 'text-accent' : 'text-foreground/75 group-hover:text-foreground'
+          }`}
+        >
+          {title}
+        </span>
+      )}
+      <span className="relative">
+        <span
+          className={`flex items-center justify-center w-10 h-10 md:w-11 md:h-11 rounded-full border transition-all ${
+            active
+              ? 'bg-accent border-accent text-accent-foreground shadow-medium'
+              : 'bg-card border-foreground/30 text-foreground/80 group-hover:border-foreground group-hover:text-foreground shadow-soft'
+          }`}
+        >
+          <span className="font-display text-base leading-none">{index}</span>
+        </span>
+        {active && (
+          <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-foreground text-background text-[10px] font-display flex items-center justify-center">
+            {count}
+          </span>
         )}
-      </AnimatePresence>
-    </div>
+      </span>
+      {labelSide === 'left' && (
+        <span
+          className={`font-display text-[11px] md:text-xs tracking-[0.18em] uppercase whitespace-nowrap transition-colors ${
+            active ? 'text-accent' : 'text-foreground/75 group-hover:text-foreground'
+          }`}
+        >
+          {title}
+        </span>
+      )}
+    </motion.button>
   );
 }
 
@@ -128,15 +145,79 @@ export function MainContent({
     });
   }, [activities, selectedDraws, selectedEnergy, locationFormat, digitalReach, selectedArtworks]);
 
-  const [openSections, setOpenSections] = useState<Record<SectionKey, boolean>>({
-    draws: false,
-    energy: false,
-    where: false,
-    artwork: false,
-  });
+  const [activeSection, setActiveSection] = useState<SectionKey | null>(null);
 
-  const toggleSection = (key: SectionKey) =>
-    setOpenSections(prev => ({ ...prev, [key]: !prev[key] }));
+  const sectionContent: Record<SectionKey, { title: string; count: number; body: React.ReactNode }> = {
+    draws: {
+      title: t('section_draws'),
+      count: selectedDraws.length,
+      body: (
+        <div className="flex flex-wrap gap-2">
+          {drawOptions.map(option => (
+            <FilterChip
+              key={option.id}
+              icon={option.icon}
+              label={option.label}
+              selected={selectedDraws.includes(option.id)}
+              onClick={() => toggleDraw(option.id)}
+            />
+          ))}
+        </div>
+      ),
+    },
+    energy: {
+      title: t('section_energy'),
+      count: selectedEnergy.length,
+      body: (
+        <div className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1">
+          {energyOptions.map(option => (
+            <EnergyCard
+              key={option.id}
+              icon={option.icon}
+              label={option.label}
+              time={option.time}
+              selected={selectedEnergy.includes(option.id)}
+              onClick={() => toggleEnergy(option.id)}
+            />
+          ))}
+        </div>
+      ),
+    },
+    where: {
+      title: t('section_where'),
+      count: locationFormat.length,
+      body: (
+        <LocationFilter
+          locationFormat={locationFormat}
+          toggleFormat={toggleFormat}
+          physicalLocation={physicalLocation}
+          setPhysicalLocation={setPhysicalLocation}
+          physicalRadius={physicalRadius}
+          setPhysicalRadius={setPhysicalRadius}
+          digitalReach={digitalReach}
+          toggleDigitalReach={toggleDigitalReach}
+        />
+      ),
+    },
+    artwork: {
+      title: t('section_artwork'),
+      count: selectedArtworks.length,
+      body: (
+        <>
+          <p className="text-xs text-muted-foreground mb-3 italic">{t('artwork_hint')}</p>
+          <ArtworkCarousel selectedArtworks={selectedArtworks} toggleArtwork={toggleArtwork} />
+        </>
+      ),
+    },
+  };
+
+  // Spiral nodes — placed along the decorative spiral, inward
+  const nodes: Array<{ key: SectionKey; index: number; position: React.CSSProperties; labelSide: 'left' | 'right' }> = [
+    { key: 'draws',   index: 1, position: { top: '4%',   right: '8%'  }, labelSide: 'left'  },
+    { key: 'energy',  index: 2, position: { top: '34%',  left: '6%'   }, labelSide: 'right' },
+    { key: 'where',   index: 3, position: { bottom: '30%', right: '18%' }, labelSide: 'left'  },
+    { key: 'artwork', index: 4, position: { bottom: '6%',  left: '26%'  }, labelSide: 'right' },
+  ];
 
   const handleShuffle = () => {
     const pool = filteredActivities.length > 0 ? filteredActivities : activities;
@@ -194,85 +275,49 @@ export function MainContent({
           <div className="flex-1 h-px bg-foreground/15" />
         </div>
 
-        {/* Filter Section — collapsible, any order */}
+        {/* Spiral filter map — tap a node to refine */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-card/70 backdrop-blur-sm rounded-sm px-6 mb-8 border border-foreground/15 shadow-soft"
+          className="relative w-full mx-auto mb-10"
+          style={{ height: 'min(78vw, 360px)' }}
         >
-          <FilterSection
-            title={t('section_draws')}
-            count={selectedDraws.length}
-            isOpen={openSections.draws}
-            onToggle={() => toggleSection('draws')}
-          >
-            <div className="flex flex-wrap gap-2">
-              {drawOptions.map(option => (
-                <FilterChip
-                  key={option.id}
-                  icon={option.icon}
-                  label={option.label}
-                  selected={selectedDraws.includes(option.id)}
-                  onClick={() => toggleDraw(option.id)}
-                />
-              ))}
-            </div>
-          </FilterSection>
+          {/* Decorative spiral guide */}
+          <SpiralLine
+            className="absolute inset-0 w-full h-full opacity-25 pointer-events-none"
+            strokeWidth={0.4}
+          />
 
-          <FilterSection
-            title={t('section_energy')}
-            count={selectedEnergy.length}
-            isOpen={openSections.energy}
-            onToggle={() => toggleSection('energy')}
-          >
-            <div className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1">
-              {energyOptions.map(option => (
-                <EnergyCard
-                  key={option.id}
-                  icon={option.icon}
-                  label={option.label}
-                  time={option.time}
-                  selected={selectedEnergy.includes(option.id)}
-                  onClick={() => toggleEnergy(option.id)}
-                />
-              ))}
-            </div>
-          </FilterSection>
-
-          <FilterSection
-            title={t('section_where')}
-            count={locationFormat.length}
-            isOpen={openSections.where}
-            onToggle={() => toggleSection('where')}
-          >
-            <LocationFilter
-              locationFormat={locationFormat}
-              toggleFormat={toggleFormat}
-              physicalLocation={physicalLocation}
-              setPhysicalLocation={setPhysicalLocation}
-              physicalRadius={physicalRadius}
-              setPhysicalRadius={setPhysicalRadius}
-              digitalReach={digitalReach}
-              toggleDigitalReach={toggleDigitalReach}
+          {nodes.map((n, i) => (
+            <SpiralNode
+              key={n.key}
+              index={n.index}
+              title={sectionContent[n.key].title}
+              count={sectionContent[n.key].count}
+              position={n.position as { top?: string; bottom?: string; left?: string; right?: string }}
+              labelSide={n.labelSide}
+              delay={0.15 + i * 0.08}
+              onClick={() => setActiveSection(n.key)}
             />
-          </FilterSection>
-
-          <FilterSection
-            title={t('section_artwork')}
-            count={selectedArtworks.length}
-            isOpen={openSections.artwork}
-            onToggle={() => toggleSection('artwork')}
-          >
-            <p className="text-xs text-muted-foreground mb-3 italic">
-              {t('artwork_hint')}
-            </p>
-            <ArtworkCarousel
-              selectedArtworks={selectedArtworks}
-              toggleArtwork={toggleArtwork}
-            />
-          </FilterSection>
+          ))}
         </motion.div>
+
+        <Dialog open={activeSection !== null} onOpenChange={(open) => !open && setActiveSection(null)}>
+          <DialogContent className="max-w-md max-h-[85vh] overflow-y-auto">
+            {activeSection && (
+              <>
+                <DialogHeader>
+                  <DialogTitle className="font-display text-xl tracking-[0.18em] uppercase text-foreground text-center">
+                    {sectionContent[activeSection].title}
+                  </DialogTitle>
+                </DialogHeader>
+                <div className="pt-4">{sectionContent[activeSection].body}</div>
+              </>
+            )}
+          </DialogContent>
+        </Dialog>
+
 
         {/* Results section */}
         <motion.div
