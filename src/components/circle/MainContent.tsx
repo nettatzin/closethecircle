@@ -304,15 +304,17 @@ export function MainContent({
         </motion.div>
 
         <Dialog open={activeSection !== null} onOpenChange={(open) => !open && setActiveSection(null)}>
-          <DialogContent className="max-w-md max-h-[85vh] overflow-y-auto">
+          <DialogContent className="max-w-md max-h-[85vh] overflow-hidden flex flex-col p-0 gap-0">
             {activeSection && (
               <>
-                <DialogHeader>
+                <DialogHeader className="shrink-0 p-6 pb-2">
                   <DialogTitle className="font-display text-xl tracking-[0.18em] uppercase text-foreground text-center">
                     {sectionContent[activeSection].title}
                   </DialogTitle>
                 </DialogHeader>
-                <div className="pt-4">{sectionContent[activeSection].body}</div>
+                <div className="flex-1 overflow-y-auto min-h-0 px-6 pb-6 pt-2">
+                  {sectionContent[activeSection].body}
+                </div>
               </>
             )}
           </DialogContent>
