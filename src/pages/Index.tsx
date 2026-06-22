@@ -154,8 +154,10 @@ const Index = () => {
             onCloseCircle={handleCloseCircle}
             resetFilters={store.resetFilters}
           />
-        ) : (
+        ) : discoverMode === 'impact' ? (
           <ImpactView />
+        ) : (
+          <CashbackView />
         )
       ) : (
         <ArtworksView />
