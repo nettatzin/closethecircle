@@ -372,9 +372,43 @@ export function MainContent({
           </DialogContent>
         </Dialog>
 
+        {/* Ready CTA + AI vibe sentence */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.18 }}
+          className="mb-8 flex flex-col items-center text-center"
+        >
+          <button
+            onClick={handleReadyClick}
+            className="group inline-flex items-center gap-2 px-6 py-3 rounded-sm border border-accent/60 bg-accent/10 hover:bg-accent hover:text-accent-foreground text-foreground font-display text-[11px] tracking-[0.22em] uppercase transition-all shadow-soft"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-accent group-hover:text-accent-foreground transition-colors" />
+            {t('ready_cta')}
+            <ArrowDown className="w-3.5 h-3.5 transition-transform group-hover:translate-y-0.5" />
+          </button>
+
+          <div className="mt-4 min-h-[2.5rem] max-w-sm">
+            {vibeLoading && !vibe ? (
+              <p className="text-xs text-muted-foreground italic animate-pulse">
+                {t('vibe_loading')}
+              </p>
+            ) : vibe ? (
+              <motion.p
+                key={vibe}
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-sm text-foreground/80 italic leading-relaxed"
+              >
+                {vibe}
+              </motion.p>
+            ) : null}
+          </div>
+        </motion.div>
 
         {/* Results section */}
         <motion.div
+          ref={resultsRef}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
