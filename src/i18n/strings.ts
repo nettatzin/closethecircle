@@ -100,8 +100,8 @@ const en = {
 const he: typeof en = {
   tab_discover: 'גילוי',
   tab_artworks: 'יצירות',
-  mode_act: 'פעולה',
-  mode_impact: 'השפעה',
+  mode_act: 'נכנסים למעגל',
+  mode_impact: 'השפעה בשטח',
 
   app_title: 'המעגל',
   app_tagline: 'מעצבים מציאות חדשה',
