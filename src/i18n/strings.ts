@@ -103,6 +103,7 @@ const he: typeof en = {
   tab_artworks: 'יצירות',
   mode_act: 'נכנסים למעגל',
   mode_impact: 'השפעה בשטח',
+  mode_cashback: 'מרוויחים בחזרה',
 
   app_title: 'המעגל',
   app_tagline: 'מעצבים מציאות חדשה',
