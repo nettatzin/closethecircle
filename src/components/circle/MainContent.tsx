@@ -145,15 +145,79 @@ export function MainContent({
     });
   }, [activities, selectedDraws, selectedEnergy, locationFormat, digitalReach, selectedArtworks]);
 
-  const [openSections, setOpenSections] = useState<Record<SectionKey, boolean>>({
-    draws: false,
-    energy: false,
-    where: false,
-    artwork: false,
-  });
+  const [activeSection, setActiveSection] = useState<SectionKey | null>(null);
 
-  const toggleSection = (key: SectionKey) =>
-    setOpenSections(prev => ({ ...prev, [key]: !prev[key] }));
+  const sectionContent: Record<SectionKey, { title: string; count: number; body: React.ReactNode }> = {
+    draws: {
+      title: t('section_draws'),
+      count: selectedDraws.length,
+      body: (
+        <div className="flex flex-wrap gap-2">
+          {drawOptions.map(option => (
+            <FilterChip
+              key={option.id}
+              icon={option.icon}
+              label={option.label}
+              selected={selectedDraws.includes(option.id)}
+              onClick={() => toggleDraw(option.id)}
+            />
+          ))}
+        </div>
+      ),
+    },
+    energy: {
+      title: t('section_energy'),
+      count: selectedEnergy.length,
+      body: (
+        <div className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1">
+          {energyOptions.map(option => (
+            <EnergyCard
+              key={option.id}
+              icon={option.icon}
+              label={option.label}
+              time={option.time}
+              selected={selectedEnergy.includes(option.id)}
+              onClick={() => toggleEnergy(option.id)}
+            />
+          ))}
+        </div>
+      ),
+    },
+    where: {
+      title: t('section_where'),
+      count: locationFormat.length,
+      body: (
+        <LocationFilter
+          locationFormat={locationFormat}
+          toggleFormat={toggleFormat}
+          physicalLocation={physicalLocation}
+          setPhysicalLocation={setPhysicalLocation}
+          physicalRadius={physicalRadius}
+          setPhysicalRadius={setPhysicalRadius}
+          digitalReach={digitalReach}
+          toggleDigitalReach={toggleDigitalReach}
+        />
+      ),
+    },
+    artwork: {
+      title: t('section_artwork'),
+      count: selectedArtworks.length,
+      body: (
+        <>
+          <p className="text-xs text-muted-foreground mb-3 italic">{t('artwork_hint')}</p>
+          <ArtworkCarousel selectedArtworks={selectedArtworks} toggleArtwork={toggleArtwork} />
+        </>
+      ),
+    },
+  };
+
+  // Spiral nodes — placed along the decorative spiral, inward
+  const nodes: Array<{ key: SectionKey; index: number; position: React.CSSProperties; labelSide: 'left' | 'right' }> = [
+    { key: 'draws',   index: 1, position: { top: '4%',   right: '8%'  }, labelSide: 'left'  },
+    { key: 'energy',  index: 2, position: { top: '34%',  left: '6%'   }, labelSide: 'right' },
+    { key: 'where',   index: 3, position: { bottom: '30%', right: '18%' }, labelSide: 'left'  },
+    { key: 'artwork', index: 4, position: { bottom: '6%',  left: '26%'  }, labelSide: 'right' },
+  ];
 
   const handleShuffle = () => {
     const pool = filteredActivities.length > 0 ? filteredActivities : activities;
