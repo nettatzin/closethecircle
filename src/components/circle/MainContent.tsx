@@ -213,7 +213,7 @@ export function MainContent({
       title: t('section_energy'),
       count: selectedEnergy.length,
       body: (
-        <div className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1">
+        <div className="grid grid-cols-2 gap-2">
           {energyOptions.map(option => (
             <EnergyCard
               key={option.id}
