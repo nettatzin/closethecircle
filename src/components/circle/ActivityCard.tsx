@@ -44,36 +44,52 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.1 + index * 0.08, duration: 0.4 }}
-      className="bg-card rounded-xl overflow-hidden border border-foreground/15 hover:border-foreground/40 transition-all"
+      className="rounded-xl overflow-hidden border transition-all"
+      style={{
+        backgroundColor: `${categoryTint}55`,
+        borderColor: `${categoryColor}33`,
+      }}
     >
-      {/* Category ellipse — consistent earthy palette + lucide icon */}
-      <div className="relative bg-background pt-5 pb-3 flex items-center justify-center">
-        <div
-          className="w-28 h-20 flex items-center justify-center relative"
-          style={{
-            background: categoryTint,
-            borderRadius: '50% / 50%',
-            transform: 'rotate(-4deg)',
-            boxShadow: `inset 0 0 0 1px ${categoryColor}22`,
-          }}
-        >
-          <CategoryIcon
-            style={{ color: categoryColor, transform: 'rotate(4deg)' }}
-            strokeWidth={1.5}
-            className="w-8 h-8"
-          />
+      {/* Header — badges row + centered category ellipse */}
+      <div className="relative px-4 pt-3 pb-3">
+        {/* Top row: energy (left) + saves (right), color-coded */}
+        <div className="flex items-center justify-between mb-2">
+          <div
+            className="px-2.5 py-1 rounded-full text-[10px] font-display tracking-wider uppercase flex items-center gap-1.5"
+            style={{
+              backgroundColor: categoryColor,
+              color: 'hsl(var(--background))',
+            }}
+          >
+            <EnergyIcon className="w-3 h-3" strokeWidth={2} />
+            {activity.energyLabel}
+          </div>
+          <div
+            className="px-2.5 py-1 rounded-full flex items-center gap-1.5 text-[10px] font-sans-thin bg-background/70 backdrop-blur-sm"
+            style={{ color: categoryColor, border: `1px solid ${categoryColor}44` }}
+          >
+            <Heart className="w-3 h-3" fill="currentColor" />
+            {activity.saves}
+          </div>
         </div>
 
-        {/* Saves badge */}
-        <div className="absolute top-3 right-3 px-2 py-0.5 border border-foreground/20 rounded-full flex items-center gap-1 text-[10px] font-sans-thin text-foreground bg-background">
-          <Heart className="w-3 h-3" />
-          {activity.saves}
-        </div>
-
-        {/* Energy badge */}
-        <div className="absolute bottom-1 left-3 px-2 py-0.5 border border-foreground/20 rounded-full text-[10px] font-display tracking-wider uppercase text-foreground bg-background flex items-center gap-1">
-          <EnergyIcon className="w-3 h-3" strokeWidth={1.75} />
-          {activity.energyLabel}
+        {/* Centered category ellipse */}
+        <div className="flex items-center justify-center py-2">
+          <div
+            className="w-28 h-20 flex items-center justify-center"
+            style={{
+              background: categoryTint,
+              borderRadius: '50% / 50%',
+              transform: 'rotate(-4deg)',
+              boxShadow: `inset 0 0 0 1px ${categoryColor}33`,
+            }}
+          >
+            <CategoryIcon
+              style={{ color: categoryColor, transform: 'rotate(4deg)' }}
+              strokeWidth={1.5}
+              className="w-8 h-8"
+            />
+          </div>
         </div>
       </div>
 
