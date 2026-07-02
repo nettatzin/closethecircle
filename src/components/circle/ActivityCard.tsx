@@ -47,9 +47,9 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
       className="rounded-2xl overflow-hidden border-2 bg-card transition-all"
       style={{ borderColor: categoryRing }}
     >
-      {/* Designed header — color band + floating ellipse + type label */}
+      {/* Designed header — color band + floating ellipse */}
       <div
-        className="relative px-4 pt-3 pb-6"
+        className="relative px-4 pt-3 pb-3"
         style={{
           background: `linear-gradient(135deg, ${categoryTint} 0%, ${categoryTint}88 100%)`,
         }}
@@ -79,8 +79,8 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
           </div>
         </div>
 
-        {/* Ellipse — bolder color, larger icon */}
-        <div className="relative flex items-center justify-center py-1">
+        {/* Ellipse */}
+        <div className="relative flex items-center justify-center">
           <div
             className="w-24 h-16 flex items-center justify-center"
             style={{
@@ -96,14 +96,6 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
               className="w-7 h-7"
             />
           </div>
-        </div>
-
-        {/* Type label */}
-        <div
-          className="relative mt-2 text-center text-[9px] font-display uppercase tracking-[0.3em]"
-          style={{ color: categoryColor }}
-        >
-          {activity.type}
         </div>
       </div>
 
