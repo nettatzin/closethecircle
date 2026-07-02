@@ -255,12 +255,12 @@ export function MainContent({
     },
   };
 
-  // Spiral nodes — placed along the decorative spiral, inward
-  const nodes: Array<{ key: SectionKey; index: number; position: React.CSSProperties; labelSide: 'left' | 'right' }> = [
-    { key: 'draws',   index: 1, position: { top: '4%',   right: '8%'  }, labelSide: 'left'  },
-    { key: 'energy',  index: 2, position: { top: '34%',  left: '6%'   }, labelSide: 'right' },
-    { key: 'where',   index: 3, position: { bottom: '30%', right: '18%' }, labelSide: 'left'  },
-    { key: 'artwork', index: 4, position: { bottom: '6%',  left: '26%'  }, labelSide: 'right' },
+  // Filter tiles — clean 2x2 grid
+  const tiles: Array<{ key: SectionKey; Icon: LucideIcon }> = [
+    { key: 'draws',   Icon: Compass },
+    { key: 'energy',  Icon: Flame },
+    { key: 'where',   Icon: MapPin },
+    { key: 'artwork', Icon: Palette },
   ];
 
   const handleShuffle = () => {
