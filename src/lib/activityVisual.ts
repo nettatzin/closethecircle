@@ -61,39 +61,39 @@ const CATEGORY_ICON: Record<ActivityCategory, LucideIcon> = {
   innovate: Sparkles,
 };
 
-// Type-specific icon overrides — so cards in the same category still look distinct.
+// Type-specific icon overrides (English + Hebrew) — so cards in the same category still look distinct.
 const TYPE_ICON: Array<[RegExp, LucideIcon]> = [
-  [/podcast/i, Mic],
-  [/documentary|video/i, Film],
-  [/newsletter/i, Mail],
-  [/facebook|forum|social/i, MessageCircle],
-  [/academic|course|academy/i, GraduationCap],
-  [/sew|mend/i, Scissors],
-  [/craft|studio/i, Palette],
-  [/maker|workshop/i, Hammer],
-  [/vintage|resale|luxury/i, Shirt],
-  [/swap/i, Repeat],
-  [/flea|market|p2p|shopping|app/i, Store],
-  [/fair/i, ShoppingBag],
-  [/competition/i, Trophy],
-  [/volunteer|community|group/i, Users2],
-  [/follow/i, Rss],
-  [/hub|enterprise|infrastructure|recycling/i, Building2],
-  [/innovation|research/i, Sparkles],
-  [/press/i, Newspaper],
-  [/cultural|global|week/i, Globe],
-  [/designer/i, Handshake],
-  [/free/i, Wrench],
+  [/podcast|פודקאסט/i, Mic],
+  [/documentary|video|תיעודי/i, Film],
+  [/newsletter|ניוזלטר/i, Mail],
+  [/facebook|forum|social|פייסבוק|פורום|קבוצה/i, MessageCircle],
+  [/academic|course|academy|קורס|אקדמ|תואר|הכשרה/i, GraduationCap],
+  [/sew|mend|תפירה|תיקון/i, Scissors],
+  [/craft|studio|מלאכה|סטודיו|יוצרים/i, Palette],
+  [/maker|workshop|סדנ|מרחב/i, Hammer],
+  [/vintage|resale|luxury|וינטג|יד שנייה|יוקרה/i, Shirt],
+  [/swap|החלפה/i, Repeat],
+  [/flea|market|p2p|shopping|app|שוק|פשפשים|מרקטפלייס|אפליקצי|קניות/i, Store],
+  [/fair|יריד/i, ShoppingBag],
+  [/competition|תחרות/i, Trophy],
+  [/volunteer|community|group|התנדב|קהילת/i, Users2],
+  [/follow|לעקוב/i, Rss],
+  [/hub|enterprise|infrastructure|recycling|מרכז|עסק חברתי|תשתית|מיחזור/i, Building2],
+  [/innovation|research|חדשנות|מחקר/i, Sparkles],
+  [/press|עיתונות/i, Newspaper],
+  [/cultural|global|week|תרבותית|שבוע|עולמי/i, Globe],
+  [/designer|מעצב/i, Handshake],
+  [/free|חינמי/i, Wrench],
 ];
 
 export function categorizeActivity(type: string): ActivityCategory {
   const t = type.toLowerCase();
-  if (/(swap|flea|market|vintage|resale|shopping|p2p|app|luxury)/.test(t)) return 'exchange';
-  if (/(craft|sew|mend|maker|workshop|studio)/.test(t)) return 'make';
-  if (/(community|forum|facebook|group|social|volunteer|follow|designer)/.test(t)) return 'community';
-  if (/(event|fair|charity|competition|week|multi-day)/.test(t)) return 'event';
-  if (/(innovation|hub|enterprise|recycling|infrastructure|research)/.test(t)) return 'innovate';
-  if (/(course|academ|podcast|documentary|newsletter|video|press|cultural)/.test(t)) return 'learn';
+  if (/(swap|flea|market|vintage|resale|shopping|p2p|app|luxury|וינטג|שוק|פשפשים|מרקטפלייס|אפליקצי|קניות|החלפה|יד שנייה)/i.test(type)) return 'exchange';
+  if (/(craft|sew|mend|maker|workshop|studio|סדנ|סטודיו|מלאכה|תפירה|תיקון|יוצרים|מרחב)/i.test(type)) return 'make';
+  if (/(community|forum|facebook|group|social|volunteer|follow|designer|פורום|פייסבוק|קבוצה|לעקוב|מעצב|התנדב|קהילת)/i.test(type)) return 'community';
+  if (/(event|fair|charity|competition|week|multi-day|אירוע|יריד|תחרות|שבוע|רב-יומי|צדקה|שנתי)/i.test(type)) return 'event';
+  if (/(innovation|hub|enterprise|recycling|infrastructure|research|חדשנות|מרכז|עסק חברתי|תשתית|מיחזור|מחקר)/i.test(type)) return 'innovate';
+  if (/(course|academ|podcast|documentary|newsletter|video|press|cultural|קורס|אקדמ|פודקאסט|תיעודי|ניוזלטר|תואר|הכשרה|תרבותית|עיתונות|חינמי)/i.test(type)) return 'learn';
   return 'learn';
 }
 
