@@ -11,7 +11,7 @@ const en = {
   // Header
   app_title: 'The Circle',
   app_tagline: 'Designing New Realities',
-  app_intro: 'Tap below to tailor the initiatives to your rhythm',
+  app_intro: 'Find the most suitable initiatives for you through the following options (optional)',
 
   // CTAs
   shuffle_cta: 'Just show me something',
@@ -111,7 +111,7 @@ const he: typeof en = {
 
   app_title: 'המעגל',
   app_tagline: 'מעצבים מציאות חדשה',
-  app_intro: 'בחרו קטגוריה כדי להתאים את היוזמות בדיוק אליכם',
+  app_intro: 'התאימו את היוזמות הכי מתאימות עבורכם דרך האפשרויות הבאות (אופציונאלי)',
 
   shuffle_cta: 'פשוט הציעו לי משהו',
   or_refine: 'או דייקו',
