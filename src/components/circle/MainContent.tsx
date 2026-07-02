@@ -9,7 +9,7 @@ import { ArtworkCarousel } from './ArtworkCarousel';
 import { ActivityCard } from './ActivityCard';
 import { SpiralLine, EllipseLine, CircleLine, DottedRing } from './LineArt';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Shuffle, Sparkles, ArrowDown, Compass, Flame, MapPin, Palette, Plus, type LucideIcon } from 'lucide-react';
+import { Sparkles, ArrowDown, Compass, Flame, MapPin, Palette, Plus, type LucideIcon } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import type { Activity } from '@/data/activities';
 
