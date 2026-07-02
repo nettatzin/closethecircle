@@ -31,6 +31,7 @@ const en = {
   // Results
   of_word: 'of',
   activities_word: 'activities',
+  activities_found: 'activities found',
   works_word: 'works',
   show_all: 'Show all',
   no_activities: 'No activities match your current filters.',
@@ -128,6 +129,7 @@ const he: typeof en = {
 
   of_word: 'מתוך',
   activities_word: 'פעילויות',
+  activities_found: 'פעילויות שנמצאו',
   works_word: 'יצירות',
   show_all: 'הצג הכל',
   no_activities: 'אין פעילויות שתואמות את הסינון.',
