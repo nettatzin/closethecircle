@@ -16,7 +16,7 @@ export function EnergyCard({ icon, label, time, selected, onClick }: EnergyCardP
       whileHover={{ y: -2 }}
       whileTap={{ scale: 0.98 }}
       className={cn(
-        'flex-1 min-w-[140px] p-4 rounded-sm text-left border transition-all relative overflow-hidden',
+        'w-full min-w-0 p-4 rounded-sm text-left border transition-all relative overflow-hidden',
         selected
           ? 'border-foreground bg-foreground text-background'
           : 'border-foreground/20 bg-transparent text-foreground hover:border-foreground/50'
