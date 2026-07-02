@@ -9,68 +9,60 @@ import { ArtworkCarousel } from './ArtworkCarousel';
 import { ActivityCard } from './ActivityCard';
 import { SpiralLine, EllipseLine, CircleLine, DottedRing } from './LineArt';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Shuffle, Sparkles, ArrowDown } from 'lucide-react';
+import { Shuffle, Sparkles, ArrowDown, Compass, Flame, MapPin, Palette, Plus, type LucideIcon } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import type { Activity } from '@/data/activities';
 
 type SectionKey = 'draws' | 'energy' | 'where' | 'artwork';
 
-interface SpiralNodeProps {
-  index: number;
+interface FilterTileProps {
+  Icon: LucideIcon;
   title: string;
   count: number;
-  position: { top?: string; bottom?: string; left?: string; right?: string };
-  labelSide: 'left' | 'right';
   onClick: () => void;
   delay?: number;
 }
 
-function SpiralNode({ index, title, count, position, labelSide, onClick, delay = 0 }: SpiralNodeProps) {
+function FilterTile({ Icon, title, count, onClick, delay = 0 }: FilterTileProps) {
   const active = count > 0;
   return (
     <motion.button
-      initial={{ opacity: 0, scale: 0.7 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay, duration: 0.4, ease: 'easeOut' }}
-      whileHover={{ scale: 1.06 }}
-      whileTap={{ scale: 0.96 }}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay, duration: 0.35, ease: 'easeOut' }}
+      whileHover={{ y: -2 }}
+      whileTap={{ scale: 0.97 }}
       onClick={onClick}
-      style={position}
-      className="absolute flex items-center gap-2 group"
       aria-label={title}
+      className={`relative flex flex-col items-center justify-center gap-2 rounded-sm px-3 py-5 border transition-all text-center overflow-hidden ${
+        active
+          ? 'bg-accent/10 border-accent/60 shadow-medium'
+          : 'bg-card border-foreground/15 hover:border-foreground/40 shadow-soft'
+      }`}
     >
-      {labelSide === 'right' && (
-        <span
-          className={`font-display text-[11px] md:text-xs tracking-[0.18em] uppercase whitespace-nowrap transition-colors ${
-            active ? 'text-accent' : 'text-foreground/75 group-hover:text-foreground'
-          }`}
-        >
-          {title}
-        </span>
-      )}
-      <span className="relative">
-        <span
-          className={`flex items-center justify-center w-10 h-10 md:w-11 md:h-11 rounded-full border transition-all ${
-            active
-              ? 'bg-accent border-accent text-accent-foreground shadow-medium'
-              : 'bg-card border-foreground/30 text-foreground/80 group-hover:border-foreground group-hover:text-foreground shadow-soft'
-          }`}
-        >
-          <span className="font-display text-base leading-none">{index}</span>
-        </span>
-        {active && (
-          <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-foreground text-background text-[10px] font-display flex items-center justify-center">
-            {count}
-          </span>
-        )}
+      <span
+        className={`flex items-center justify-center w-11 h-11 rounded-full border transition-colors ${
+          active
+            ? 'bg-accent border-accent text-accent-foreground'
+            : 'bg-background border-foreground/25 text-foreground/80'
+        }`}
+      >
+        <Icon className="w-5 h-5" strokeWidth={1.4} />
       </span>
-      {labelSide === 'left' && (
-        <span
-          className={`font-display text-[11px] md:text-xs tracking-[0.18em] uppercase whitespace-nowrap transition-colors ${
-            active ? 'text-accent' : 'text-foreground/75 group-hover:text-foreground'
-          }`}
-        >
-          {title}
+      <span
+        className={`font-display text-[10.5px] leading-tight tracking-[0.18em] uppercase transition-colors ${
+          active ? 'text-accent' : 'text-foreground/85'
+        }`}
+      >
+        {title}
+      </span>
+      {active ? (
+        <span className="absolute top-2 right-2 min-w-[18px] h-[18px] px-1 rounded-full bg-foreground text-background text-[10px] font-display flex items-center justify-center">
+          {count}
+        </span>
+      ) : (
+        <span className="absolute top-2 right-2 w-[18px] h-[18px] rounded-full border border-foreground/25 text-foreground/50 flex items-center justify-center">
+          <Plus className="w-2.5 h-2.5" strokeWidth={2} />
         </span>
       )}
     </motion.button>
@@ -263,12 +255,12 @@ export function MainContent({
     },
   };
 
-  // Spiral nodes — placed along the decorative spiral, inward
-  const nodes: Array<{ key: SectionKey; index: number; position: React.CSSProperties; labelSide: 'left' | 'right' }> = [
-    { key: 'draws',   index: 1, position: { top: '4%',   right: '8%'  }, labelSide: 'left'  },
-    { key: 'energy',  index: 2, position: { top: '34%',  left: '6%'   }, labelSide: 'right' },
-    { key: 'where',   index: 3, position: { bottom: '30%', right: '18%' }, labelSide: 'left'  },
-    { key: 'artwork', index: 4, position: { bottom: '6%',  left: '26%'  }, labelSide: 'right' },
+  // Filter tiles — clean 2x2 grid
+  const tiles: Array<{ key: SectionKey; Icon: LucideIcon }> = [
+    { key: 'draws',   Icon: Compass },
+    { key: 'energy',  Icon: Flame },
+    { key: 'where',   Icon: MapPin },
+    { key: 'artwork', Icon: Palette },
   ];
 
   const handleShuffle = () => {
@@ -327,30 +319,21 @@ export function MainContent({
           <div className="flex-1 h-px bg-foreground/15" />
         </div>
 
-        {/* Spiral filter map — tap a node to refine */}
+        {/* Filter tiles — tap to refine */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="relative w-full mx-auto mb-10"
-          style={{ height: 'min(78vw, 360px)' }}
+          className="grid grid-cols-2 gap-3 mb-10"
         >
-          {/* Decorative spiral guide */}
-          <SpiralLine
-            className="absolute inset-0 w-full h-full opacity-25 pointer-events-none"
-            strokeWidth={0.4}
-          />
-
-          {nodes.map((n, i) => (
-            <SpiralNode
-              key={n.key}
-              index={n.index}
-              title={sectionContent[n.key].title}
-              count={sectionContent[n.key].count}
-              position={n.position as { top?: string; bottom?: string; left?: string; right?: string }}
-              labelSide={n.labelSide}
-              delay={0.15 + i * 0.08}
-              onClick={() => setActiveSection(n.key)}
+          {tiles.map((tile, i) => (
+            <FilterTile
+              key={tile.key}
+              Icon={tile.Icon}
+              title={sectionContent[tile.key].title}
+              count={sectionContent[tile.key].count}
+              delay={0.12 + i * 0.06}
+              onClick={() => setActiveSection(tile.key)}
             />
           ))}
         </motion.div>
