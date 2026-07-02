@@ -1,9 +1,10 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, MapPin, Share2, Bookmark, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
+import { Heart, MapPin, Share2, Bookmark, ChevronDown, ChevronUp, ExternalLink, Feather, Flame, Dumbbell } from 'lucide-react';
 import { useState } from 'react';
 import type { Activity } from '@/data/activities';
 import { cn } from '@/lib/utils';
 import { useT } from '@/i18n/LanguageContext';
+import { getActivityVisual } from '@/lib/activityVisual';
 
 interface ActivityCardProps {
   activity: Activity;
@@ -15,6 +16,8 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
   const t = useT();
   const [expanded, setExpanded] = useState(false);
   const [saved, setSaved] = useState(false);
+  const { Icon: CategoryIcon, color: categoryColor, tint: categoryTint } = getActivityVisual(activity.type);
+  const EnergyIcon = activity.energyLevel === 'low-key' ? Feather : activity.energyLevel === 'hands-on' ? Flame : Dumbbell;
 
   const handleShare = async () => {
     const shareData = {
@@ -39,19 +42,24 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.1 + index * 0.08, duration: 0.4 }}
-      className="bg-card rounded-sm overflow-hidden border border-foreground/15 hover:border-foreground/40 transition-all"
+      className="bg-card rounded-xl overflow-hidden border border-foreground/15 hover:border-foreground/40 transition-all"
     >
-      {/* Oval gradient header — inspired by the poster cutouts */}
+      {/* Category ellipse — consistent earthy palette + lucide icon */}
       <div className="relative bg-background pt-6 pb-4 flex items-center justify-center">
         <div
           className="w-44 h-32 flex items-center justify-center relative"
           style={{
-            background: activity.gradient,
+            background: categoryTint,
             borderRadius: '50% / 50%',
             transform: 'rotate(-4deg)',
+            boxShadow: `inset 0 0 0 1px ${categoryColor}22`,
           }}
         >
-          <span className="text-5xl drop-shadow-md" style={{ transform: 'rotate(4deg)' }}>{activity.icon}</span>
+          <CategoryIcon
+            style={{ color: categoryColor, transform: 'rotate(4deg)' }}
+            strokeWidth={1.5}
+            className="w-12 h-12"
+          />
         </div>
 
         {/* Saves badge */}
@@ -62,7 +70,8 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
 
         {/* Energy badge */}
         <div className="absolute bottom-2 left-3 px-2.5 py-1 border border-foreground/20 rounded-full text-[11px] font-display tracking-wider uppercase text-foreground bg-background flex items-center gap-1.5">
-          {activity.energyLevel === 'low-key' ? '🪶' : activity.energyLevel === 'hands-on' ? '🔥' : '💪'} {activity.energyLabel}
+          <EnergyIcon className="w-3 h-3" strokeWidth={1.75} />
+          {activity.energyLabel}
         </div>
       </div>
 
