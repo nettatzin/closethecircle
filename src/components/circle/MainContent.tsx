@@ -403,12 +403,23 @@ export function MainContent({
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <div className="flex items-center gap-3 mb-4">
-            <h2 className="font-display text-sm uppercase tracking-[0.2em] text-foreground">
-              {filteredActivities.length} {t('of_word')} {activities.length} {t('activities_word')}
-            </h2>
-            <div className="flex-1 h-px bg-foreground/15" />
+          <div className="mb-4">
+            {hasAnySelection && (
+              <div className="flex items-center gap-2 mb-2 text-accent">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span className="font-display text-[10px] uppercase tracking-[0.25em]">
+                  {t('adapted_for_you')}
+                </span>
+              </div>
+            )}
+            <div className="flex items-center gap-3">
+              <h2 className="font-display text-sm uppercase tracking-[0.2em] text-foreground">
+                {filteredActivities.length} {t('of_word')} {activities.length} {t('activities_word')}
+              </h2>
+              <div className="flex-1 h-px bg-foreground/15" />
+            </div>
           </div>
+
           
           {filteredActivities.length < activities.length && (
             <motion.button
