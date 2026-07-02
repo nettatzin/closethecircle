@@ -15,15 +15,27 @@ import type { Activity } from '@/data/activities';
 
 type SectionKey = 'draws' | 'energy' | 'where' | 'artwork';
 
+interface TileTheme {
+  bg: string;      // inactive card bg
+  activeBg: string; // active card bg
+  border: string;   // inactive border
+  activeBorder: string;
+  iconBg: string;
+  iconColor: string;
+  activeIconBg: string;
+  labelColor: string;
+}
+
 interface FilterTileProps {
   Icon: LucideIcon;
   title: string;
   count: number;
   onClick: () => void;
   delay?: number;
+  theme: TileTheme;
 }
 
-function FilterTile({ Icon, title, count, onClick, delay = 0 }: FilterTileProps) {
+function FilterTile({ Icon, title, count, onClick, delay = 0, theme }: FilterTileProps) {
   const active = count > 0;
   return (
     <motion.button
@@ -34,40 +46,35 @@ function FilterTile({ Icon, title, count, onClick, delay = 0 }: FilterTileProps)
       whileTap={{ scale: 0.97 }}
       onClick={onClick}
       aria-label={title}
-      className={`relative flex flex-col items-center justify-center gap-2 rounded-sm px-3 py-5 border transition-all text-center overflow-hidden ${
-        active
-          ? 'bg-accent/10 border-accent/60 shadow-medium'
-          : 'bg-card border-foreground/15 hover:border-foreground/40 shadow-soft'
+      className={`relative flex flex-col items-center justify-center gap-2.5 rounded-2xl px-3 py-6 border-2 transition-all text-center overflow-hidden shadow-soft hover:shadow-medium ${
+        active ? `${theme.activeBg} ${theme.activeBorder}` : `${theme.bg} ${theme.border}`
       }`}
     >
       <span
-        className={`flex items-center justify-center w-11 h-11 rounded-full border transition-colors ${
-          active
-            ? 'bg-accent border-accent text-accent-foreground'
-            : 'bg-background border-foreground/25 text-foreground/80'
-        }`}
+        className={`flex items-center justify-center w-12 h-12 rounded-full transition-colors ${
+          active ? theme.activeIconBg : theme.iconBg
+        } ${theme.iconColor}`}
       >
-        <Icon className="w-5 h-5" strokeWidth={1.4} />
+        <Icon className="w-5 h-5" strokeWidth={1.6} />
       </span>
       <span
-        className={`font-display text-[10.5px] leading-tight tracking-[0.18em] uppercase transition-colors ${
-          active ? 'text-accent' : 'text-foreground/85'
-        }`}
+        className={`font-display text-[10.5px] leading-tight tracking-[0.18em] uppercase transition-colors ${theme.labelColor}`}
       >
         {title}
       </span>
       {active ? (
-        <span className="absolute top-2 right-2 min-w-[18px] h-[18px] px-1 rounded-full bg-foreground text-background text-[10px] font-display flex items-center justify-center">
+        <span className={`absolute top-2.5 right-2.5 min-w-[20px] h-[20px] px-1.5 rounded-full text-[10px] font-display flex items-center justify-center ${theme.activeIconBg} ${theme.iconColor}`}>
           {count}
         </span>
       ) : (
-        <span className="absolute top-2 right-2 w-[18px] h-[18px] rounded-full border border-foreground/25 text-foreground/50 flex items-center justify-center">
-          <Plus className="w-2.5 h-2.5" strokeWidth={2} />
+        <span className="absolute top-2.5 right-2.5 w-[20px] h-[20px] rounded-full border border-foreground/20 text-foreground/50 flex items-center justify-center bg-background/60">
+          <Plus className="w-2.5 h-2.5" strokeWidth={2.5} />
         </span>
       )}
     </motion.button>
   );
 }
+
 
 interface MainContentProps {
   selectedDraws: string[];
@@ -255,13 +262,50 @@ export function MainContent({
     },
   };
 
-  // Filter tiles — clean 2x2 grid
-  const tiles: Array<{ key: SectionKey; Icon: LucideIcon }> = [
-    { key: 'draws',   Icon: Compass },
-    { key: 'energy',  Icon: Flame },
-    { key: 'where',   Icon: MapPin },
-    { key: 'artwork', Icon: Palette },
+  // Filter tiles — earthy tinted palette per category
+  const tiles: Array<{ key: SectionKey; Icon: LucideIcon; theme: TileTheme }> = [
+    {
+      key: 'draws', Icon: Compass,
+      theme: {
+        bg: 'bg-[hsl(157,30%,94%)]', border: 'border-[hsl(157,26%,75%)]',
+        activeBg: 'bg-[hsl(157,32%,88%)]', activeBorder: 'border-[hsl(157,40%,45%)]',
+        iconBg: 'bg-[hsl(157,26%,85%)]', activeIconBg: 'bg-[hsl(157,40%,40%)] text-white',
+        iconColor: 'text-[hsl(157,40%,30%)]',
+        labelColor: 'text-[hsl(157,40%,25%)]',
+      },
+    },
+    {
+      key: 'energy', Icon: Flame,
+      theme: {
+        bg: 'bg-[hsl(20,55%,94%)]', border: 'border-[hsl(20,45%,78%)]',
+        activeBg: 'bg-[hsl(20,60%,88%)]', activeBorder: 'border-[hsl(18,60%,52%)]',
+        iconBg: 'bg-[hsl(20,55%,86%)]', activeIconBg: 'bg-[hsl(18,60%,50%)] text-white',
+        iconColor: 'text-[hsl(18,55%,35%)]',
+        labelColor: 'text-[hsl(18,55%,28%)]',
+      },
+    },
+    {
+      key: 'where', Icon: MapPin,
+      theme: {
+        bg: 'bg-[hsl(40,45%,92%)]', border: 'border-[hsl(35,40%,72%)]',
+        activeBg: 'bg-[hsl(38,50%,86%)]', activeBorder: 'border-[hsl(30,45%,45%)]',
+        iconBg: 'bg-[hsl(38,45%,82%)]', activeIconBg: 'bg-[hsl(30,50%,42%)] text-white',
+        iconColor: 'text-[hsl(28,45%,32%)]',
+        labelColor: 'text-[hsl(28,45%,25%)]',
+      },
+    },
+    {
+      key: 'artwork', Icon: Palette,
+      theme: {
+        bg: 'bg-[hsl(340,40%,94%)]', border: 'border-[hsl(340,30%,78%)]',
+        activeBg: 'bg-[hsl(340,45%,88%)]', activeBorder: 'border-[hsl(340,40%,50%)]',
+        iconBg: 'bg-[hsl(340,35%,86%)]', activeIconBg: 'bg-[hsl(340,45%,48%)] text-white',
+        iconColor: 'text-[hsl(340,45%,35%)]',
+        labelColor: 'text-[hsl(340,45%,28%)]',
+      },
+    },
   ];
+
 
 
   return (
@@ -335,6 +379,7 @@ export function MainContent({
                 count={sectionContent[tile.key].count}
                 delay={0.12 + i * 0.06}
                 onClick={() => setActiveSection(tile.key)}
+                theme={tile.theme}
               />
             ))}
           </div>

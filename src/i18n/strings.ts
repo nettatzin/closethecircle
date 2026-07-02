@@ -11,14 +11,14 @@ const en = {
   // Header
   app_title: 'The Circle',
   app_tagline: 'Designing New Realities',
-  app_intro: 'Find the initiatives that suit you best',
+  app_intro: 'Tap below to tailor the initiatives to your rhythm',
 
   // CTAs
   shuffle_cta: 'Just show me something',
   or_refine: 'or refine',
   ready_cta: 'Ready to see what suits you?',
   vibe_loading: 'Reading your climate vibe…',
-  show_me_all: 'Show me all',
+  show_me_all: 'Skip — show me all',
   adapted_for_you: 'Adapted to your preferences',
 
   // Filter sections
@@ -111,13 +111,13 @@ const he: typeof en = {
 
   app_title: 'המעגל',
   app_tagline: 'מעצבים מציאות חדשה',
-  app_intro: 'גלו את היוזמות שהכי מתאימות לכם',
+  app_intro: 'בחרו קטגוריה כדי להתאים את היוזמות בדיוק אליכם',
 
   shuffle_cta: 'פשוט הציעו לי משהו',
   or_refine: 'או דייקו',
   ready_cta: 'מוכנים לראות מה מתאים לכם?',
   vibe_loading: 'קוראים את הוייב הסביבתי שלכם…',
-  show_me_all: 'הראו הכל',
+  show_me_all: 'דלג, הראו לי הכל',
   adapted_for_you: 'מותאם להעדפות שלך',
 
   section_draws: 'מה מושך אותך',
