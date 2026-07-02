@@ -443,34 +443,51 @@ export function MainContent({
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <div className="mb-4">
+          <div className="mb-6 bg-card/80 backdrop-blur-sm rounded-xl border border-border/60 p-5 shadow-soft">
             {hasAnySelection && (
-              <div className="flex items-center gap-2 mb-2 text-accent">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span className="font-display text-[10px] uppercase tracking-[0.25em]">
-                  {t('adapted_for_you')}
-                </span>
-              </div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-accent/10 text-accent rounded-full text-[10px] font-display uppercase tracking-[0.2em] mb-4"
+              >
+                <Sparkles className="w-3 h-3" />
+                {t('adapted_for_you')}
+              </motion.div>
             )}
-            <div className="flex items-center gap-3">
-              <h2 className="font-display text-sm uppercase tracking-[0.2em] text-foreground">
-                {filteredActivities.length} {t('of_word')} {activities.length} {t('activities_word')}
-              </h2>
-              <div className="flex-1 h-px bg-foreground/15" />
+            <div className="flex items-end justify-between gap-4">
+              <div>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-5xl font-display text-foreground leading-none tracking-tight">
+                    {filteredActivities.length}
+                  </span>
+                  <span className="text-sm text-muted-foreground font-display">
+                    {t('of_word')} {activities.length}
+                  </span>
+                </div>
+                <p className="text-xs text-muted-foreground font-display uppercase tracking-[0.2em] mt-1">
+                  {t('activities_found')}
+                </p>
+              </div>
+              {filteredActivities.length < activities.length && (
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={resetFilters}
+                  className="shrink-0 px-4 py-2 text-[10px] font-display uppercase tracking-[0.2em] text-primary-foreground bg-primary rounded-lg hover:bg-primary/90 transition-colors shadow-soft"
+                >
+                  {t('show_all')}
+                </motion.button>
+              )}
+            </div>
+            <div className="mt-4 h-1 w-full bg-muted rounded-full overflow-hidden">
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: `${(filteredActivities.length / activities.length) * 100}%` }}
+                transition={{ duration: 0.6, ease: 'easeOut' }}
+                className="h-full bg-accent rounded-full"
+              />
             </div>
           </div>
-
-          
-          {filteredActivities.length < activities.length && (
-            <motion.button
-              whileHover={{ scale: 1.01 }}
-              whileTap={{ scale: 0.99 }}
-              onClick={resetFilters}
-              className="mb-5 px-4 py-2 text-[10px] font-display uppercase tracking-[0.2em] text-foreground border border-foreground/30 rounded-sm hover:bg-foreground hover:text-background transition-colors"
-            >
-              {t('show_all')}
-            </motion.button>
-          )}
 
           {filteredActivities.length === 0 ? (
             <div className="bg-card rounded-sm p-8 text-center border border-foreground/15">
