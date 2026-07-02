@@ -44,52 +44,66 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.1 + index * 0.08, duration: 0.4 }}
-      className="rounded-xl overflow-hidden border transition-all"
-      style={{
-        backgroundColor: `${categoryTint}55`,
-        borderColor: `${categoryColor}33`,
-      }}
+      className="rounded-2xl overflow-hidden border-2 bg-card transition-all"
+      style={{ borderColor: categoryRing }}
     >
-      {/* Header — badges row + centered category ellipse */}
-      <div className="relative px-4 pt-3 pb-3">
-        {/* Top row: energy (left) + saves (right), color-coded */}
-        <div className="flex items-center justify-between mb-2">
+      {/* Designed header — color band + floating ellipse + type label */}
+      <div
+        className="relative px-4 pt-3 pb-6"
+        style={{
+          background: `linear-gradient(135deg, ${categoryTint} 0%, ${categoryTint}88 100%)`,
+        }}
+      >
+        {/* Decorative offset ring */}
+        <div
+          aria-hidden
+          className="absolute -top-6 -right-6 w-28 h-28 rounded-full opacity-40"
+          style={{ border: `1px dashed ${categoryColor}` }}
+        />
+
+        {/* Top row: energy pill + saves pill */}
+        <div className="relative flex items-center justify-between mb-3">
           <div
-            className="px-2.5 py-1 rounded-full text-[10px] font-display tracking-wider uppercase flex items-center gap-1.5"
-            style={{
-              backgroundColor: categoryColor,
-              color: 'hsl(var(--background))',
-            }}
+            className="px-2.5 py-1 rounded-full text-[10px] font-display tracking-wider uppercase flex items-center gap-1.5 shadow-sm"
+            style={{ backgroundColor: categoryColor, color: 'hsl(var(--background))' }}
           >
-            <EnergyIcon className="w-3 h-3" strokeWidth={2} />
+            <EnergyIcon className="w-3 h-3" strokeWidth={2.25} />
             {activity.energyLabel}
           </div>
           <div
-            className="px-2.5 py-1 rounded-full flex items-center gap-1.5 text-[10px] font-sans-thin bg-background/70 backdrop-blur-sm"
-            style={{ color: categoryColor, border: `1px solid ${categoryColor}44` }}
+            className="px-2.5 py-1 rounded-full flex items-center gap-1.5 text-[10px] font-sans-thin bg-background/80"
+            style={{ color: categoryColor, border: `1px solid ${categoryRing}` }}
           >
             <Heart className="w-3 h-3" fill="currentColor" />
             {activity.saves}
           </div>
         </div>
 
-        {/* Centered category ellipse */}
-        <div className="flex items-center justify-center py-2">
+        {/* Ellipse — bolder color, larger icon */}
+        <div className="relative flex items-center justify-center py-1">
           <div
-            className="w-28 h-20 flex items-center justify-center"
+            className="w-24 h-16 flex items-center justify-center"
             style={{
-              background: categoryTint,
+              background: `radial-gradient(ellipse at 30% 30%, ${categoryTint} 0%, ${categoryRing} 100%)`,
               borderRadius: '50% / 50%',
               transform: 'rotate(-4deg)',
-              boxShadow: `inset 0 0 0 1px ${categoryColor}33`,
+              boxShadow: `inset 0 0 0 1.5px ${categoryColor}55, 0 4px 12px ${categoryColor}22`,
             }}
           >
             <CategoryIcon
               style={{ color: categoryColor, transform: 'rotate(4deg)' }}
-              strokeWidth={1.5}
-              className="w-8 h-8"
+              strokeWidth={1.75}
+              className="w-7 h-7"
             />
           </div>
+        </div>
+
+        {/* Type label */}
+        <div
+          className="relative mt-2 text-center text-[9px] font-display uppercase tracking-[0.3em]"
+          style={{ color: categoryColor }}
+        >
+          {activity.type}
         </div>
       </div>
 
