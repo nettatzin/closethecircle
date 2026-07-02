@@ -370,7 +370,7 @@ export function MainContent({
             <ellipse cx="50" cy="50" rx="30" ry="22" transform="rotate(-14 50 50)" className="text-foreground/15" />
           </svg>
 
-          <div className="relative grid grid-cols-2 gap-x-6 gap-y-5">
+          <div className="relative grid grid-cols-2 gap-x-4 gap-y-4">
             {tiles.map((tile, i) => (
               <FilterTile
                 key={tile.key}
