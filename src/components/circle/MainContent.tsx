@@ -379,6 +379,7 @@ export function MainContent({
                 count={sectionContent[tile.key].count}
                 delay={0.12 + i * 0.06}
                 onClick={() => setActiveSection(tile.key)}
+                theme={tile.theme}
               />
             ))}
           </div>
