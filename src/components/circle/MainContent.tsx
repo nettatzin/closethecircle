@@ -263,11 +263,6 @@ export function MainContent({
     { key: 'artwork', Icon: Palette },
   ];
 
-  const handleShuffle = () => {
-    const pool = filteredActivities.length > 0 ? filteredActivities : activities;
-    const random = pool[Math.floor(Math.random() * pool.length)];
-    onCloseCircle(random);
-  };
 
   return (
     <div className="min-h-screen pb-8 safe-area-top safe-area-bottom relative overflow-hidden">
