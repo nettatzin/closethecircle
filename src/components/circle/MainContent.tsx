@@ -319,30 +319,21 @@ export function MainContent({
           <div className="flex-1 h-px bg-foreground/15" />
         </div>
 
-        {/* Spiral filter map — tap a node to refine */}
+        {/* Filter tiles — tap to refine */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="relative w-full mx-auto mb-10"
-          style={{ height: 'min(78vw, 360px)' }}
+          className="grid grid-cols-2 gap-3 mb-10"
         >
-          {/* Decorative spiral guide */}
-          <SpiralLine
-            className="absolute inset-0 w-full h-full opacity-25 pointer-events-none"
-            strokeWidth={0.4}
-          />
-
-          {nodes.map((n, i) => (
-            <SpiralNode
-              key={n.key}
-              index={n.index}
-              title={sectionContent[n.key].title}
-              count={sectionContent[n.key].count}
-              position={n.position as { top?: string; bottom?: string; left?: string; right?: string }}
-              labelSide={n.labelSide}
-              delay={0.15 + i * 0.08}
-              onClick={() => setActiveSection(n.key)}
+          {tiles.map((tile, i) => (
+            <FilterTile
+              key={tile.key}
+              Icon={tile.Icon}
+              title={sectionContent[tile.key].title}
+              count={sectionContent[tile.key].count}
+              delay={0.12 + i * 0.06}
+              onClick={() => setActiveSection(tile.key)}
             />
           ))}
         </motion.div>
