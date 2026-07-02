@@ -9,7 +9,7 @@ import { ArtworkCarousel } from './ArtworkCarousel';
 import { ActivityCard } from './ActivityCard';
 import { SpiralLine, EllipseLine, CircleLine, DottedRing } from './LineArt';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Shuffle, Sparkles, ArrowDown, Compass, Flame, MapPin, Palette, Plus, type LucideIcon } from 'lucide-react';
+import { Sparkles, ArrowDown, Compass, Flame, MapPin, Palette, Plus, type LucideIcon } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import type { Activity } from '@/data/activities';
 
@@ -263,11 +263,6 @@ export function MainContent({
     { key: 'artwork', Icon: Palette },
   ];
 
-  const handleShuffle = () => {
-    const pool = filteredActivities.length > 0 ? filteredActivities : activities;
-    const random = pool[Math.floor(Math.random() * pool.length)];
-    onCloseCircle(random);
-  };
 
   return (
     <div className="min-h-screen pb-8 safe-area-top safe-area-bottom relative overflow-hidden">
@@ -297,27 +292,18 @@ export function MainContent({
           <p className="text-muted-foreground text-sm mt-4 max-w-sm mx-auto leading-relaxed">
             {t('app_intro')}
           </p>
+          <button
+            onClick={() => {
+              resetFilters();
+              setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+            }}
+            className="mt-3 text-[11px] font-display uppercase tracking-[0.22em] text-foreground/70 hover:text-foreground underline underline-offset-4 decoration-foreground/30 hover:decoration-foreground transition-colors"
+          >
+            {t('show_me_all')}
+          </button>
         </motion.header>
 
-        {/* Quick action — Shuffle on top */}
-        <motion.button
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.05 }}
-          whileHover={{ scale: 1.01 }}
-          whileTap={{ scale: 0.99 }}
-          onClick={handleShuffle}
-          className="w-full py-5 mb-4 rounded-sm font-display text-sm tracking-[0.2em] uppercase flex items-center justify-center gap-3 bg-foreground text-background hover:bg-foreground/90 transition-colors shadow-soft"
-        >
-          <Shuffle className="w-4 h-4" />
-          {t('shuffle_cta')}
-        </motion.button>
 
-        <div className="flex items-center gap-3 mb-6">
-          <div className="flex-1 h-px bg-foreground/15" />
-          <span className="text-[10px] font-display text-muted-foreground uppercase tracking-[0.3em]">{t('or_refine')}</span>
-          <div className="flex-1 h-px bg-foreground/15" />
-        </div>
 
         {/* Filter tiles — tap to refine, threaded by an ellipse */}
         <motion.div
@@ -412,12 +398,23 @@ export function MainContent({
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <div className="flex items-center gap-3 mb-4">
-            <h2 className="font-display text-sm uppercase tracking-[0.2em] text-foreground">
-              {filteredActivities.length} {t('of_word')} {activities.length} {t('activities_word')}
-            </h2>
-            <div className="flex-1 h-px bg-foreground/15" />
+          <div className="mb-4">
+            {hasAnySelection && (
+              <div className="flex items-center gap-2 mb-2 text-accent">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span className="font-display text-[10px] uppercase tracking-[0.25em]">
+                  {t('adapted_for_you')}
+                </span>
+              </div>
+            )}
+            <div className="flex items-center gap-3">
+              <h2 className="font-display text-sm uppercase tracking-[0.2em] text-foreground">
+                {filteredActivities.length} {t('of_word')} {activities.length} {t('activities_word')}
+              </h2>
+              <div className="flex-1 h-px bg-foreground/15" />
+            </div>
           </div>
+
           
           {filteredActivities.length < activities.length && (
             <motion.button
