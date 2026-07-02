@@ -262,13 +262,50 @@ export function MainContent({
     },
   };
 
-  // Filter tiles — clean 2x2 grid
-  const tiles: Array<{ key: SectionKey; Icon: LucideIcon }> = [
-    { key: 'draws',   Icon: Compass },
-    { key: 'energy',  Icon: Flame },
-    { key: 'where',   Icon: MapPin },
-    { key: 'artwork', Icon: Palette },
+  // Filter tiles — earthy tinted palette per category
+  const tiles: Array<{ key: SectionKey; Icon: LucideIcon; theme: TileTheme }> = [
+    {
+      key: 'draws', Icon: Compass,
+      theme: {
+        bg: 'bg-[hsl(157,30%,94%)]', border: 'border-[hsl(157,26%,75%)]',
+        activeBg: 'bg-[hsl(157,32%,88%)]', activeBorder: 'border-[hsl(157,40%,45%)]',
+        iconBg: 'bg-[hsl(157,26%,85%)]', activeIconBg: 'bg-[hsl(157,40%,40%)] text-white',
+        iconColor: 'text-[hsl(157,40%,30%)]',
+        labelColor: 'text-[hsl(157,40%,25%)]',
+      },
+    },
+    {
+      key: 'energy', Icon: Flame,
+      theme: {
+        bg: 'bg-[hsl(20,55%,94%)]', border: 'border-[hsl(20,45%,78%)]',
+        activeBg: 'bg-[hsl(20,60%,88%)]', activeBorder: 'border-[hsl(18,60%,52%)]',
+        iconBg: 'bg-[hsl(20,55%,86%)]', activeIconBg: 'bg-[hsl(18,60%,50%)] text-white',
+        iconColor: 'text-[hsl(18,55%,35%)]',
+        labelColor: 'text-[hsl(18,55%,28%)]',
+      },
+    },
+    {
+      key: 'where', Icon: MapPin,
+      theme: {
+        bg: 'bg-[hsl(40,45%,92%)]', border: 'border-[hsl(35,40%,72%)]',
+        activeBg: 'bg-[hsl(38,50%,86%)]', activeBorder: 'border-[hsl(30,45%,45%)]',
+        iconBg: 'bg-[hsl(38,45%,82%)]', activeIconBg: 'bg-[hsl(30,50%,42%)] text-white',
+        iconColor: 'text-[hsl(28,45%,32%)]',
+        labelColor: 'text-[hsl(28,45%,25%)]',
+      },
+    },
+    {
+      key: 'artwork', Icon: Palette,
+      theme: {
+        bg: 'bg-[hsl(340,40%,94%)]', border: 'border-[hsl(340,30%,78%)]',
+        activeBg: 'bg-[hsl(340,45%,88%)]', activeBorder: 'border-[hsl(340,40%,50%)]',
+        iconBg: 'bg-[hsl(340,35%,86%)]', activeIconBg: 'bg-[hsl(340,45%,48%)] text-white',
+        iconColor: 'text-[hsl(340,45%,35%)]',
+        labelColor: 'text-[hsl(340,45%,28%)]',
+      },
+    },
   ];
+
 
 
   return (
