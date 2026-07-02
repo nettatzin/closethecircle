@@ -49,7 +49,7 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
     >
       {/* Designed header — color band + floating ellipse */}
       <div
-        className="relative px-4 pt-3 pb-4"
+        className="relative px-4 pt-3 pb-3"
         style={{
           background: `linear-gradient(135deg, ${categoryTint} 0%, ${categoryTint}88 100%)`,
         }}
