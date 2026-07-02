@@ -16,6 +16,8 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
   const t = useT();
   const [expanded, setExpanded] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [valuesOpen, setValuesOpen] = useState(false);
+  const [benefitsOpen, setBenefitsOpen] = useState(false);
   const { Icon: CategoryIcon, color: categoryColor, tint: categoryTint } = getActivityVisual(activity.type);
   const EnergyIcon = activity.energyLevel === 'low-key' ? Feather : activity.energyLevel === 'hands-on' ? Flame : Dumbbell;
 
@@ -45,9 +47,9 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
       className="bg-card rounded-xl overflow-hidden border border-foreground/15 hover:border-foreground/40 transition-all"
     >
       {/* Category ellipse — consistent earthy palette + lucide icon */}
-      <div className="relative bg-background pt-6 pb-4 flex items-center justify-center">
+      <div className="relative bg-background pt-5 pb-3 flex items-center justify-center">
         <div
-          className="w-44 h-32 flex items-center justify-center relative"
+          className="w-28 h-20 flex items-center justify-center relative"
           style={{
             background: categoryTint,
             borderRadius: '50% / 50%',
@@ -58,18 +60,18 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
           <CategoryIcon
             style={{ color: categoryColor, transform: 'rotate(4deg)' }}
             strokeWidth={1.5}
-            className="w-12 h-12"
+            className="w-8 h-8"
           />
         </div>
 
         {/* Saves badge */}
-        <div className="absolute top-3 right-3 px-2.5 py-1 border border-foreground/20 rounded-full flex items-center gap-1.5 text-[11px] font-sans-thin text-foreground bg-background">
+        <div className="absolute top-3 right-3 px-2 py-0.5 border border-foreground/20 rounded-full flex items-center gap-1 text-[10px] font-sans-thin text-foreground bg-background">
           <Heart className="w-3 h-3" />
           {activity.saves}
         </div>
 
         {/* Energy badge */}
-        <div className="absolute bottom-2 left-3 px-2.5 py-1 border border-foreground/20 rounded-full text-[11px] font-display tracking-wider uppercase text-foreground bg-background flex items-center gap-1.5">
+        <div className="absolute bottom-1 left-3 px-2 py-0.5 border border-foreground/20 rounded-full text-[10px] font-display tracking-wider uppercase text-foreground bg-background flex items-center gap-1">
           <EnergyIcon className="w-3 h-3" strokeWidth={1.75} />
           {activity.energyLabel}
         </div>
@@ -77,52 +79,75 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
 
       {/* Content */}
       <div className="px-5 pb-5 pt-2">
-        <h3 className="font-display text-xl text-foreground mb-2 leading-snug tracking-wide">
+        <h3 className="font-display text-base text-foreground mb-1.5 leading-snug tracking-wide">
           {activity.name}
         </h3>
 
-        <p className="text-xs text-muted-foreground mb-5 flex items-center gap-1.5 font-sans-thin tracking-wide">
+        <p className="text-xs text-muted-foreground mb-4 flex items-center gap-1.5 font-sans-thin tracking-wide">
           <MapPin className="w-3 h-3" />
           {activity.location} · {activity.commitment}
         </p>
 
-        {/* Values tags */}
+        {/* Values tags — single row, expand to show all */}
         <div className="mb-3">
           <div className="text-[9px] font-display text-muted-foreground uppercase tracking-[0.25em] mb-2">
             {t('values_label')}
           </div>
-          <div className="flex flex-wrap gap-1.5">
+          <div
+            className={cn(
+              'flex flex-wrap gap-1.5 overflow-hidden transition-[max-height] duration-300',
+              valuesOpen ? 'max-h-40' : 'max-h-7'
+            )}
+          >
             {activity.tags.values.map(tag => (
               <span
                 key={tag}
-                className="text-[10px] px-2.5 py-1 border border-foreground/30 text-foreground rounded-full font-sans-thin tracking-wide"
+                className="text-[10px] px-2.5 py-1 border border-foreground/30 text-foreground rounded-full font-sans-thin tracking-wide whitespace-nowrap"
               >
                 {tag}
               </span>
             ))}
           </div>
+          {activity.tags.values.length > 2 && (
+            <button
+              onClick={() => setValuesOpen(v => !v)}
+              className="mt-1.5 text-[10px] font-display uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+            >
+              {valuesOpen ? t('hide_details') : `+${activity.tags.values.length} ${t('more_word')}`}
+              {valuesOpen ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+            </button>
+          )}
         </div>
 
-        {/* Benefits tags */}
+        {/* Benefits tags — single row, expand to show all */}
         <div className="mb-5">
           <div className="text-[9px] font-display text-muted-foreground uppercase tracking-[0.25em] mb-2">
             {t('benefits_label')}
           </div>
-          <div className="flex flex-wrap gap-1.5">
-            {activity.tags.benefits.slice(0, 3).map(tag => (
+          <div
+            className={cn(
+              'flex flex-wrap gap-1.5 overflow-hidden transition-[max-height] duration-300',
+              benefitsOpen ? 'max-h-60' : 'max-h-7'
+            )}
+          >
+            {activity.tags.benefits.map(tag => (
               <span
                 key={tag}
-                className="text-[10px] px-2.5 py-1 border border-foreground/15 text-muted-foreground rounded-full font-sans-thin"
+                className="text-[10px] px-2.5 py-1 border border-foreground/15 text-muted-foreground rounded-full font-sans-thin whitespace-nowrap"
               >
                 {tag}
               </span>
             ))}
-            {activity.tags.benefits.length > 3 && (
-              <span className="text-[10px] px-2.5 py-1 border border-foreground/15 text-muted-foreground rounded-full font-sans-thin italic">
-                +{activity.tags.benefits.length - 3} {t('more_word')}
-              </span>
-            )}
           </div>
+          {activity.tags.benefits.length > 2 && (
+            <button
+              onClick={() => setBenefitsOpen(v => !v)}
+              className="mt-1.5 text-[10px] font-display uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+            >
+              {benefitsOpen ? t('hide_details') : `+${activity.tags.benefits.length} ${t('more_word')}`}
+              {benefitsOpen ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+            </button>
+          )}
         </div>
 
         {/* Expand/Collapse button */}
