@@ -11,13 +11,15 @@ const en = {
   // Header
   app_title: 'The Circle',
   app_tagline: 'Designing New Realities',
-  app_intro: 'Discover activities that resonate with your vision of circular design',
+  app_intro: 'Find the initiatives that suit you best',
 
   // CTAs
   shuffle_cta: 'Just show me something',
   or_refine: 'or refine',
   ready_cta: 'Ready to see what suits you?',
   vibe_loading: 'Reading your climate vibe…',
+  show_me_all: 'Show me all',
+  adapted_for_you: 'Adapted to your preferences',
 
   // Filter sections
   section_draws: 'What draws you',
