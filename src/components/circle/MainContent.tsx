@@ -319,23 +319,39 @@ export function MainContent({
           <div className="flex-1 h-px bg-foreground/15" />
         </div>
 
-        {/* Filter tiles — tap to refine */}
+        {/* Filter tiles — tap to refine, threaded by an ellipse */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="grid grid-cols-2 gap-3 mb-10"
+          className="relative mb-10"
         >
-          {tiles.map((tile, i) => (
-            <FilterTile
-              key={tile.key}
-              Icon={tile.Icon}
-              title={sectionContent[tile.key].title}
-              count={sectionContent[tile.key].count}
-              delay={0.12 + i * 0.06}
-              onClick={() => setActiveSection(tile.key)}
-            />
-          ))}
+          {/* Decorative ellipse connecting the four tiles */}
+          <svg
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+            className="absolute inset-0 w-full h-full pointer-events-none text-foreground/30"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="0.3"
+            aria-hidden="true"
+          >
+            <ellipse cx="50" cy="50" rx="44" ry="34" transform="rotate(-14 50 50)" strokeDasharray="1.2 1.6" />
+            <ellipse cx="50" cy="50" rx="30" ry="22" transform="rotate(-14 50 50)" className="text-foreground/15" />
+          </svg>
+
+          <div className="relative grid grid-cols-2 gap-x-6 gap-y-5">
+            {tiles.map((tile, i) => (
+              <FilterTile
+                key={tile.key}
+                Icon={tile.Icon}
+                title={sectionContent[tile.key].title}
+                count={sectionContent[tile.key].count}
+                delay={0.12 + i * 0.06}
+                onClick={() => setActiveSection(tile.key)}
+              />
+            ))}
+          </div>
         </motion.div>
 
         <Dialog open={activeSection !== null} onOpenChange={(open) => !open && setActiveSection(null)}>
