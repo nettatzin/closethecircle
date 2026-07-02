@@ -46,28 +46,28 @@ function FilterTile({ Icon, title, count, onClick, delay = 0, theme }: FilterTil
       whileTap={{ scale: 0.97 }}
       onClick={onClick}
       aria-label={title}
-      className={`relative flex flex-col items-center justify-center gap-2.5 rounded-2xl px-3 py-6 border-2 transition-all text-center overflow-hidden shadow-soft hover:shadow-medium ${
+      className={`relative flex flex-col items-center justify-center gap-2 rounded-2xl px-3 py-4 border-2 transition-all text-center overflow-hidden shadow-soft hover:shadow-medium ${
         active ? `${theme.activeBg} ${theme.activeBorder}` : `${theme.bg} ${theme.border}`
       }`}
     >
       <span
-        className={`flex items-center justify-center w-12 h-12 rounded-full transition-colors ${
+        className={`flex items-center justify-center w-10 h-10 rounded-full transition-colors ${
           active ? theme.activeIconBg : theme.iconBg
         } ${theme.iconColor}`}
       >
-        <Icon className="w-5 h-5" strokeWidth={1.6} />
+        <Icon className="w-4 h-4" strokeWidth={1.6} />
       </span>
       <span
-        className={`font-display text-[10.5px] leading-tight tracking-[0.18em] uppercase transition-colors ${theme.labelColor}`}
+        className={`font-display text-xs leading-tight tracking-[0.12em] uppercase transition-colors ${theme.labelColor}`}
       >
         {title}
       </span>
       {active ? (
-        <span className={`absolute top-2.5 right-2.5 min-w-[20px] h-[20px] px-1.5 rounded-full text-[10px] font-display flex items-center justify-center ${theme.activeIconBg} ${theme.iconColor}`}>
+        <span className={`absolute top-2 right-2 min-w-[18px] h-[18px] px-1 rounded-full text-[9px] font-display flex items-center justify-center ${theme.activeIconBg} ${theme.iconColor}`}>
           {count}
         </span>
       ) : (
-        <span className="absolute top-2.5 right-2.5 w-[20px] h-[20px] rounded-full border border-foreground/20 text-foreground/50 flex items-center justify-center bg-background/60">
+        <span className="absolute top-2 right-2 w-[18px] h-[18px] rounded-full border border-foreground/20 text-foreground/50 flex items-center justify-center bg-background/60">
           <Plus className="w-2.5 h-2.5" strokeWidth={2.5} />
         </span>
       )}
@@ -370,7 +370,7 @@ export function MainContent({
             <ellipse cx="50" cy="50" rx="30" ry="22" transform="rotate(-14 50 50)" className="text-foreground/15" />
           </svg>
 
-          <div className="relative grid grid-cols-2 gap-x-6 gap-y-5">
+          <div className="relative grid grid-cols-2 gap-x-4 gap-y-4">
             {tiles.map((tile, i) => (
               <FilterTile
                 key={tile.key}
