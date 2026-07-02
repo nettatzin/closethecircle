@@ -15,62 +15,54 @@ import type { Activity } from '@/data/activities';
 
 type SectionKey = 'draws' | 'energy' | 'where' | 'artwork';
 
-interface SpiralNodeProps {
-  index: number;
+interface FilterTileProps {
+  Icon: LucideIcon;
   title: string;
   count: number;
-  position: { top?: string; bottom?: string; left?: string; right?: string };
-  labelSide: 'left' | 'right';
   onClick: () => void;
   delay?: number;
 }
 
-function SpiralNode({ index, title, count, position, labelSide, onClick, delay = 0 }: SpiralNodeProps) {
+function FilterTile({ Icon, title, count, onClick, delay = 0 }: FilterTileProps) {
   const active = count > 0;
   return (
     <motion.button
-      initial={{ opacity: 0, scale: 0.7 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay, duration: 0.4, ease: 'easeOut' }}
-      whileHover={{ scale: 1.06 }}
-      whileTap={{ scale: 0.96 }}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay, duration: 0.35, ease: 'easeOut' }}
+      whileHover={{ y: -2 }}
+      whileTap={{ scale: 0.97 }}
       onClick={onClick}
-      style={position}
-      className="absolute flex items-center gap-2 group"
       aria-label={title}
+      className={`relative flex flex-col items-center justify-center gap-2 rounded-sm px-3 py-5 border transition-all text-center overflow-hidden ${
+        active
+          ? 'bg-accent/10 border-accent/60 shadow-medium'
+          : 'bg-card border-foreground/15 hover:border-foreground/40 shadow-soft'
+      }`}
     >
-      {labelSide === 'right' && (
-        <span
-          className={`font-display text-[11px] md:text-xs tracking-[0.18em] uppercase whitespace-nowrap transition-colors ${
-            active ? 'text-accent' : 'text-foreground/75 group-hover:text-foreground'
-          }`}
-        >
-          {title}
-        </span>
-      )}
-      <span className="relative">
-        <span
-          className={`flex items-center justify-center w-10 h-10 md:w-11 md:h-11 rounded-full border transition-all ${
-            active
-              ? 'bg-accent border-accent text-accent-foreground shadow-medium'
-              : 'bg-card border-foreground/30 text-foreground/80 group-hover:border-foreground group-hover:text-foreground shadow-soft'
-          }`}
-        >
-          <span className="font-display text-base leading-none">{index}</span>
-        </span>
-        {active && (
-          <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-foreground text-background text-[10px] font-display flex items-center justify-center">
-            {count}
-          </span>
-        )}
+      <span
+        className={`flex items-center justify-center w-11 h-11 rounded-full border transition-colors ${
+          active
+            ? 'bg-accent border-accent text-accent-foreground'
+            : 'bg-background border-foreground/25 text-foreground/80'
+        }`}
+      >
+        <Icon className="w-5 h-5" strokeWidth={1.4} />
       </span>
-      {labelSide === 'left' && (
-        <span
-          className={`font-display text-[11px] md:text-xs tracking-[0.18em] uppercase whitespace-nowrap transition-colors ${
-            active ? 'text-accent' : 'text-foreground/75 group-hover:text-foreground'
-          }`}
-        >
-          {title}
+      <span
+        className={`font-display text-[10.5px] leading-tight tracking-[0.18em] uppercase transition-colors ${
+          active ? 'text-accent' : 'text-foreground/85'
+        }`}
+      >
+        {title}
+      </span>
+      {active ? (
+        <span className="absolute top-2 right-2 min-w-[18px] h-[18px] px-1 rounded-full bg-foreground text-background text-[10px] font-display flex items-center justify-center">
+          {count}
+        </span>
+      ) : (
+        <span className="absolute top-2 right-2 w-[18px] h-[18px] rounded-full border border-foreground/25 text-foreground/50 flex items-center justify-center">
+          <Plus className="w-2.5 h-2.5" strokeWidth={2} />
         </span>
       )}
     </motion.button>
