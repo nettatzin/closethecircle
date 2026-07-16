@@ -43,6 +43,7 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
 
 
   const handleShare = async () => {
+    logEvent('initiative_share', { id: activityIdStr });
     const shareData = {
       title: activity.name,
       text: `Check out this circular design activity: ${activity.name}`,
