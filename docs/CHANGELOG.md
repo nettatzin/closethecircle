@@ -5,6 +5,14 @@ Convention: every docs/ or schema change gets an entry. Version headers live ins
 
 ---
 
+## 2026-07-16
+
+- **D4 clarified (Netta):** artwork filter section stays VISIBLE in V1 with the 6 mock artworks; selections have NO impact on results (excluded from matching). ARTWORKS tab keeps mock data + images untouched. Real artwork filtering in V2. Supersedes "inactive/hidden" phrasing. data_contract_spec updated; Linear S-65/S-73 carry the build implication (split artworks out of activities.ts/activities.he.ts before replacing activity data).
+- **Docs moved into repo** at `docs/` (7 files); version suffixes dropped from filenames.
+- **supabase_schema_documentation.md v1.1** — added draws columns, financial_benefits, planned-tables note, per-table anon-policy state.
+
+---
+
 ## 2026-07-15
 
 ### Docs
