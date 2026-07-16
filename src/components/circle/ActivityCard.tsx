@@ -273,13 +273,11 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
             <Bookmark className={cn('w-4 h-4', saved ? 'text-background fill-background' : 'text-muted-foreground')} />
           </motion.button>
 
-          <motion.button
-            onClick={handleShare}
-            whileTap={{ scale: 0.9 }}
-            className="p-3 rounded-sm border border-foreground/25 hover:border-foreground/60 transition-all"
-          >
-            <Share2 className="w-4 h-4 text-muted-foreground" />
-          </motion.button>
+          <ShareMenu
+            title={activity.name}
+            url={activity.url}
+            onShare={(channel) => logEvent('initiative_share', { id: activityIdStr, channel })}
+          />
         </div>
       </div>
     </motion.div>
