@@ -123,6 +123,17 @@ export function MainContent({
   const resultsRef = useRef<HTMLDivElement>(null);
   const [vibe, setVibe] = useState<string>('');
   const [vibeLoading, setVibeLoading] = useState(false);
+  const [showSaveInline, setShowSaveInline] = useState(false);
+  const [showSessionEnd, setShowSessionEnd] = useState(false);
+  const { onIdle, hasEmailCaptured, savedIds, logEvent } = useSession();
+
+  // idle → session-end prompt (once per session; guarded internally by SessionEndPrompt)
+  useEffect(() => {
+    const off = onIdle(() => {
+      if (!hasEmailCaptured && savedIds.length > 0) setShowSessionEnd(true);
+    });
+    return off;
+  }, [onIdle, hasEmailCaptured, savedIds.length]);
   // Filter activities based on selected filters
   const filteredActivities = useMemo(() => {
     return activities.filter(activity => {
