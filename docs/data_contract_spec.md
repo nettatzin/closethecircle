@@ -113,7 +113,7 @@ All filters: OR within a section, AND across sections. Empty selection in a sect
 | **D3 (decision)** | The physical location/radius picker (LocationFilter, currently display-only) has no geo data behind it — `location` is free text. Options: (a) drop for V1, (b) keep as display-only, (c) add lat/lng columns later. Recommend (b) for V1, revisit post-launch. |
 
 ### F-4 Artworks
-**RESOLVED (D4):** the artwork filter section stays in the design and is wired later (V2, score-based matching per §7). In V1 the section is present but inactive/hidden — not replaced.
+**RESOLVED (D4, clarified 2026-07-16):** the artwork filter section stays **visible in V1**, displaying the 6 mock artworks exactly as today — but selections have **no impact on filter results** (excluded from matching logic entirely). Real artwork-based filtering arrives in V2 (score-based, §7). The ARTWORKS tab likewise keeps its mock data + images untouched through V1.
 
 **Global filter principle (locked):** ALL filters are optional. An empty selection in any section = no constraint. The default entry path must work with zero filters selected ("show me everything" always valid). No filter section may ever be required to see results.
 
@@ -250,7 +250,7 @@ CREATE TABLE financial_benefits (
 | D1 | Curation status gate in view | Add `status` column + gate before launch; interim: exclude `is_verified_active = false` |
 | D2 | energy_level source column | `effort` |
 | D3 | LocationFilter fate | Keep display-only in V1 |
-| D4 | Artwork filter section in V1 | **RESOLVED:** keep the artwork filter, wire it later (V2); inactive in V1. All filters remain optional |
+| D4 | Artwork filter section in V1 | **RESOLVED (clarified 2026-07-16):** visible with mock artworks, selections have no effect on results; ARTWORKS tab stays fully mock. Real filtering in V2. All filters remain optional |
 | D5 | Server-side vs fetch-once filtering | Fetch-once for V1 |
 | D6 | Show machine translations pre-review | Curator call — spec supports both |
 | D7 | Show `cost` tag in expanded card | **RESOLVED:** yes — expanded tier. Label visual design requires review with Netta before UI implementation |
