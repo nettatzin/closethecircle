@@ -91,11 +91,13 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
               boxShadow: `inset 0 0 0 1.5px ${categoryColor}55, 0 4px 12px ${categoryColor}22`,
             }}
           >
-            <CategoryIcon
+            <CircleIcon
+              name={iconName}
               style={{ color: categoryColor, transform: 'rotate(4deg)' }}
-              strokeWidth={1.75}
-              className="w-7 h-7"
+              accent={categoryColor}
+              className="w-9 h-9"
             />
+
           </div>
         </div>
       </div>
