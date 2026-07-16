@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, MapPin, Share2, Bookmark, ChevronDown, ChevronUp, ExternalLink, Feather, Flame, Dumbbell } from 'lucide-react';
+import { Heart, MapPin, Bookmark, ChevronDown, ChevronUp, ExternalLink, Feather, Flame, Dumbbell } from 'lucide-react';
+import { ShareMenu } from '@/components/circle/ShareMenu';
 import { useEffect, useState } from 'react';
 import type { Activity } from '@/data/activities';
 import { cn } from '@/lib/utils';
@@ -42,24 +43,8 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
 
 
 
-  const handleShare = async () => {
-    logEvent('initiative_share', { id: activityIdStr });
-    const shareData = {
-      title: activity.name,
-      text: `Check out this circular design activity: ${activity.name}`,
-      url: activity.url
-    };
-    
-    if (navigator.share) {
-      try {
-        await navigator.share(shareData);
-      } catch (err) {
-        console.log('Share cancelled');
-      }
-    } else {
-      navigator.clipboard.writeText(activity.url);
-    }
-  };
+
+
 
   return (
     <motion.div
@@ -288,13 +273,11 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
             <Bookmark className={cn('w-4 h-4', saved ? 'text-background fill-background' : 'text-muted-foreground')} />
           </motion.button>
 
-          <motion.button
-            onClick={handleShare}
-            whileTap={{ scale: 0.9 }}
-            className="p-3 rounded-sm border border-foreground/25 hover:border-foreground/60 transition-all"
-          >
-            <Share2 className="w-4 h-4 text-muted-foreground" />
-          </motion.button>
+          <ShareMenu
+            title={activity.name}
+            url={activity.url}
+            onShare={(channel) => logEvent('initiative_share', { id: activityIdStr, channel })}
+          />
         </div>
       </div>
     </motion.div>
