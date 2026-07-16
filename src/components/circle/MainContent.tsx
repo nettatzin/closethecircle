@@ -502,7 +502,13 @@ export function MainContent({
                 className="h-full bg-accent rounded-full"
               />
             </div>
+            <div className="mt-4 flex justify-end">
+              <PersistentEmailLink />
+            </div>
           </div>
+
+          {/* First-save inline banner (only appears once per session) */}
+          <SaveEmailInline visible={showSaveInline} onDismiss={() => setShowSaveInline(false)} />
 
           {filteredActivities.length === 0 ? (
             <div className="bg-card rounded-sm p-8 text-center border border-foreground/15">
@@ -517,12 +523,27 @@ export function MainContent({
                   activity={activity}
                   index={index}
                   onCloseCircle={onCloseCircle}
+                  onSaved={(wasFirst) => { if (wasFirst && !hasEmailCaptured) setShowSaveInline(true); }}
                 />
               ))}
+
+              {/* "סיימתי" — explicit session end */}
+              {savedIds.length > 0 && (
+                <div className="pt-8 pb-4 flex justify-center" dir="rtl">
+                  <button
+                    onClick={() => { logEvent('session_end_tapped'); setShowSessionEnd(true); }}
+                    className="px-6 py-3 rounded-sm border border-foreground/25 hover:border-foreground/60 text-foreground font-display text-[11px] tracking-[0.25em] uppercase transition-colors"
+                  >
+                    סיימתי
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </motion.div>
       </div>
+
+      <SessionEndPrompt open={showSessionEnd} onClose={() => setShowSessionEnd(false)} />
     </div>
   );
 }
