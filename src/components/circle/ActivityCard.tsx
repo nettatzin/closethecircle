@@ -19,7 +19,7 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
   const [saved, setSaved] = useState(false);
   const [valuesOpen, setValuesOpen] = useState(false);
   const [benefitsOpen, setBenefitsOpen] = useState(false);
-  const { Icon: CategoryIcon, color: categoryColor, tint: categoryTint, ring: categoryRing } = getActivityVisual(activity.type);
+  const { iconName, color: categoryColor, tint: categoryTint, ring: categoryRing } = getActivityVisual(activity.type);
   const EnergyIcon = activity.energyLevel === 'low-key' ? Feather : activity.energyLevel === 'hands-on' ? Flame : Dumbbell;
 
   const handleShare = async () => {
