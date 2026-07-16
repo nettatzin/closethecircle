@@ -1,32 +1,4 @@
-import {
-  BookOpen,
-  Scissors,
-  Users,
-  Recycle,
-  CalendarDays,
-  Sparkles,
-  Leaf,
-  Mic,
-  Film,
-  Mail,
-  MessageCircle,
-  GraduationCap,
-  Store,
-  ShoppingBag,
-  Handshake,
-  Wrench,
-  Palette,
-  Trophy,
-  Hammer,
-  Building2,
-  Rss,
-  Globe,
-  Shirt,
-  Repeat,
-  Newspaper,
-  Users2,
-  type LucideIcon,
-} from 'lucide-react';
+import type { CircleIconName } from '@/components/circle/circleIconsData';
 
 export type ActivityCategory =
   | 'learn'
@@ -52,42 +24,43 @@ const PALETTE: Record<ActivityCategory, CategoryPalette> = {
   innovate:  { color: 'hsl(220 28% 42%)', tint: 'hsl(220 35% 90%)', ring: 'hsl(220 35% 74%)' }, // dusk
 };
 
-const CATEGORY_ICON: Record<ActivityCategory, LucideIcon> = {
-  learn: BookOpen,
-  make: Scissors,
-  community: Users,
-  exchange: Recycle,
-  event: CalendarDays,
-  innovate: Sparkles,
+const CATEGORY_ICON: Record<ActivityCategory, CircleIconName> = {
+  learn: 'systems',
+  make: 'costsaving',
+  community: 'community',
+  exchange: 'closecycle',
+  event: 'spiral',
+  innovate: 'seed',
 };
 
-// Type-specific icon overrides (English + Hebrew) — so cards in the same category still look distinct.
-const TYPE_ICON: Array<[RegExp, LucideIcon]> = [
-  [/podcast|פודקאסט/i, Mic],
-  [/documentary|video|תיעודי/i, Film],
-  [/newsletter|ניוזלטר/i, Mail],
-  [/facebook|forum|social|פייסבוק|פורום|קבוצה/i, MessageCircle],
-  [/academic|course|academy|קורס|אקדמ|תואר|הכשרה/i, GraduationCap],
-  [/sew|mend|תפירה|תיקון/i, Scissors],
-  [/craft|studio|מלאכה|סטודיו|יוצרים/i, Palette],
-  [/maker|workshop|סדנ|מרחב/i, Hammer],
-  [/vintage|resale|luxury|וינטג|יד שנייה|יוקרה/i, Shirt],
-  [/swap|החלפה/i, Repeat],
-  [/flea|market|p2p|shopping|app|שוק|פשפשים|מרקטפלייס|אפליקצי|קניות/i, Store],
-  [/fair|יריד/i, ShoppingBag],
-  [/competition|תחרות/i, Trophy],
-  [/volunteer|community|group|התנדב|קהילת/i, Users2],
-  [/follow|לעקוב/i, Rss],
-  [/hub|enterprise|infrastructure|recycling|מרכז|עסק חברתי|תשתית|מיחזור/i, Building2],
-  [/innovation|research|חדשנות|מחקר/i, Sparkles],
-  [/press|עיתונות/i, Newspaper],
-  [/cultural|global|week|תרבותית|שבוע|עולמי/i, Globe],
-  [/designer|מעצב/i, Handshake],
-  [/free|חינמי/i, Wrench],
+// Type-specific overrides — pick the closest hand-drawn glyph from the 15-icon set.
+const TYPE_ICON: Array<[RegExp, CircleIconName]> = [
+  [/podcast|documentary|video|newsletter|press|פודקאסט|תיעודי|ניוזלטר|עיתונות/i, 'wonder'],
+  [/facebook|forum|social|group|volunteer|community|פייסבוק|פורום|קבוצה|התנדב|קהילת/i, 'community'],
+  [/academic|course|academy|research|קורס|אקדמ|תואר|הכשרה|מחקר/i, 'systems'],
+  [/sew|mend|craft|maker|workshop|studio|תפירה|תיקון|סדנ|סטודיו|מלאכה|יוצרים|מרחב/i, 'costsaving'],
+  [/vintage|resale|luxury|second-hand|וינטג|יד שנייה|יוקרה/i, 'costsaving'],
+  [/swap|החלפה/i, 'closecycle'],
+  [/flea|market|p2p|shopping|app|fair|שוק|פשפשים|מרקטפלייס|אפליקצי|קניות|יריד/i, 'closecycle'],
+  [/competition|תחרות/i, 'wonder'],
+  [/hub|enterprise|infrastructure|recycling|מרכז|עסק חברתי|תשתית|מיחזור/i, 'closecycle'],
+  [/innovation|חדשנות/i, 'seed'],
+  [/nature|bio|biomimicry|טבע|ביומימי/i, 'nature'],
+  [/water|מים/i, 'water'],
+  [/sun|solar|שמש|סולאר/i, 'sun'],
+  [/compost|קומפוסט/i, 'compost'],
+  [/root|grounding|שורש/i, 'roots'],
+  [/slow|איטי/i, 'slow'],
+  [/regenerat|kintsugi|שיקום|התחדש/i, 'regenerate'],
+  [/spiral|ספיר/i, 'spiral'],
+  [/circular|circle|מעגל|מעגלי/i, 'circular'],
+  [/week|cultural|global|multi-day|שבוע|רב-יומי|תרבותית|עולמי/i, 'spiral'],
+  [/designer|מעצב/i, 'seed'],
+  [/free|חינמי/i, 'systems'],
+  [/follow|לעקוב/i, 'community'],
 ];
 
 export function categorizeActivity(type: string): ActivityCategory {
-  const t = type.toLowerCase();
   if (/(swap|flea|market|vintage|resale|shopping|p2p|app|luxury|וינטג|שוק|פשפשים|מרקטפלייס|אפליקצי|קניות|החלפה|יד שנייה)/i.test(type)) return 'exchange';
   if (/(craft|sew|mend|maker|workshop|studio|סדנ|סטודיו|מלאכה|תפירה|תיקון|יוצרים|מרחב)/i.test(type)) return 'make';
   if (/(community|forum|facebook|group|social|volunteer|follow|designer|פורום|פייסבוק|קבוצה|לעקוב|מעצב|התנדב|קהילת)/i.test(type)) return 'community';
@@ -101,6 +74,6 @@ export function getActivityVisual(type: string) {
   const cat = categorizeActivity(type);
   const palette = PALETTE[cat];
   const override = TYPE_ICON.find(([re]) => re.test(type));
-  const Icon = override ? override[1] : (CATEGORY_ICON[cat] ?? Leaf);
-  return { Icon, category: cat, ...palette };
+  const iconName: CircleIconName = override ? override[1] : CATEGORY_ICON[cat];
+  return { iconName, category: cat, ...palette };
 }
