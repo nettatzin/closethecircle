@@ -277,7 +277,7 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
           </motion.button>
 
           <motion.button
-            onClick={() => setSaved(!saved)}
+            onClick={handleToggleSave}
             whileTap={{ scale: 0.9 }}
             className={cn(
               'p-3 rounded-sm border transition-all',
