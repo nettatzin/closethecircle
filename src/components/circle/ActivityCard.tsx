@@ -21,15 +21,25 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
   const [expanded, setExpanded] = useState(false);
   const [valuesOpen, setValuesOpen] = useState(false);
   const [benefitsOpen, setBenefitsOpen] = useState(false);
-  const saved = isSaved(activity.id);
+  const activityIdStr = String(activity.id);
+  const saved = isSaved(activityIdStr);
   const { iconName, color: categoryColor, tint: categoryTint, ring: categoryRing } = getActivityVisual(activity.type);
   const EnergyIcon = activity.energyLevel === 'low-key' ? Feather : activity.energyLevel === 'hands-on' ? Flame : Dumbbell;
 
   // fire initiative_view once when card mounts
   useEffect(() => {
-    logEvent('initiative_view', { id: activity.id });
+    logEvent('initiative_view', { id: activityIdStr });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activity.id]);
+  }, [activityIdStr]);
+
+  const handleToggleSave = () => {
+    const { saved: nowSaved, wasFirst } = toggleSave(activityIdStr);
+    if (nowSaved && wasFirst && !wasFirstSaveShown()) {
+      markFirstSaveShown();
+      onSaved?.(true);
+    }
+  };
+
 
 
   const handleShare = async () => {
