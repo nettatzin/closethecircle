@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, MapPin, Share2, Bookmark, ChevronDown, ChevronUp, ExternalLink, Feather, Flame, Dumbbell } from 'lucide-react';
+import { Heart, MapPin, Bookmark, ChevronDown, ChevronUp, ExternalLink, Feather, Flame, Dumbbell } from 'lucide-react';
+import { ShareMenu } from '@/components/circle/ShareMenu';
 import { useEffect, useState } from 'react';
 import type { Activity } from '@/data/activities';
 import { cn } from '@/lib/utils';
