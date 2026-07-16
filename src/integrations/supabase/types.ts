@@ -14,7 +14,88 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      email_captures: {
+        Row: {
+          capture_point: string
+          created_at: string
+          email: string
+          id: string
+          session_id: string | null
+        }
+        Insert: {
+          capture_point: string
+          created_at?: string
+          email: string
+          id?: string
+          session_id?: string | null
+        }
+        Update: {
+          capture_point?: string
+          created_at?: string
+          email?: string
+          id?: string
+          session_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "email_captures_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      session_events: {
+        Row: {
+          created_at: string
+          event_type: string
+          id: string
+          payload: Json | null
+          session_id: string
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          id?: string
+          payload?: Json | null
+          session_id: string
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          id?: string
+          payload?: Json | null
+          session_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "session_events_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sessions: {
+        Row: {
+          created_at: string
+          id: string
+          user_agent: string | null
+        }
+        Insert: {
+          created_at?: string
+          id: string
+          user_agent?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
