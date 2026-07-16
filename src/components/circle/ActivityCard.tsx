@@ -5,6 +5,7 @@ import type { Activity } from '@/data/activities';
 import { cn } from '@/lib/utils';
 import { useT } from '@/i18n/LanguageContext';
 import { getActivityVisual } from '@/lib/activityVisual';
+import { CircleIcon } from '@/components/circle/CircleIcon';
 
 interface ActivityCardProps {
   activity: Activity;
@@ -18,7 +19,7 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
   const [saved, setSaved] = useState(false);
   const [valuesOpen, setValuesOpen] = useState(false);
   const [benefitsOpen, setBenefitsOpen] = useState(false);
-  const { Icon: CategoryIcon, color: categoryColor, tint: categoryTint, ring: categoryRing } = getActivityVisual(activity.type);
+  const { iconName, color: categoryColor, tint: categoryTint, ring: categoryRing } = getActivityVisual(activity.type);
   const EnergyIcon = activity.energyLevel === 'low-key' ? Feather : activity.energyLevel === 'hands-on' ? Flame : Dumbbell;
 
   const handleShare = async () => {
@@ -90,11 +91,13 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
               boxShadow: `inset 0 0 0 1.5px ${categoryColor}55, 0 4px 12px ${categoryColor}22`,
             }}
           >
-            <CategoryIcon
+            <CircleIcon
+              name={iconName}
               style={{ color: categoryColor, transform: 'rotate(4deg)' }}
-              strokeWidth={1.75}
-              className="w-7 h-7"
+              accent={categoryColor}
+              className="w-9 h-9"
             />
+
           </div>
         </div>
       </div>
