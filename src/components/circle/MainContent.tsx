@@ -12,6 +12,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Sparkles, ArrowDown, Compass, Flame, MapPin, Palette, Plus, type LucideIcon } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import type { Activity } from '@/data/activities';
+import { SaveEmailInline } from './email/SaveEmailInline';
+import { SessionEndPrompt } from './email/SessionEndPrompt';
+import { PersistentEmailLink } from './email/PersistentEmailLink';
+import { useSession } from '@/hooks/useSession';
 
 type SectionKey = 'draws' | 'energy' | 'where' | 'artwork';
 
