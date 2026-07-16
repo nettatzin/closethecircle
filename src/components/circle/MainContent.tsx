@@ -12,6 +12,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Sparkles, ArrowDown, Compass, Flame, MapPin, Palette, Plus, type LucideIcon } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import type { Activity } from '@/data/activities';
+import { SaveEmailInline } from './email/SaveEmailInline';
+import { SessionEndPrompt } from './email/SessionEndPrompt';
+import { PersistentEmailLink } from './email/PersistentEmailLink';
+import { useSession } from '@/hooks/useSession';
 
 type SectionKey = 'draws' | 'energy' | 'where' | 'artwork';
 
@@ -119,6 +123,17 @@ export function MainContent({
   const resultsRef = useRef<HTMLDivElement>(null);
   const [vibe, setVibe] = useState<string>('');
   const [vibeLoading, setVibeLoading] = useState(false);
+  const [showSaveInline, setShowSaveInline] = useState(false);
+  const [showSessionEnd, setShowSessionEnd] = useState(false);
+  const { onIdle, hasEmailCaptured, savedIds, logEvent } = useSession();
+
+  // idle → session-end prompt (once per session; guarded internally by SessionEndPrompt)
+  useEffect(() => {
+    const off = onIdle(() => {
+      if (!hasEmailCaptured && savedIds.length > 0) setShowSessionEnd(true);
+    });
+    return off;
+  }, [onIdle, hasEmailCaptured, savedIds.length]);
   // Filter activities based on selected filters
   const filteredActivities = useMemo(() => {
     return activities.filter(activity => {
@@ -487,7 +502,13 @@ export function MainContent({
                 className="h-full bg-accent rounded-full"
               />
             </div>
+            <div className="mt-4 flex justify-end">
+              <PersistentEmailLink />
+            </div>
           </div>
+
+          {/* First-save inline banner (only appears once per session) */}
+          <SaveEmailInline visible={showSaveInline} onDismiss={() => setShowSaveInline(false)} />
 
           {filteredActivities.length === 0 ? (
             <div className="bg-card rounded-sm p-8 text-center border border-foreground/15">
@@ -502,12 +523,27 @@ export function MainContent({
                   activity={activity}
                   index={index}
                   onCloseCircle={onCloseCircle}
+                  onSaved={(wasFirst) => { if (wasFirst && !hasEmailCaptured) setShowSaveInline(true); }}
                 />
               ))}
+
+              {/* "סיימתי" — explicit session end */}
+              {savedIds.length > 0 && (
+                <div className="pt-8 pb-4 flex justify-center" dir="rtl">
+                  <button
+                    onClick={() => { logEvent('session_end_tapped'); setShowSessionEnd(true); }}
+                    className="px-6 py-3 rounded-sm border border-foreground/25 hover:border-foreground/60 text-foreground font-display text-[11px] tracking-[0.25em] uppercase transition-colors"
+                  >
+                    סיימתי
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </motion.div>
       </div>
+
+      <SessionEndPrompt open={showSessionEnd} onClose={() => setShowSessionEnd(false)} />
     </div>
   );
 }

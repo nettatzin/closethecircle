@@ -1,28 +1,49 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, MapPin, Share2, Bookmark, ChevronDown, ChevronUp, ExternalLink, Feather, Flame, Dumbbell } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Activity } from '@/data/activities';
 import { cn } from '@/lib/utils';
 import { useT } from '@/i18n/LanguageContext';
 import { getActivityVisual } from '@/lib/activityVisual';
 import { CircleIcon } from '@/components/circle/CircleIcon';
+import { useSession, markFirstSaveShown, wasFirstSaveShown } from '@/hooks/useSession';
 
 interface ActivityCardProps {
   activity: Activity;
   index: number;
   onCloseCircle: (activity: Activity) => void;
+  onSaved?: (wasFirst: boolean) => void;
 }
 
-export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardProps) {
+export function ActivityCard({ activity, index, onCloseCircle, onSaved }: ActivityCardProps) {
   const t = useT();
+  const { isSaved, toggleSave, logEvent } = useSession();
   const [expanded, setExpanded] = useState(false);
-  const [saved, setSaved] = useState(false);
   const [valuesOpen, setValuesOpen] = useState(false);
   const [benefitsOpen, setBenefitsOpen] = useState(false);
+  const activityIdStr = String(activity.id);
+  const saved = isSaved(activityIdStr);
   const { iconName, color: categoryColor, tint: categoryTint, ring: categoryRing } = getActivityVisual(activity.type);
   const EnergyIcon = activity.energyLevel === 'low-key' ? Feather : activity.energyLevel === 'hands-on' ? Flame : Dumbbell;
 
+  // fire initiative_view once when card mounts
+  useEffect(() => {
+    logEvent('initiative_view', { id: activityIdStr });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activityIdStr]);
+
+  const handleToggleSave = () => {
+    const { saved: nowSaved, wasFirst } = toggleSave(activityIdStr);
+    if (nowSaved && wasFirst && !wasFirstSaveShown()) {
+      markFirstSaveShown();
+      onSaved?.(true);
+    }
+  };
+
+
+
   const handleShare = async () => {
+    logEvent('initiative_share', { id: activityIdStr });
     const shareData = {
       title: activity.name,
       text: `Check out this circular design activity: ${activity.name}`,
@@ -257,7 +278,7 @@ export function ActivityCard({ activity, index, onCloseCircle }: ActivityCardPro
           </motion.button>
 
           <motion.button
-            onClick={() => setSaved(!saved)}
+            onClick={handleToggleSave}
             whileTap={{ scale: 0.9 }}
             className={cn(
               'p-3 rounded-sm border transition-all',
