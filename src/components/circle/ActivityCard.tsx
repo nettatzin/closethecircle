@@ -43,24 +43,8 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
 
 
 
-  const handleShare = async () => {
-    logEvent('initiative_share', { id: activityIdStr });
-    const shareData = {
-      title: activity.name,
-      text: `Check out this circular design activity: ${activity.name}`,
-      url: activity.url
-    };
-    
-    if (navigator.share) {
-      try {
-        await navigator.share(shareData);
-      } catch (err) {
-        console.log('Share cancelled');
-      }
-    } else {
-      navigator.clipboard.writeText(activity.url);
-    }
-  };
+
+
 
   return (
     <motion.div
