@@ -5,6 +5,7 @@ import type { Activity } from '@/data/activities';
 import { cn } from '@/lib/utils';
 import { useT } from '@/i18n/LanguageContext';
 import { getActivityVisual } from '@/lib/activityVisual';
+import { CircleIcon } from '@/components/circle/CircleIcon';
 
 interface ActivityCardProps {
   activity: Activity;
