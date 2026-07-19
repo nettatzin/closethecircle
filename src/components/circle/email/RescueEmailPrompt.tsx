@@ -97,7 +97,9 @@ export function RescueEmailPrompt() {
               </>
             )}
           </div>
+         </div>
         </motion.div>
+        </>
       )}
     </AnimatePresence>
   );
