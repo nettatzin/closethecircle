@@ -18,7 +18,7 @@ export function RescueEmailPrompt() {
       if (localStorage.getItem(LS_DISMISSED) !== '1' && !hasEmailCaptured) {
         setOpen(true);
       }
-    }, 4000);
+    }, 3000);
     return () => window.clearTimeout(t);
   }, [hasEmailCaptured]);
 
@@ -39,14 +39,24 @@ export function RescueEmailPrompt() {
   return (
     <AnimatePresence>
       {open && (
+        <>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-40 bg-foreground/40 backdrop-blur-sm"
+            onClick={dismiss}
+          />
         <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 8 }}
+          initial={{ opacity: 0, scale: 0.96, y: 12 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.96, y: 12 }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="fixed z-40 bottom-4 left-4 right-4 md:left-auto md:right-6 md:bottom-6 md:w-[380px] pointer-events-auto"
+          className="fixed z-50 inset-0 flex items-center justify-center p-4 pointer-events-none"
           dir="rtl"
         >
+         <div className="pointer-events-auto w-full max-w-[420px]">
           <div
             className="rounded-sm border shadow-medium p-5 pt-4"
             style={{ backgroundColor: 'hsl(var(--card))', borderColor: 'hsl(var(--border))' }}
