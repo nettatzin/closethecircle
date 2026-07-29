@@ -2,13 +2,13 @@ import { useState } from 'react';
 
 export function useCircleStore() {
   const [showWelcome, setShowWelcome] = useState(true);
-  const [selectedDraws, setSelectedDraws] = useState<string[]>(['explore', 'meet', 'make']);
-  const [selectedEnergy, setSelectedEnergy] = useState<string[]>(['hands_on']);
-  const [locationFormat, setLocationFormat] = useState<string[]>(['in_person']);
+  const [selectedDraws, setSelectedDraws] = useState<string[]>([]);
+  const [selectedEnergy, setSelectedEnergy] = useState<string[]>([]);
+  const [locationFormat, setLocationFormat] = useState<string[]>([]);
   const [physicalLocation, setPhysicalLocation] = useState('Tel Aviv');
   const [physicalRadius, setPhysicalRadius] = useState('15km');
-  const [digitalReach, setDigitalReach] = useState<string[]>(['israel', 'global']);
-  const [selectedArtworks, setSelectedArtworks] = useState<number[]>([2]);
+  const [digitalReach, setDigitalReach] = useState<string[]>([]);
+  const [selectedArtworks, setSelectedArtworks] = useState<number[]>([]);
   const [expandedActivity, setExpandedActivity] = useState<number | null>(null);
   const [showRipple, setShowRipple] = useState<false | 'community' | 'ripple'>(false);
   const [rippleActivity, setRippleActivity] = useState<any>(null);
