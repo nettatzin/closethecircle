@@ -123,7 +123,13 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
         <div className="flex flex-wrap gap-1.5 mb-4">
           <span className={chipClass}>{t(`format_${activity.locationFormat}` as any)}</span>
           <span className={chipClass}>{activity.commitment}</span>
-          <span className={chipClass}>{activity.type}</span>
+          <span
+            className="text-[10px] px-2.5 py-1 rounded-full font-sans-thin whitespace-nowrap flex items-center gap-1"
+            style={{ backgroundColor: categoryColor, color: 'hsl(var(--background))' }}
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-background/80" />
+            {activity.type}
+          </span>
         </div>
 
         {/* Impact tags — single row, expand to show all */}
