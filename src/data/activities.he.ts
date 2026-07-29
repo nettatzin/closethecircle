@@ -26,12 +26,11 @@ export interface Activity {
   icon: string;
   description: string;
   tags: {
-    values: string[];
-    benefits: string[];
-    activityType: string[];
-    format: string;
-    commitment: string;
+    impact: string[];
   };
+  cost: 'free' | 'donation_based' | 'paid';
+  exhibitionThemes: string[];
+  targetAudience: 'families' | 'professionals' | 'students' | 'all_ages';
   draws: string[];
   connectedArtworks: number[];
   saves: number;
@@ -260,12 +259,11 @@ export const activities: Activity[] = [
     icon: '🏆',
     description: 'תחרות עיצוב האופנה המקיימת הגדולה בעולם. ההגשות נפתחות בינואר בכל שנה.',
     tags: {
-      values: ['מעגליות טכנית', 'מעורבות קהילתית'],
-      benefits: ['פרסים שפותחים דלתות', 'בוטקמפ ומסלול תצוגה בהונג קונג', 'חשיפה גלובלית'],
-      activityType: ['תחרות', 'עיצוב', 'תיק עבודות'],
-      format: 'אונליין',
-      commitment: 'חודשים'
+      impact: ['מעגליות טכנית', 'מעורבות קהילתית']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['make', 'meet', 'amplify'],
     connectedArtworks: [1, 3],
     saves: 234,
@@ -286,12 +284,11 @@ export const activities: Activity[] = [
     icon: '📱',
     description: 'תנועת האקטיביזם הגדולה בעולם לאופנה. תוכן יומי על שקיפות וצדק בתעשייה. 529 אלף עוקבים.',
     tags: {
-      values: ['מעורבות קהילתית', 'ראייה מערכתית'],
-      benefits: ['עדכונים מקמפיינים גלובליים', 'השראה אקטיביסטית', 'השתתפות ב-#WhoMadeMyClothes'],
-      activityType: ['רשתות חברתיות', 'אקטיביזם', 'חינוך'],
-      format: 'אונליין',
-      commitment: 'גמיש'
+      impact: ['מעורבות קהילתית', 'ראייה מערכתית']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['amplify', 'explore'],
     connectedArtworks: [1, 4],
     saves: 529,
@@ -312,12 +309,11 @@ export const activities: Activity[] = [
     icon: '🌍',
     description: 'שבוע פעולה בינלאומי: תיקון במרחב הציבורי, קמפיין #WhoMadeMyClothes, אירועים מקומיים ווירטואליים. אפריל 2026.',
     tags: {
-      values: ['מעורבות קהילתית', 'ראייה מערכתית'],
-      benefits: ['סולידריות עולמית', 'מיומנויות אקטיביסטיות', 'השתתפות בקמפיין'],
-      activityType: ['אירועים', 'רשתות חברתיות', 'אקטיביזם'],
-      format: 'משולב',
-      commitment: 'שבוע בשנה'
+      impact: ['מעורבות קהילתית', 'ראייה מערכתית']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'professionals',
     draws: ['amplify', 'meet', 'make'],
     connectedArtworks: [1, 2, 4],
     saves: 412,
@@ -338,12 +334,11 @@ export const activities: Activity[] = [
     icon: '📧',
     description: 'עדכונים דו-שבועיים על קמפיינים, מקורות מידע ואקטיביזם גלובלי.',
     tags: {
-      values: ['מעורבות קהילתית', 'ראייה מערכתית'],
-      benefits: ['עדכוני קמפיינים', 'גישה למקורות', 'רשת גלובלית'],
-      activityType: ['ניוזלטר', 'חינוך'],
-      format: 'אונליין',
-      commitment: 'דו-שבועי'
+      impact: ['מעורבות קהילתית', 'ראייה מערכתית']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'all_ages',
     draws: ['explore', 'amplify'],
     connectedArtworks: [4],
     saves: 189,
@@ -364,12 +359,11 @@ export const activities: Activity[] = [
     icon: '🎓',
     description: 'קורס חינמי מאוניברסיטאות בריטיות על יסודות האופנה המקיימת.',
     tags: {
-      values: ['ראייה מערכתית', 'מעגליות טכנית'],
-      benefits: ['רצינות אקדמית', 'לימוד בקצב שלך', 'מבט-על על התעשייה'],
-      activityType: ['קורס', 'חינוך', 'בקצב שלך'],
-      format: 'אונליין',
-      commitment: 'כמה שבועות'
+      impact: ['ראייה מערכתית', 'מעגליות טכנית']
     },
+    cost: 'paid',
+    exhibitionThemes: ['back_to_nature', 'healing_through_design'],
+    targetAudience: 'students',
     draws: ['explore'],
     connectedArtworks: [2, 4],
     saves: 567,
@@ -390,12 +384,11 @@ export const activities: Activity[] = [
     icon: '📚',
     description: 'Fashion Values, Fashion Economy ועוד — קורסים של חוקרים מובילים מ-UAL.',
     tags: {
-      values: ['ראייה מערכתית', 'כוונת התחדשות'],
-      benefits: ['רמה של University of the Arts London', 'אתגרי חשיבה עיצובית', 'מרצים מומחים'],
-      activityType: ['קורס', 'אקדמי', 'מחקר'],
-      format: 'אונליין',
-      commitment: 'משתנה'
+      impact: ['ראייה מערכתית', 'כוונת התחדשות']
     },
+    cost: 'paid',
+    exhibitionThemes: ['back_to_nature', 'healing_through_design'],
+    targetAudience: 'students',
     draws: ['explore'],
     connectedArtworks: [2, 6],
     saves: 234,
@@ -416,12 +409,11 @@ export const activities: Activity[] = [
     icon: '👗',
     description: 'קורסים אונליין בנגישות כלכלית על עסקי אופנה מקיימת: מטרה, יצירה, צמיחה ותקשורת.',
     tags: {
-      values: ['מעורבות קהילתית', 'ראייה מערכתית'],
-      benefits: ['פוקוס על עסקים קטנים', 'ראיונות עם מומחים', 'קהילה ייעודית'],
-      activityType: ['קורס', 'עסקים', 'קהילה'],
-      format: 'אונליין',
-      commitment: 'בקצב שלך'
+      impact: ['מעורבות קהילתית', 'ראייה מערכתית']
     },
+    cost: 'paid',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'students',
     draws: ['explore', 'meet'],
     connectedArtworks: [1, 3],
     saves: 156,
@@ -442,12 +434,11 @@ export const activities: Activity[] = [
     icon: '🎓',
     description: 'תואר שני מקצועי באופנה מקיימת. 12,150 ליש"ט סה"כ, אפשרויות תשלום.',
     tags: {
-      values: ['ראייה מערכתית', 'מעגליות טכנית'],
-      benefits: ['תואר מוכר', 'הסמכה מקצועית', 'גמישות של לימודים אונליין'],
-      activityType: ['תואר', 'אקדמי', 'מקצועי'],
-      format: 'אונליין',
-      commitment: 'שנתיים'
+      impact: ['ראייה מערכתית', 'מעגליות טכנית']
     },
+    cost: 'paid',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'students',
     draws: ['explore', 'make'],
     connectedArtworks: [2, 4, 5],
     saves: 89,
@@ -470,12 +461,11 @@ export const activities: Activity[] = [
     icon: '📱',
     description: 'ד"ר מיטל פלג מזרחי — חוקרת ומובילת דעה באופנה מקיימת. חינוך לסלואו פאשן.',
     tags: {
-      values: ['מעורבות קהילתית', 'ראייה מערכתית'],
-      benefits: ['דפוסי צריכה ביקורתיים', 'ביקורת על תעשיית האופנה'],
-      activityType: ['רשתות חברתיות', 'חינוך'],
-      format: 'אונליין',
-      commitment: 'גמיש'
+      impact: ['מעורבות קהילתית', 'ראייה מערכתית']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'students',
     draws: ['witness', 'amplify'],
     connectedArtworks: [1, 4],
     saves: 78,
@@ -496,12 +486,11 @@ export const activities: Activity[] = [
     icon: '📱',
     description: 'הקהילה האינסטגרמית של הפורום הישראלי לאופנה מקיימת.',
     tags: {
-      values: ['מעורבות קהילתית', 'ראייה מערכתית'],
-      benefits: ['קישורים לתעשייה', 'תוכן חינוכי'],
-      activityType: ['רשתות חברתיות', 'קהילה'],
-      format: 'אונליין',
-      commitment: 'גמיש'
+      impact: ['מעורבות קהילתית', 'ראייה מערכתית']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['witness', 'amplify'],
     connectedArtworks: [1, 2],
     saves: 145,
@@ -522,12 +511,11 @@ export const activities: Activity[] = [
     icon: '🪂',
     description: 'סטריטוור משודרג ממצנחים, ברזנטים ועפיפונים. מעצב מהנגב.',
     tags: {
-      values: ['מעגליות טכנית', 'כוונת התחדשות'],
-      benefits: ['השראה לשינוי חומרים', 'שדרוג מקסימליסטי'],
-      activityType: ['רשתות חברתיות', 'השראה עיצובית'],
-      format: 'אונליין',
-      commitment: 'גמיש'
+      impact: ['מעגליות טכנית', 'כוונת התחדשות']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['witness', 'explore'],
     connectedArtworks: [3, 5],
     saves: 234,
@@ -548,12 +536,11 @@ export const activities: Activity[] = [
     icon: '🛍️',
     description: 'עדכוני וינטג׳ ויד שנייה משוק הפשפשים של חיפה.',
     tags: {
-      values: ['מעורבות קהילתית', 'מעגליות טכנית'],
-      benefits: ['תרבות שימוש חוזר מקומית', 'גילוי יד שנייה'],
-      activityType: ['רשתות חברתיות', 'מקומי'],
-      format: 'אונליין',
-      commitment: 'גמיש'
+      impact: ['מעורבות קהילתית', 'מעגליות טכנית']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'professionals',
     draws: ['witness', 'exchange'],
     connectedArtworks: [1, 3],
     saves: 67,
@@ -574,12 +561,11 @@ export const activities: Activity[] = [
     icon: '✊',
     description: 'הסניף הישראלי של Fashion Revolution — פעילויות וקמפיינים.',
     tags: {
-      values: ['מעורבות קהילתית', 'ראייה מערכתית'],
-      benefits: ['שקיפות בעבודה', 'אקטיביזם בשרשרת אספקה'],
-      activityType: ['רשתות חברתיות', 'אקטיביזם'],
-      format: 'אונליין',
-      commitment: 'גמיש'
+      impact: ['מעורבות קהילתית', 'ראייה מערכתית']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'all_ages',
     draws: ['amplify', 'explore'],
     connectedArtworks: [1, 4],
     saves: 189,
@@ -600,12 +586,11 @@ export const activities: Activity[] = [
     icon: '👔',
     description: 'חלוצת אופנה ישראלית משדרגת כבר 40 שנה — וגם מובילת ייצור מקומי.',
     tags: {
-      values: ['מעגליות טכנית', 'מעורבות קהילתית'],
-      benefits: ['פרספקטיבה היסטורית', 'תמיכה בייצור מקומי'],
-      activityType: ['רשתות חברתיות', 'השראה עיצובית'],
-      format: 'אונליין',
-      commitment: 'גמיש'
+      impact: ['מעגליות טכנית', 'מעורבות קהילתית']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'professionals',
     draws: ['witness', 'explore'],
     connectedArtworks: [1, 2],
     saves: 312,
@@ -628,12 +613,11 @@ export const activities: Activity[] = [
     icon: '👕',
     description: '50,000+ חברים מחליפים בגדים שלא ישבו בול. כ-100 פוסטים ביום.',
     tags: {
-      values: ['מעורבות קהילתית', 'מעגליות טכנית'],
-      benefits: ['הארכת חיי בגדים', 'החלפה ישירה בין אנשים', 'סולידריות קהילתית'],
-      activityType: ['קהילה', 'החלפה'],
-      format: 'אונליין',
-      commitment: 'גמיש'
+      impact: ['מעורבות קהילתית', 'מעגליות טכנית']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'professionals',
     draws: ['exchange', 'meet'],
     connectedArtworks: [1, 3],
     saves: 456,
@@ -654,12 +638,11 @@ export const activities: Activity[] = [
     icon: '🍂',
     description: 'אקטיביזם של אופנה מקיימת, אירועי החלפה וקמפיין שנתי בנובמבר. הוקמה ב-2019.',
     tags: {
-      values: ['מעורבות קהילתית', 'ראייה מערכתית'],
-      benefits: ['ביקורת על אופנה מהירה', 'פעולה קולקטיבית', 'גישה לאירועי החלפה'],
-      activityType: ['קהילה', 'אקטיביזם', 'אירועים'],
-      format: 'אונליין',
-      commitment: 'גמיש'
+      impact: ['מעורבות קהילתית', 'ראייה מערכתית']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'all_ages',
     draws: ['amplify', 'meet', 'exchange'],
     connectedArtworks: [1, 4],
     saves: 234,
@@ -680,12 +663,11 @@ export const activities: Activity[] = [
     icon: '📧',
     description: 'עדכונים חודשיים, אירועים וחדשות תעשייה מהפורום הישראלי.',
     tags: {
-      values: ['ראייה מערכתית', 'מעורבות קהילתית'],
-      benefits: ['התפתחויות בתעשייה', 'הודעות על אירועים'],
-      activityType: ['ניוזלטר', 'מקומי'],
-      format: 'אונליין',
-      commitment: 'חודשי'
+      impact: ['ראייה מערכתית', 'מעורבות קהילתית']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'professionals',
     draws: ['explore'],
     connectedArtworks: [2, 4],
     saves: 178,
@@ -706,12 +688,11 @@ export const activities: Activity[] = [
     icon: '🌿',
     description: 'עדכוני קמפיינים, אירועי החלפה והישגים רגולטוריים בנוף האופנה הישראלי.',
     tags: {
-      values: ['מעורבות קהילתית', 'ראייה מערכתית'],
-      benefits: ['הזדמנויות לאקטיביזם', 'מודעות רגולטורית'],
-      activityType: ['ניוזלטר', 'אקטיביזם'],
-      format: 'אונליין',
-      commitment: 'קבוע'
+      impact: ['מעורבות קהילתית', 'ראייה מערכתית']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'professionals',
     draws: ['amplify', 'explore'],
     connectedArtworks: [4, 6],
     saves: 145,
@@ -734,12 +715,11 @@ export const activities: Activity[] = [
     icon: '✊',
     description: 'יום תיקון פומבי (26 באפריל), קמפיין #WhoMadeMyClothes ופעולה מקומית עם השראה גלובלית.',
     tags: {
-      values: ['מעורבות קהילתית', 'ראייה מערכתית'],
-      benefits: ['שקיפות בעבודה', 'תרבות של תיקון גלוי', 'קהילת אקטיביסטיות'],
-      activityType: ['אירועים', 'אקטיביזם', 'יצירה'],
-      format: 'משולב',
-      commitment: 'שבוע בשנה'
+      impact: ['מעורבות קהילתית', 'ראייה מערכתית']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'all_ages',
     draws: ['amplify', 'meet', 'make'],
     connectedArtworks: [1, 3, 4],
     saves: 289,
@@ -760,12 +740,11 @@ export const activities: Activity[] = [
     icon: '🛍️',
     description: '15+ מעצבות ומעצבים ישראלים עצמאיים, עד 70% הנחה על עונות קודמות. 22-24 במאי 2025.',
     tags: {
-      values: ['מעורבות קהילתית', 'מעגליות טכנית'],
-      benefits: ['גילוי מעצבים מקומיים', 'אופנה איטית במחיר נגיש'],
-      activityType: ['יריד', 'קניות', 'מעצבים'],
-      format: 'פיזי',
-      commitment: 'חד-פעמי'
+      impact: ['מעורבות קהילתית', 'מעגליות טכנית']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'professionals',
     draws: ['witness', 'exchange'],
     connectedArtworks: [1, 5],
     saves: 178,
@@ -786,12 +765,11 @@ export const activities: Activity[] = [
     icon: '👗',
     description: '28 תצוגות אופנה, פרזנטציה של שנקר ומפגש עם המערכת האקולוגית של העיצוב הישראלי. 26-30 באוקטובר 2025.',
     tags: {
-      values: ['ראייה מערכתית', 'מעורבות קהילתית'],
-      benefits: ['טבילה בתעשייה', 'גילוי מעצבים'],
-      activityType: ['אירוע', 'אופנה', 'תעשייה'],
-      format: 'פיזי',
-      commitment: 'כמה ימים'
+      impact: ['ראייה מערכתית', 'מעורבות קהילתית']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['witness', 'explore', 'meet'],
     connectedArtworks: [1, 2, 5],
     saves: 345,
@@ -812,12 +790,11 @@ export const activities: Activity[] = [
     icon: '💜',
     description: 'מהדורה 22 — לטובת מרכז סיוע לנפגעות תקיפה מינית בירושלים.',
     tags: {
-      values: ['מעורבות קהילתית', 'כוונת התחדשות'],
-      benefits: ['כלכלה מעגלית במפגש עם השפעה חברתית', 'בניית קהילה'],
-      activityType: ['צדקה', 'החלפה', 'קהילה'],
-      format: 'פיזי',
-      commitment: 'שנתי'
+      impact: ['מעורבות קהילתית', 'כוונת התחדשות']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'professionals',
     draws: ['exchange', 'meet', 'amplify'],
     connectedArtworks: [1, 4],
     saves: 267,
@@ -838,12 +815,11 @@ export const activities: Activity[] = [
     icon: '🔄',
     description: 'אירועי החלפת בגדים שתורמים לעמותות מקומיות.',
     tags: {
-      values: ['מעורבות קהילתית', 'כוונת התחדשות'],
-      benefits: ['רענון ארון', 'תרומה לצדקה', 'מפגש חברתי'],
-      activityType: ['החלפה', 'צדקה', 'חברתי'],
-      format: 'פיזי',
-      commitment: 'חד-פעמי'
+      impact: ['מעורבות קהילתית', 'כוונת התחדשות']
     },
+    cost: 'donation_based',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'professionals',
     draws: ['exchange', 'meet'],
     connectedArtworks: [1, 3],
     saves: 189,
@@ -864,12 +840,11 @@ export const activities: Activity[] = [
     icon: '🧒',
     description: 'החלפת בגדים לילדים בגילי 0-7. לטובת עמותת Mothers Make a Difference.',
     tags: {
-      values: ['מעורבות קהילתית', 'כוונת התחדשות'],
-      benefits: ['השתתפות משפחתית', 'כלכלה מעגלית לילדים', 'השפעה חברתית'],
-      activityType: ['משפחה', 'החלפה', 'צדקה'],
-      format: 'פיזי',
-      commitment: 'חד-פעמי'
+      impact: ['מעורבות קהילתית', 'כוונת התחדשות']
     },
+    cost: 'paid',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'families',
     draws: ['exchange', 'meet'],
     connectedArtworks: [3, 5],
     saves: 134,
@@ -890,12 +865,11 @@ export const activities: Activity[] = [
     icon: '🌱',
     description: 'דוכנים מקיימים, סדנאות שדרוג והחלפת בגדים בשיתוף גרינפיס.',
     tags: {
-      values: ['מעורבות קהילתית', 'מעגליות טכנית'],
-      benefits: ['גילוי צריכה אלטרנטיבית', 'גישה לסדנאות'],
-      activityType: ['יריד', 'סדנה', 'החלפה'],
-      format: 'פיזי',
-      commitment: 'חד-פעמי'
+      impact: ['מעורבות קהילתית', 'מעגליות טכנית']
     },
+    cost: 'paid',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'families',
     draws: ['meet', 'make', 'exchange'],
     connectedArtworks: [2, 3, 4],
     saves: 223,
@@ -918,12 +892,11 @@ export const activities: Activity[] = [
     icon: '🎬',
     description: 'סרטון בעברית על המחיר האמיתי של האופנה — מהפורום הישראלי לאופנה מקיימת.',
     tags: {
-      values: ['ראייה מערכתית'],
-      benefits: ['מודעות צרכנית', 'חינוך על שרשרת אספקה'],
-      activityType: ['וידאו', 'חינוך'],
-      format: 'אונליין',
-      commitment: 'חד-פעמי'
+      impact: ['ראייה מערכתית']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'all_ages',
     draws: ['explore'],
     connectedArtworks: [1, 4],
     saves: 456,
@@ -944,12 +917,11 @@ export const activities: Activity[] = [
     icon: '🎙️',
     description: 'פרק בעברית עם ד"ר מיטל פלג מזרחי על אופנה מקיימת ופסולת טקסטיל בגאנה.',
     tags: {
-      values: ['ראייה מערכתית', 'מעורבות קהילתית'],
-      benefits: ['הבנת המסע הגלובלי של פסולת', 'שיקולים אתיים'],
-      activityType: ['פודקאסט', 'חינוך'],
-      format: 'אונליין',
-      commitment: 'חד-פעמי'
+      impact: ['ראייה מערכתית', 'מעורבות קהילתית']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'healing_through_design'],
+    targetAudience: 'all_ages',
     draws: ['explore'],
     connectedArtworks: [1, 4, 6],
     saves: 189,
@@ -972,12 +944,11 @@ export const activities: Activity[] = [
     icon: '🧵',
     description: '30+ מוכרי בדים: עודפי ייצור, ריפוד וסיומות גלילים — עד 75% פחות.',
     tags: {
-      values: ['מעגליות טכנית', 'מעורבות קהילתית'],
-      benefits: ['מקור חומרים', 'שרשרת אספקה מקומית', 'גילוי עודפי ייצור'],
-      activityType: ['קניות', 'חומרים', 'מקומי'],
-      format: 'פיזי',
-      commitment: 'גמיש'
+      impact: ['מעגליות טכנית', 'מעורבות קהילתית']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'all_ages',
     draws: ['witness', 'exchange'],
     connectedArtworks: [1, 2, 4],
     saves: 345,
@@ -998,12 +969,11 @@ export const activities: Activity[] = [
     icon: '📦',
     description: 'מרקטפלייס בין אנשים ליד שנייה, עם 400 לוקרים לאיסוף. המוכרים מקבלים 80%.',
     tags: {
-      values: ['מעגליות טכנית', 'מעורבות קהילתית'],
-      benefits: ['השתתפות בכלכלה מעגלית', 'החלפה נוחה'],
-      activityType: ['מרקטפלייס', 'בין אנשים', 'דיגיטלי'],
-      format: 'משולב',
-      commitment: 'גמיש'
+      impact: ['מעגליות טכנית', 'מעורבות קהילתית']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'all_ages',
     draws: ['exchange', 'witness'],
     connectedArtworks: [3, 5],
     saves: 567,
@@ -1024,12 +994,11 @@ export const activities: Activity[] = [
     icon: '📱',
     description: 'אפליקציה לדפדוף בכ-7,000 פריטי וינטג׳ נבחרים מחנויות פיזיות.',
     tags: {
-      values: ['מעגליות טכנית', 'חיבור פנימי'],
-      benefits: ['יד שנייה איכותית', 'וינטג׳ מאוצר'],
-      activityType: ['אפליקציה', 'וינטג׳', 'מאוצר'],
-      format: 'משולב',
-      commitment: 'גמיש'
+      impact: ['מעגליות טכנית', 'חיבור פנימי']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'all_ages',
     draws: ['witness', 'exchange'],
     connectedArtworks: [1, 2],
     saves: 234,
@@ -1050,12 +1019,11 @@ export const activities: Activity[] = [
     icon: '🏺',
     description: 'שוק הפשפשים הגדול בארץ: יפת, מרגוזה, עמיעד ועולי ציון.',
     tags: {
-      values: ['מעורבות קהילתית', 'מעגליות טכנית'],
-      benefits: ['תרבות שימוש חוזר אותנטית', 'מקור חומרים', 'מערכת אקולוגית של יד שנייה'],
-      activityType: ['שוק', 'וינטג׳', 'תרבות'],
-      format: 'פיזי',
-      commitment: 'גמיש'
+      impact: ['מעורבות קהילתית', 'מעגליות טכנית']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'all_ages',
     draws: ['witness', 'exchange', 'meet'],
     connectedArtworks: [1, 4, 6],
     saves: 678,
@@ -1076,12 +1044,11 @@ export const activities: Activity[] = [
     icon: '🏛️',
     description: 'שוק בן 150+ שנה. שוק המוכרים בשבת (~120 דוכנים), הדוכן המיתולוגי "בובא זהבה".',
     tags: {
-      values: ['מעורבות קהילתית', 'מעגליות טכנית'],
-      benefits: ['תרבות שימוש חוזר היסטורית', 'היסטוריה של טקסטיל', 'יד שנייה אותנטית'],
-      activityType: ['שוק', 'וינטג׳', 'היסטורי'],
-      format: 'פיזי',
-      commitment: 'גמיש'
+      impact: ['מעורבות קהילתית', 'מעגליות טכנית']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'all_ages',
     draws: ['witness', 'exchange', 'meet'],
     connectedArtworks: [1, 2, 6],
     saves: 345,
@@ -1104,12 +1071,11 @@ export const activities: Activity[] = [
     icon: '🧶',
     description: 'מפגשי תיקון פתוחים: תיקון יצירתי, טכניקות שדרוג והדרכה להארכת חיי בגדים.',
     tags: {
-      values: ['מעגליות טכנית', 'כוונת התחדשות'],
-      benefits: ['מיומנויות תיקון גלוי', 'הארכת חיי מוצר', 'פרקטיקה של אופנה איטית'],
-      activityType: ['סדנה', 'יצירה', 'בניית מיומנויות'],
-      format: 'משולב',
-      commitment: 'בלי הרשמה'
+      impact: ['מעגליות טכנית', 'כוונת התחדשות']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'all_ages',
     draws: ['make', 'explore', 'meet'],
     connectedArtworks: [2, 3, 4],
     saves: 289,
@@ -1130,12 +1096,11 @@ export const activities: Activity[] = [
     icon: '🔧',
     description: 'מכונות תפירה, חיתוך לייזר, מדפסות תלת-ממד. גישה פתוחה ליוצרים.',
     tags: {
-      values: ['מעגליות טכנית', 'מעורבות קהילתית'],
-      benefits: ['אופנת DIY', 'ניסויי חומרים', 'גישה לכלים'],
-      activityType: ['מרחב יוצרים', 'כלים', 'קהילה'],
-      format: 'פיזי',
-      commitment: 'מנוי גמיש'
+      impact: ['מעגליות טכנית', 'מעורבות קהילתית']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'all_ages',
     draws: ['make', 'explore', 'meet'],
     connectedArtworks: [2, 3, 5],
     saves: 456,
@@ -1156,12 +1121,11 @@ export const activities: Activity[] = [
     icon: '⚙️',
     description: 'תפירה, חיתוך לייזר, הדפסה תלת-ממדית ומכונות CNC. גישה ציבורית עם ליווי.',
     tags: {
-      values: ['מעגליות טכנית', 'מעורבות קהילתית'],
-      benefits: ['מיומנויות יוצרים', 'גישה לפרוטוטייפ'],
-      activityType: ['מרחב יוצרים', 'כלים', 'הדרכה'],
-      format: 'פיזי',
-      commitment: 'גמיש'
+      impact: ['מעגליות טכנית', 'מעורבות קהילתית']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'healing_through_design'],
+    targetAudience: 'all_ages',
     draws: ['make', 'explore'],
     connectedArtworks: [3, 5],
     saves: 234,
@@ -1182,12 +1146,11 @@ export const activities: Activity[] = [
     icon: '🪚',
     description: 'תפירה, חיתוך לייזר ועבודות עץ. קורסי מיומנויות יוצרים.',
     tags: {
-      values: ['מעגליות טכנית'],
-      benefits: ['פיתוח מיומנויות מלאכה', 'גישה לציוד'],
-      activityType: ['מרחב יוצרים', 'קורסים'],
-      format: 'פיזי',
-      commitment: 'גמיש'
+      impact: ['מעגליות טכנית']
     },
+    cost: 'paid',
+    exhibitionThemes: ['back_to_nature', 'healing_through_design'],
+    targetAudience: 'all_ages',
     draws: ['make', 'explore'],
     connectedArtworks: [5, 6],
     saves: 167,
@@ -1210,12 +1173,11 @@ export const activities: Activity[] = [
     icon: '🪡',
     description: 'קורסי תפירה לטווח קצר וארוך: מכונת תפירה, גזרות ואוברלוק.',
     tags: {
-      values: ['מעגליות טכנית'],
-      benefits: ['בניית בגדים', 'מיומנויות תיקון', 'שליטה בגזרות'],
-      activityType: ['קורס', 'תפירה', 'מקצועי'],
-      format: 'פיזי',
-      commitment: '8 שבועות'
+      impact: ['מעגליות טכנית']
     },
+    cost: 'paid',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'professionals',
     draws: ['make', 'explore'],
     connectedArtworks: [1, 2],
     saves: 312,
@@ -1236,12 +1198,11 @@ export const activities: Activity[] = [
     icon: '🧵',
     description: 'מכונות תעשייתיות וביתיות, קבוצות קטנות, מדריכה בוגרת שנקר עם 25+ שנות ניסיון.',
     tags: {
-      values: ['מעגליות טכנית'],
-      benefits: ['מיומנויות תפירה מקצועיות', 'היכרות עם ציוד'],
-      activityType: ['קורס', 'תפירה', 'מקצועי'],
-      format: 'פיזי',
-      commitment: 'רב-מפגשי'
+      impact: ['מעגליות טכנית']
     },
+    cost: 'paid',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'professionals',
     draws: ['make', 'explore'],
     connectedArtworks: [1, 2],
     saves: 234,
@@ -1262,12 +1223,11 @@ export const activities: Activity[] = [
     icon: '✂️',
     description: 'יסודות תפירה, גזרות ובניית בגדים. בעברית ובאנגלית.',
     tags: {
-      values: ['מעגליות טכנית'],
-      benefits: ['הוראה דו-לשונית', 'אווירה משפחתית'],
-      activityType: ['קורס', 'תפירה', 'דו-לשוני'],
-      format: 'פיזי',
-      commitment: 'סדרת מפגשים'
+      impact: ['מעגליות טכנית']
     },
+    cost: 'paid',
+    exhibitionThemes: ['back_to_nature', 'healing_through_design'],
+    targetAudience: 'families',
     draws: ['make', 'explore'],
     connectedArtworks: [1, 2],
     saves: 189,
@@ -1288,12 +1248,11 @@ export const activities: Activity[] = [
     icon: '👙',
     description: 'תפירה, גזרות, התמחות בבגדי ים ואקססוריז.',
     tags: {
-      values: ['מעגליות טכנית'],
-      benefits: ['התמחות בסוגי בגדים', 'מיקום על קו החוף'],
-      activityType: ['קורס', 'תפירה', 'התמחות'],
-      format: 'פיזי',
-      commitment: 'סדרת מפגשים'
+      impact: ['מעגליות טכנית']
     },
+    cost: 'paid',
+    exhibitionThemes: ['back_to_nature', 'healing_through_design'],
+    targetAudience: 'families',
     draws: ['make', 'explore'],
     connectedArtworks: [3, 5],
     saves: 156,
@@ -1314,12 +1273,11 @@ export const activities: Activity[] = [
     icon: '🎨',
     description: 'תפירה, רקמה, סריגה וחרוזים — לילדים (8-12) ולמבוגרים.',
     tags: {
-      values: ['מעגליות טכנית', 'חיבור פנימי'],
-      benefits: ['מיומנויות בין-דוריות', 'מגוון מלאכות'],
-      activityType: ['קורס', 'מלאכה', 'משפחה'],
-      format: 'פיזי',
-      commitment: 'סדרת מפגשים'
+      impact: ['מעגליות טכנית', 'חיבור פנימי']
     },
+    cost: 'paid',
+    exhibitionThemes: ['back_to_nature', 'healing_through_design'],
+    targetAudience: 'families',
     draws: ['make', 'meet'],
     connectedArtworks: [2, 6],
     saves: 123,
@@ -1340,12 +1298,11 @@ export const activities: Activity[] = [
     icon: '👟',
     description: 'סנדלרות ברמה עולמית בהובלת נינה רוזן (מאז 2007): נעלי ספורט, כובעים וחגורות עור.',
     tags: {
-      values: ['מעגליות טכנית', 'חיבור פנימי'],
-      benefits: ['טכניקות עור מסורתיות', 'חדשנות בחומרים', 'מיומנות מלאכה'],
-      activityType: ['קורס', 'מלאכה', 'מקצועי'],
-      format: 'פיזי',
-      commitment: 'כמה ימים או קורסים'
+      impact: ['מעגליות טכנית', 'חיבור פנימי']
     },
+    cost: 'paid',
+    exhibitionThemes: ['back_to_nature', 'healing_through_design'],
+    targetAudience: 'families',
     draws: ['make', 'explore'],
     connectedArtworks: [2, 5],
     saves: 267,
@@ -1366,12 +1323,11 @@ export const activities: Activity[] = [
     icon: '🏛️',
     description: '23 סדנאות כולל עיבוד עור — בבניין מהמאה ה-18. גלריה וסיורי גג.',
     tags: {
-      values: ['מעגליות טכנית', 'חיבור פנימי'],
-      benefits: ['מיקום היסטורי', 'אומנות מסורתית', 'חקירת חומרים'],
-      activityType: ['סדנה', 'מורשת', 'סיור'],
-      format: 'פיזי',
-      commitment: 'מפגש אחד'
+      impact: ['מעגליות טכנית', 'חיבור פנימי']
     },
+    cost: 'paid',
+    exhibitionThemes: ['back_to_nature', 'healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['make', 'explore', 'witness'],
     connectedArtworks: [2, 6],
     saves: 345,
@@ -1394,12 +1350,11 @@ export const activities: Activity[] = [
     icon: '🪢',
     description: '38 נשים בדואיות שומרות על אריגה בת 4,000 שנה. חומרים טבעיים, צמר כבשי אווסי.',
     tags: {
-      values: ['חיבור פנימי', 'מעורבות קהילתית', 'כוונת התחדשות'],
-      benefits: ['טכניקות מסורתיות', 'העצמת נשים', 'צביעה טבעית'],
-      activityType: ['תרבותי', 'מורשת', 'ביקור'],
-      format: 'פיזי',
-      commitment: 'בתיאום מראש'
+      impact: ['חיבור פנימי', 'מעורבות קהילתית', 'כוונת התחדשות']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'healing_through_design'],
+    targetAudience: 'all_ages',
     draws: ['explore', 'meet', 'witness'],
     connectedArtworks: [4, 6],
     saves: 412,
@@ -1420,12 +1375,11 @@ export const activities: Activity[] = [
     icon: '✨',
     description: 'דור 8 של פיליגרן ורקמה. מסורות תימניות שכמעט נכחדו.',
     tags: {
-      values: ['חיבור פנימי', 'כוונת התחדשות'],
-      benefits: ['שימור מלאכת אבות', 'מורשת תרבותית'],
-      activityType: ['תרבותי', 'מורשת', 'סדנה'],
-      format: 'פיזי',
-      commitment: 'בתיאום מראש'
+      impact: ['חיבור פנימי', 'כוונת התחדשות']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'healing_through_design'],
+    targetAudience: 'all_ages',
     draws: ['make', 'explore', 'witness'],
     connectedArtworks: [2, 6],
     saves: 289,
@@ -1448,12 +1402,11 @@ export const activities: Activity[] = [
     icon: '👗',
     description: 'וינטג׳ מקורי מהשנים 50-90. מחירי ביניים.',
     tags: {
-      values: ['מעגליות טכנית', 'חיבור פנימי'],
-      benefits: ['וינטג׳ מאוצר', 'יד שנייה איכותית'],
-      activityType: ['קניות', 'וינטג׳'],
-      format: 'פיזי',
-      commitment: 'גמיש'
+      impact: ['מעגליות טכנית', 'חיבור פנימי']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'all_ages',
     draws: ['witness', 'exchange'],
     connectedArtworks: [1, 2],
     saves: 456,
@@ -1474,12 +1427,11 @@ export const activities: Activity[] = [
     icon: '💎',
     description: 'יד שנייה של מותגי יוקרה: גוצ׳י, שאנל ופריטי מעצבים. בקצה הגבוה של הסקאלה.',
     tags: {
-      values: ['מעגליות טכנית', 'מעורבות קהילתית'],
-      benefits: ['יוקרה מעגלית', 'יד שנייה ברמה גבוהה'],
-      activityType: ['קניות', 'יוקרה', 'יד שנייה'],
-      format: 'פיזי',
-      commitment: 'גמיש'
+      impact: ['מעגליות טכנית', 'מעורבות קהילתית']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'professionals',
     draws: ['witness', 'exchange'],
     connectedArtworks: [1, 5],
     saves: 234,
@@ -1500,12 +1452,11 @@ export const activities: Activity[] = [
     icon: '⚖️',
     description: 'בגדי וינטג׳ במחיר לפי משקל. נגיש לכיס.',
     tags: {
-      values: ['מעגליות טכנית'],
-      benefits: ['יד שנייה במחיר נגיש', 'ציד אוצרות'],
-      activityType: ['קניות', 'וינטג׳', 'בתקציב'],
-      format: 'פיזי',
-      commitment: 'גמיש'
+      impact: ['מעגליות טכנית']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'professionals',
     draws: ['witness', 'exchange'],
     connectedArtworks: [1, 3],
     saves: 567,
@@ -1526,12 +1477,11 @@ export const activities: Activity[] = [
     icon: '👠',
     description: 'וינטג׳ יוקרה ופריטי מעצבים. בקצה הגבוה.',
     tags: {
-      values: ['מעגליות טכנית', 'חיבור פנימי'],
-      benefits: ['וינטג׳ יוקרה מאוצר', 'פריטי השקעה איכותיים'],
-      activityType: ['קניות', 'יוקרה', 'וינטג׳'],
-      format: 'פיזי',
-      commitment: 'גמיש'
+      impact: ['מעגליות טכנית', 'חיבור פנימי']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'professionals',
     draws: ['witness', 'exchange'],
     connectedArtworks: [1, 2],
     saves: 312,
@@ -1552,12 +1502,11 @@ export const activities: Activity[] = [
     icon: '🏡',
     description: 'וינטג׳ בבית משנות ה-20 של המאה הקודמת. מבצעי "10 שקל" מפורסמים.',
     tags: {
-      values: ['מעגליות טכנית', 'חיבור פנימי'],
-      benefits: ['מיקום היסטורי', 'מציאות זולות'],
-      activityType: ['קניות', 'וינטג׳', 'חוויה'],
-      format: 'פיזי',
-      commitment: 'יציאה לכל היום'
+      impact: ['מעגליות טכנית', 'חיבור פנימי']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'professionals',
     draws: ['witness', 'exchange'],
     connectedArtworks: [1, 6],
     saves: 289,
@@ -1580,12 +1529,11 @@ export const activities: Activity[] = [
     icon: '🎓',
     description: 'תואר B.Des בן 4 שנים עם מסלול קיימות "Rebooting Fashion", פרויקט FISHSkin ומרכז החדשנות CIRTex.',
     tags: {
-      values: ['מעגליות טכנית', 'ראייה מערכתית'],
-      benefits: ['הכשרה מקצועית באופנה מקיימת', 'קישורים לתעשייה'],
-      activityType: ['תואר', 'אקדמי', 'מקצועי'],
-      format: 'פיזי',
-      commitment: '4 שנים'
+      impact: ['מעגליות טכנית', 'ראייה מערכתית']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'students',
     draws: ['explore', 'make', 'meet'],
     connectedArtworks: [2, 4, 5],
     saves: 412,
@@ -1606,12 +1554,11 @@ export const activities: Activity[] = [
     icon: '📐',
     description: '"עיצוב מקיים ופיתוח" (באנגלית). פוקוס על Slow Design וייצור מקומי.',
     tags: {
-      values: ['ראייה מערכתית', 'מעגליות טכנית'],
-      benefits: ['רצינות אקדמית', 'חינוך עיצובי', 'חשיבה מערכתית'],
-      activityType: ['קורס', 'אקדמי', 'עיצוב'],
-      format: 'פיזי',
-      commitment: 'סמסטר+'
+      impact: ['ראייה מערכתית', 'מעגליות טכנית']
     },
+    cost: 'paid',
+    exhibitionThemes: ['back_to_nature', 'healing_through_design'],
+    targetAudience: 'students',
     draws: ['explore', 'make'],
     connectedArtworks: [4, 5, 6],
     saves: 234,
@@ -1632,12 +1579,11 @@ export const activities: Activity[] = [
     icon: '🌿',
     description: '8 מפגשים החל מ-19 באפריל 2026 (20:00-21:30). שדרוג, אפס פסולת וחומרים חדשניים. 3,900 ש"ח.',
     tags: {
-      values: ['ראייה מערכתית', 'מעגליות טכנית'],
-      benefits: ['פיתוח מקצועי', 'שיתוף עם בר-אילן', 'תוכנית יזמות ירוקה של האיחוד האירופי'],
-      activityType: ['קורס', 'מקצועי', 'אונליין'],
-      format: 'אונליין',
-      commitment: '8 שבועות'
+      impact: ['ראייה מערכתית', 'מעגליות טכנית']
     },
+    cost: 'paid',
+    exhibitionThemes: ['back_to_nature', 'healing_through_design'],
+    targetAudience: 'students',
     draws: ['explore', 'meet'],
     connectedArtworks: [2, 4],
     saves: 178,
@@ -1660,12 +1606,11 @@ export const activities: Activity[] = [
     icon: '🤝',
     description: 'פורומים פתוחים, הרצאות, הקרנות של "The True Cost" ופרויקט ספריית הבגדים. הוקם בספטמבר 2016.',
     tags: {
-      values: ['מעורבות קהילתית', 'ראייה מערכתית'],
-      benefits: ['קישורים לתעשייה', 'אירועים חינמיים/בהמלצת תרומה', 'בניית קהילה'],
-      activityType: ['פורום', 'קהילה', 'אירועים'],
-      format: 'משולב',
-      commitment: 'חברות מתמשכת'
+      impact: ['מעורבות קהילתית', 'ראייה מערכתית']
     },
+    cost: 'paid',
+    exhibitionThemes: ['back_to_nature', 'healing_through_design'],
+    targetAudience: 'students',
     draws: ['meet', 'explore', 'amplify'],
     connectedArtworks: [1, 4],
     saves: 534,
@@ -1686,12 +1631,11 @@ export const activities: Activity[] = [
     icon: '✊',
     description: 'תפקידי התנדבות לקראת שבוע Fashion Revolution וקמפיינים מתמשכים.',
     tags: {
-      values: ['מעורבות קהילתית', 'ראייה מערכתית'],
-      benefits: ['מיומנויות אקטיביזם', 'השתתפות בקמפיינים', 'רשת גלובלית'],
-      activityType: ['התנדבות', 'אקטיביזם', 'קמפיין'],
-      format: 'משולב',
-      commitment: 'מתמשך'
+      impact: ['מעורבות קהילתית', 'ראייה מערכתית']
     },
+    cost: 'paid',
+    exhibitionThemes: ['back_to_nature', 'healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['amplify', 'meet', 'explore'],
     connectedArtworks: [1, 4],
     saves: 189,
@@ -1712,12 +1656,11 @@ export const activities: Activity[] = [
     icon: '🌍',
     description: 'שווקי פופ-אפ ליד שנייה, סנגור וחקירת פסולת טקסטיל.',
     tags: {
-      values: ['מעורבות קהילתית', 'ראייה מערכתית', 'כוונת התחדשות'],
-      benefits: ['ניסיון אקטיביסטי', 'מעורבות במדיניות', 'ארגון קהילתי'],
-      activityType: ['התנדבות', 'אקטיביזם', 'שווקים'],
-      format: 'משולב',
-      commitment: 'מתמשך'
+      impact: ['מעורבות קהילתית', 'ראייה מערכתית', 'כוונת התחדשות']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'all_ages',
     draws: ['amplify', 'meet', 'exchange'],
     connectedArtworks: [4, 6],
     saves: 234,
@@ -1738,12 +1681,11 @@ export const activities: Activity[] = [
     icon: '💜',
     description: 'להתנדב/לתרום/לקנות בחנויות יד שנייה שמעסיקות אנשים עם מוגבלויות.',
     tags: {
-      values: ['מעורבות קהילתית', 'כוונת התחדשות'],
-      benefits: ['השפעה חברתית במפגש עם כלכלה מעגלית', 'תעסוקה מכלילה'],
-      activityType: ['עסק חברתי', 'התנדבות', 'קניות'],
-      format: 'פיזי',
-      commitment: 'גמיש'
+      impact: ['מעורבות קהילתית', 'כוונת התחדשות']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'all_ages',
     draws: ['meet', 'exchange', 'amplify'],
     connectedArtworks: [1, 4],
     saves: 345,
@@ -1766,12 +1708,11 @@ export const activities: Activity[] = [
     icon: '🔬',
     description: 'טכנולוגיית SMART-UP™ — הפיכה אנזימטית של פסולת טקסטיל לחוט. 10 טון בשבועות פיילוט.',
     tags: {
-      values: ['מעגליות טכנית', 'כוונת התחדשות'],
-      benefits: ['שינוי פסולת בקנה מידה תעשייתי', 'גישה לחדשנות'],
-      activityType: ['חדשנות', 'מחקר', 'שותפות'],
-      format: 'פיזי',
-      commitment: 'שותפות'
+      impact: ['מעגליות טכנית', 'כוונת התחדשות']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'professionals',
     draws: ['explore', 'meet'],
     connectedArtworks: [2, 4],
     saves: 156,
@@ -1792,12 +1733,11 @@ export const activities: Activity[] = [
     icon: '♻️',
     description: 'מכלי איסוף לטקסטיל. במצב טוב→שימוש חוזר; שחוק→סמרטוטים; צמר/אקריליק→מיחזור.',
     tags: {
-      values: ['מעגליות טכנית'],
-      benefits: ['תשתית עירונית', 'גישה לתרומת טקסטיל'],
-      activityType: ['תרומה', 'מיחזור', 'תשתית'],
-      format: 'פיזי',
-      commitment: 'חד-פעמי'
+      impact: ['מעגליות טכנית']
     },
+    cost: 'donation_based',
+    exhibitionThemes: ['back_to_nature', 'healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['exchange', 'amplify'],
     connectedArtworks: [4],
     saves: 678,
@@ -1818,12 +1758,11 @@ export const activities: Activity[] = [
     icon: '🧬',
     description: 'סיבים מתכלים וצבעים טבעיים מאצות. הפחתה של 80% במים, אפס פסולת.',
     tags: {
-      values: ['מעגליות טכנית', 'כוונת התחדשות'],
-      benefits: ['חומרים מקיימים מהדור הבא', 'חדשנות ביו-חומרים'],
-      activityType: ['מחקר', 'חדשנות'],
-      format: 'מחקר אונליין',
-      commitment: 'גמיש'
+      impact: ['מעגליות טכנית', 'כוונת התחדשות']
     },
+    cost: 'donation_based',
+    exhibitionThemes: ['back_to_nature', 'healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['explore'],
     connectedArtworks: [2, 6],
     saves: 234,

@@ -20,11 +20,11 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
   const t = useT();
   const { isSaved, toggleSave, logEvent } = useSession();
   const [expanded, setExpanded] = useState(false);
-  const [valuesOpen, setValuesOpen] = useState(false);
-  const [benefitsOpen, setBenefitsOpen] = useState(false);
+  const [impactOpen, setImpactOpen] = useState(false);
   const activityIdStr = String(activity.id);
   const saved = isSaved(activityIdStr);
   const { iconName, color: categoryColor, tint: categoryTint, ring: categoryRing } = getActivityVisual(activity.type);
+  const chipClass = 'text-[10px] px-2.5 py-1 border border-foreground/30 text-foreground rounded-full font-sans-thin whitespace-nowrap';
   const EnergyIcon = activity.energyLevel === 'low_key' ? Feather : activity.energyLevel === 'hands_on' ? Flame : Dumbbell;
 
   // fire initiative_view once when card mounts
@@ -119,66 +119,50 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
           {activity.location} · {activity.commitment}
         </p>
 
-        {/* Values tags — single row, expand to show all */}
+        {/* Tier 1 — format + commitment chips */}
+        <div className="flex flex-wrap gap-1.5 mb-4">
+          <span className={chipClass}>{t(`format_${activity.locationFormat}` as any)}</span>
+          <span className={chipClass}>{activity.commitment}</span>
+        </div>
+
+        {/* Impact tags — single row, expand to show all */}
         <div className="mb-3">
           <div className="text-[9px] font-display text-muted-foreground uppercase tracking-[0.25em] mb-2">
-            {t('values_label')}
+            {t('impact_label')}
           </div>
           <div
             className={cn(
               'flex flex-wrap gap-1.5 overflow-hidden transition-[max-height] duration-300',
-              valuesOpen ? 'max-h-40' : 'max-h-7'
+              impactOpen ? 'max-h-40' : 'max-h-7'
             )}
           >
-            {activity.tags.values.map(tag => (
-              <span
-                key={tag}
-                className="text-[10px] px-2.5 py-1 border border-foreground/30 text-foreground rounded-full font-sans-thin tracking-wide whitespace-nowrap"
-              >
+            {activity.tags.impact.map(tag => (
+              <span key={tag} className={chipClass}>
                 {tag}
               </span>
             ))}
           </div>
-          {activity.tags.values.length > 2 && (
+          {activity.tags.impact.length > 2 && (
             <button
-              onClick={() => setValuesOpen(v => !v)}
+              onClick={() => setImpactOpen(v => !v)}
               className="mt-1.5 text-[10px] font-display uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
             >
-              {valuesOpen ? t('hide_details') : `+${activity.tags.values.length} ${t('more_word')}`}
-              {valuesOpen ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+              {impactOpen ? t('hide_details') : `+${activity.tags.impact.length} ${t('more_word')}`}
+              {impactOpen ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
             </button>
           )}
         </div>
 
-        {/* Benefits tags — single row, expand to show all */}
+        {/* Activity type */}
         <div className="mb-5">
           <div className="text-[9px] font-display text-muted-foreground uppercase tracking-[0.25em] mb-2">
-            {t('benefits_label')}
+            {t('activity_type_label')}
           </div>
-          <div
-            className={cn(
-              'flex flex-wrap gap-1.5 overflow-hidden transition-[max-height] duration-300',
-              benefitsOpen ? 'max-h-60' : 'max-h-7'
-            )}
-          >
-            {activity.tags.benefits.map(tag => (
-              <span
-                key={tag}
-                className="text-[10px] px-2.5 py-1 border border-foreground/15 text-muted-foreground rounded-full font-sans-thin whitespace-nowrap"
-              >
-                {tag}
-              </span>
-            ))}
+          <div className="flex flex-wrap gap-1.5">
+            <span className="text-[10px] px-2.5 py-1 border border-foreground/15 text-muted-foreground rounded-full font-sans-thin whitespace-nowrap">
+              {activity.type}
+            </span>
           </div>
-          {activity.tags.benefits.length > 2 && (
-            <button
-              onClick={() => setBenefitsOpen(v => !v)}
-              className="mt-1.5 text-[10px] font-display uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
-            >
-              {benefitsOpen ? t('hide_details') : `+${activity.tags.benefits.length} ${t('more_word')}`}
-              {benefitsOpen ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
-            </button>
-          )}
         </div>
 
         {/* Expand/Collapse button */}
@@ -204,47 +188,20 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
                 {activity.description}
               </p>
 
-              <div className="mb-4">
-                <h4 className="text-[9px] font-display text-muted-foreground uppercase tracking-[0.25em] mb-2">
-                  {t('activity_type_label')}
-                </h4>
-                <div className="flex flex-wrap gap-1.5">
-                  {activity.tags.activityType.map((type, i) => (
-                    <span key={i} className="text-[10px] px-2.5 py-1 border border-foreground/15 text-muted-foreground rounded-full font-sans-thin">
-                      {type}
-                    </span>
-                  ))}
-                </div>
+              <div className="flex flex-wrap gap-1.5 mb-2">
+                {activity.exhibitionThemes.map(theme => (
+                  <span key={theme} className={chipClass}>
+                    {t(`theme_${theme}` as any)}
+                  </span>
+                ))}
               </div>
 
-              <div className="mb-4">
-                <h4 className="text-[9px] font-display text-muted-foreground uppercase tracking-[0.25em] mb-2">
-                  {t('all_benefits_label')}
-                </h4>
-                <div className="flex flex-wrap gap-1.5">
-                  {activity.tags.benefits.map(tag => (
-                    <span
-                      key={tag}
-                      className="text-[10px] px-2.5 py-1 border border-foreground/15 text-muted-foreground rounded-full font-sans-thin"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+              <div className="flex flex-wrap gap-1.5 mb-2">
+                <span className={chipClass}>{t(`audience_${activity.targetAudience}` as any)}</span>
               </div>
 
-              <div>
-                <h4 className="text-[9px] font-display text-muted-foreground uppercase tracking-[0.25em] mb-2">
-                  {t('format_commitment_label')}
-                </h4>
-                <div className="flex flex-wrap gap-1.5">
-                  <span className="text-[10px] px-2.5 py-1 border border-foreground/30 text-foreground rounded-full font-sans-thin">
-                    {activity.tags.format}
-                  </span>
-                  <span className="text-[10px] px-2.5 py-1 border border-foreground/30 text-foreground rounded-full font-sans-thin">
-                    {activity.tags.commitment}
-                  </span>
-                </div>
+              <div className="flex flex-wrap gap-1.5">
+                <span className={chipClass}>{t(`cost_${activity.cost}` as any)}</span>
               </div>
             </motion.div>
           )}

@@ -19,12 +19,11 @@ export interface Activity {
   icon: string;
   description: string;
   tags: {
-    values: string[];
-    benefits: string[];
-    activityType: string[];
-    format: string;
-    commitment: string;
+    impact: string[];
   };
+  cost: 'free' | 'donation_based' | 'paid';
+  exhibitionThemes: string[];
+  targetAudience: 'families' | 'professionals' | 'students' | 'all_ages';
   draws: string[]; // matches drawOptions ids
   connectedArtworks: number[]; // artwork ids
   saves: number;
@@ -250,12 +249,11 @@ export const activities: Activity[] = [
     icon: '🏆',
     description: "World's largest sustainable fashion design competition. Applications open annually ~January.",
     tags: {
-      values: ['Technical Circularity', 'Community Engagement'],
-      benefits: ['Career-changing prizes', 'Hong Kong bootcamp + runway show', 'Global exposure'],
-      activityType: ['Competition', 'Design', 'Portfolio'],
-      format: 'Online',
-      commitment: 'Multi-month'
+      impact: ['Technical Circularity', 'Community Engagement']
     },
+    cost: 'free',
+    exhibitionThemes: ['healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['make', 'meet', 'amplify'],
     connectedArtworks: [1, 3],
     saves: 234,
@@ -276,12 +274,11 @@ export const activities: Activity[] = [
     icon: '📱',
     description: "Follow world's largest fashion activism movement. Daily content on transparency & justice. 529K followers.",
     tags: {
-      values: ['Community Engagement', 'Systems Awareness'],
-      benefits: ['Global campaign updates', 'Activist inspiration', '#WhoMadeMyClothes participation'],
-      activityType: ['Social Media', 'Activism', 'Education'],
-      format: 'Online',
-      commitment: 'Flexible'
+      impact: ['Community Engagement', 'Systems Awareness']
     },
+    cost: 'free',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['amplify', 'explore'],
     connectedArtworks: [1, 4],
     saves: 529,
@@ -302,12 +299,11 @@ export const activities: Activity[] = [
     icon: '🌍',
     description: 'Annual week of action: Mend in Public, #WhoMadeMyClothes, local/virtual events worldwide. April 2026.',
     tags: {
-      values: ['Community Engagement', 'Systems Awareness'],
-      benefits: ['Global solidarity', 'Activist skills', 'Campaign participation'],
-      activityType: ['Events', 'Social Media', 'Activism'],
-      format: 'Hybrid',
-      commitment: 'One week annually'
+      impact: ['Community Engagement', 'Systems Awareness']
     },
+    cost: 'free',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'all_ages',
     draws: ['amplify', 'meet', 'make'],
     connectedArtworks: [1, 2, 4],
     saves: 412,
@@ -328,12 +324,11 @@ export const activities: Activity[] = [
     icon: '📧',
     description: 'Bi-weekly updates on campaigns, resources, global activism.',
     tags: {
-      values: ['Community Engagement', 'Systems Awareness'],
-      benefits: ['Campaign updates', 'Resource access', 'Global network'],
-      activityType: ['Newsletter', 'Education'],
-      format: 'Online',
-      commitment: 'Bi-weekly'
+      impact: ['Community Engagement', 'Systems Awareness']
     },
+    cost: 'free',
+    exhibitionThemes: ['healing_through_design'],
+    targetAudience: 'all_ages',
     draws: ['explore', 'amplify'],
     connectedArtworks: [4],
     saves: 189,
@@ -354,12 +349,11 @@ export const activities: Activity[] = [
     icon: '🎓',
     description: 'Free online course from UK universities on sustainable fashion fundamentals.',
     tags: {
-      values: ['Systems Awareness', 'Technical Circularity'],
-      benefits: ['Academic rigor', 'Self-paced learning', 'Industry overview'],
-      activityType: ['Course', 'Education', 'Self-paced'],
-      format: 'Online',
-      commitment: 'Multi-week'
+      impact: ['Systems Awareness', 'Technical Circularity']
     },
+    cost: 'paid',
+    exhibitionThemes: ['healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['explore'],
     connectedArtworks: [2, 4],
     saves: 567,
@@ -380,12 +374,11 @@ export const activities: Activity[] = [
     icon: '📚',
     description: 'Fashion Values, Fashion Economy, Nature/Society/Economy/Cultures courses by world-leading researchers at UAL.',
     tags: {
-      values: ['Systems Awareness', 'Regenerative Intention'],
-      benefits: ['University of the Arts London quality', 'Design thinking challenges', 'Expert teaching'],
-      activityType: ['Course', 'Academic', 'Research'],
-      format: 'Online',
-      commitment: 'Varies'
+      impact: ['Systems Awareness', 'Regenerative Intention']
     },
+    cost: 'paid',
+    exhibitionThemes: ['back_to_nature', 'healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['explore'],
     connectedArtworks: [2, 6],
     saves: 234,
@@ -406,12 +399,11 @@ export const activities: Activity[] = [
     icon: '👗',
     description: 'Affordable online courses on sustainable fashion business: purpose, create, grow, communicate.',
     tags: {
-      values: ['Community Engagement', 'Systems Awareness'],
-      benefits: ['Small business focus', 'Guest expert interviews', 'Special community'],
-      activityType: ['Course', 'Business', 'Community'],
-      format: 'Online',
-      commitment: 'Self-paced'
+      impact: ['Community Engagement', 'Systems Awareness']
     },
+    cost: 'paid',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'all_ages',
     draws: ['explore', 'meet'],
     connectedArtworks: [1, 3],
     saves: 156,
@@ -432,12 +424,11 @@ export const activities: Activity[] = [
     icon: '🎓',
     description: "Master's degree in Sustainable Fashion. £12,150 total, payment plans available.",
     tags: {
-      values: ['Systems Awareness', 'Technical Circularity'],
-      benefits: ['Accredited degree', 'Professional qualification', 'Online flexibility'],
-      activityType: ['Degree', 'Academic', 'Professional'],
-      format: 'Online',
-      commitment: '2 years'
+      impact: ['Systems Awareness', 'Technical Circularity']
     },
+    cost: 'paid',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['explore', 'make'],
     connectedArtworks: [2, 4, 5],
     saves: 89,
@@ -460,12 +451,11 @@ export const activities: Activity[] = [
     icon: '📱',
     description: 'Research-driven sustainable fashion advocate Meital Peleg Mizrachi. Slow fashion education.',
     tags: {
-      values: ['Community Engagement', 'Systems Awareness'],
-      benefits: ['Critical consumption patterns', 'Fashion industry critique'],
-      activityType: ['Social Media', 'Education'],
-      format: 'Online',
-      commitment: 'Flexible'
+      impact: ['Community Engagement', 'Systems Awareness']
     },
+    cost: 'free',
+    exhibitionThemes: ['healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['witness', 'amplify'],
     connectedArtworks: [1, 4],
     saves: 78,
@@ -486,12 +476,11 @@ export const activities: Activity[] = [
     icon: '📱',
     description: "Israeli Sustainable Fashion Forum's Instagram community.",
     tags: {
-      values: ['Community Engagement', 'Systems Awareness'],
-      benefits: ['Industry connections', 'Educational content'],
-      activityType: ['Social Media', 'Community'],
-      format: 'Online',
-      commitment: 'Flexible'
+      impact: ['Community Engagement', 'Systems Awareness']
     },
+    cost: 'free',
+    exhibitionThemes: ['healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['witness', 'amplify'],
     connectedArtworks: [1, 2],
     saves: 145,
@@ -512,12 +501,11 @@ export const activities: Activity[] = [
     icon: '🪂',
     description: 'Upcycled streetwear from parachutes, tarps, kites. Negev-based designer.',
     tags: {
-      values: ['Technical Circularity', 'Regenerative Intention'],
-      benefits: ['Material transformation inspiration', 'Maximalist upcycling'],
-      activityType: ['Social Media', 'Design Inspiration'],
-      format: 'Online',
-      commitment: 'Flexible'
+      impact: ['Technical Circularity', 'Regenerative Intention']
     },
+    cost: 'free',
+    exhibitionThemes: ['healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['witness', 'explore'],
     connectedArtworks: [3, 5],
     saves: 234,
@@ -538,12 +526,11 @@ export const activities: Activity[] = [
     icon: '🛍️',
     description: "Vintage and secondhand community updates for Haifa's flea market.",
     tags: {
-      values: ['Community Engagement', 'Technical Circularity'],
-      benefits: ['Local reuse culture', 'Secondhand discovery'],
-      activityType: ['Social Media', 'Local'],
-      format: 'Online',
-      commitment: 'Flexible'
+      impact: ['Community Engagement', 'Technical Circularity']
     },
+    cost: 'free',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['witness', 'exchange'],
     connectedArtworks: [1, 3],
     saves: 67,
@@ -564,12 +551,11 @@ export const activities: Activity[] = [
     icon: '✊',
     description: 'Fashion Revolution Israel chapter activities and campaigns.',
     tags: {
-      values: ['Community Engagement', 'Systems Awareness'],
-      benefits: ['Labor transparency', 'Supply chain activism'],
-      activityType: ['Social Media', 'Activism'],
-      format: 'Online',
-      commitment: 'Flexible'
+      impact: ['Community Engagement', 'Systems Awareness']
     },
+    cost: 'free',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'all_ages',
     draws: ['amplify', 'explore'],
     connectedArtworks: [1, 4],
     saves: 189,
@@ -590,12 +576,11 @@ export const activities: Activity[] = [
     icon: '👔',
     description: '40-year pioneer of upcycled Israeli fashion, local manufacturing.',
     tags: {
-      values: ['Technical Circularity', 'Community Engagement'],
-      benefits: ['Historical perspective', 'Local production advocacy'],
-      activityType: ['Social Media', 'Design Inspiration'],
-      format: 'Online',
-      commitment: 'Flexible'
+      impact: ['Technical Circularity', 'Community Engagement']
     },
+    cost: 'free',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['witness', 'explore'],
     connectedArtworks: [1, 2],
     saves: 312,
@@ -618,12 +603,11 @@ export const activities: Activity[] = [
     icon: '👕',
     description: "50,000+ members exchanging clothing that didn't fit. ~100 daily posts.",
     tags: {
-      values: ['Community Engagement', 'Technical Circularity'],
-      benefits: ['Garment lifecycle extension', 'P2P exchange', 'Community solidarity'],
-      activityType: ['Community', 'Exchange'],
-      format: 'Online',
-      commitment: 'Flexible'
+      impact: ['Community Engagement', 'Technical Circularity']
     },
+    cost: 'free',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['exchange', 'meet'],
     connectedArtworks: [1, 3],
     saves: 456,
@@ -644,12 +628,11 @@ export const activities: Activity[] = [
     icon: '🍂',
     description: 'Sustainable fashion activism, swap events, November campaign. Founded 2019.',
     tags: {
-      values: ['Community Engagement', 'Systems Awareness'],
-      benefits: ['Fast fashion critique', 'Collective action', 'Swap event access'],
-      activityType: ['Community', 'Activism', 'Events'],
-      format: 'Online',
-      commitment: 'Flexible'
+      impact: ['Community Engagement', 'Systems Awareness']
     },
+    cost: 'free',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'all_ages',
     draws: ['amplify', 'meet', 'exchange'],
     connectedArtworks: [1, 4],
     saves: 234,
@@ -670,12 +653,11 @@ export const activities: Activity[] = [
     icon: '📧',
     description: 'Monthly updates, events, industry news from Israeli forum.',
     tags: {
-      values: ['Systems Awareness', 'Community Engagement'],
-      benefits: ['Industry developments', 'Event announcements'],
-      activityType: ['Newsletter', 'Local'],
-      format: 'Online',
-      commitment: 'Monthly'
+      impact: ['Systems Awareness', 'Community Engagement']
     },
+    cost: 'free',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['explore'],
     connectedArtworks: [2, 4],
     saves: 178,
@@ -696,12 +678,11 @@ export const activities: Activity[] = [
     icon: '🌿',
     description: 'Campaign updates, swap events, policy wins in Israeli fashion landscape.',
     tags: {
-      values: ['Community Engagement', 'Systems Awareness'],
-      benefits: ['Activism opportunities', 'Policy awareness'],
-      activityType: ['Newsletter', 'Activism'],
-      format: 'Online',
-      commitment: 'Regular'
+      impact: ['Community Engagement', 'Systems Awareness']
     },
+    cost: 'free',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['amplify', 'explore'],
     connectedArtworks: [4, 6],
     saves: 145,
@@ -724,12 +705,11 @@ export const activities: Activity[] = [
     icon: '✊',
     description: 'Mend in Public Day (April 26), #WhoMadeMyClothes campaign, "Think Globally, Act Locally".',
     tags: {
-      values: ['Community Engagement', 'Systems Awareness'],
-      benefits: ['Labor transparency', 'Visible mending culture', 'Activist community'],
-      activityType: ['Events', 'Activism', 'Making'],
-      format: 'Hybrid',
-      commitment: 'Annual week'
+      impact: ['Community Engagement', 'Systems Awareness']
     },
+    cost: 'free',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'all_ages',
     draws: ['amplify', 'meet', 'make'],
     connectedArtworks: [1, 3, 4],
     saves: 289,
@@ -750,12 +730,11 @@ export const activities: Activity[] = [
     icon: '🛍️',
     description: '15+ independent Israeli designers, up to 70% off past seasons. May 22-24, 2025.',
     tags: {
-      values: ['Community Engagement', 'Technical Circularity'],
-      benefits: ['Designer discovery', 'Affordable slow fashion'],
-      activityType: ['Fair', 'Shopping', 'Designer'],
-      format: 'In-person',
-      commitment: 'One-time'
+      impact: ['Community Engagement', 'Technical Circularity']
     },
+    cost: 'free',
+    exhibitionThemes: ['healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['witness', 'exchange'],
     connectedArtworks: [1, 5],
     saves: 178,
@@ -776,12 +755,11 @@ export const activities: Activity[] = [
     icon: '👗',
     description: '28 runway shows, Shenkar College showcase, Israeli design ecosystem. October 26-30, 2025.',
     tags: {
-      values: ['Systems Awareness', 'Community Engagement'],
-      benefits: ['Industry immersion', 'Designer discovery'],
-      activityType: ['Event', 'Fashion', 'Industry'],
-      format: 'In-person',
-      commitment: 'Multi-day'
+      impact: ['Systems Awareness', 'Community Engagement']
     },
+    cost: 'free',
+    exhibitionThemes: ['healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['witness', 'explore', 'meet'],
     connectedArtworks: [1, 2, 5],
     saves: 345,
@@ -802,12 +780,11 @@ export const activities: Activity[] = [
     icon: '💜',
     description: '22nd annual edition benefiting Jerusalem Rape Crisis Center.',
     tags: {
-      values: ['Community Engagement', 'Regenerative Intention'],
-      benefits: ['Circular economy + social impact', 'Community building'],
-      activityType: ['Charity', 'Swap', 'Community'],
-      format: 'In-person',
-      commitment: 'Annual'
+      impact: ['Community Engagement', 'Regenerative Intention']
     },
+    cost: 'free',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['exchange', 'meet', 'amplify'],
     connectedArtworks: [1, 4],
     saves: 267,
@@ -828,12 +805,11 @@ export const activities: Activity[] = [
     icon: '🔄',
     description: 'Clothing swap events benefiting local charities.',
     tags: {
-      values: ['Community Engagement', 'Regenerative Intention'],
-      benefits: ['Wardrobe refresh', 'Charitable giving', 'Social connection'],
-      activityType: ['Swap', 'Charity', 'Social'],
-      format: 'In-person',
-      commitment: 'One-time'
+      impact: ['Community Engagement', 'Regenerative Intention']
     },
+    cost: 'free',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'all_ages',
     draws: ['exchange', 'meet'],
     connectedArtworks: [1, 3],
     saves: 189,
@@ -854,12 +830,11 @@ export const activities: Activity[] = [
     icon: '🧒',
     description: "Ages 0-7 clothing exchange. Supports Mothers Make a Difference charity.",
     tags: {
-      values: ['Community Engagement', 'Regenerative Intention'],
-      benefits: ['Family participation', "Kids' circular economy", 'Social impact'],
-      activityType: ['Family', 'Swap', 'Charity'],
-      format: 'In-person',
-      commitment: 'One-time'
+      impact: ['Community Engagement', 'Regenerative Intention']
     },
+    cost: 'paid',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'families',
     draws: ['exchange', 'meet'],
     connectedArtworks: [3, 5],
     saves: 134,
@@ -880,12 +855,11 @@ export const activities: Activity[] = [
     icon: '🌱',
     description: 'Sustainable vendors, upcycling workshops, clothing swaps with Greenpeace.',
     tags: {
-      values: ['Community Engagement', 'Technical Circularity'],
-      benefits: ['Alternative consumption discovery', 'Workshop access'],
-      activityType: ['Fair', 'Workshop', 'Swap'],
-      format: 'In-person',
-      commitment: 'One-time'
+      impact: ['Community Engagement', 'Technical Circularity']
     },
+    cost: 'paid',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'families',
     draws: ['meet', 'make', 'exchange'],
     connectedArtworks: [2, 3, 4],
     saves: 223,
@@ -908,12 +882,11 @@ export const activities: Activity[] = [
     icon: '🎬',
     description: 'Hebrew documentary on true cost of fashion by Sustainable Fashion Forum.',
     tags: {
-      values: ['Systems Awareness'],
-      benefits: ['Consumer awareness', 'Supply chain education'],
-      activityType: ['Video', 'Education'],
-      format: 'Online',
-      commitment: 'One-time'
+      impact: ['Systems Awareness']
     },
+    cost: 'free',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'all_ages',
     draws: ['explore'],
     connectedArtworks: [1, 4],
     saves: 456,
@@ -934,12 +907,11 @@ export const activities: Activity[] = [
     icon: '🎙️',
     description: 'Hebrew podcast with Dr. Meital Peleg Mizrachi on sustainable fashion & Ghana textile waste.',
     tags: {
-      values: ['Systems Awareness', 'Community Engagement'],
-      benefits: ['Global waste journey understanding', 'Ethical considerations'],
-      activityType: ['Podcast', 'Education'],
-      format: 'Online',
-      commitment: 'One-time'
+      impact: ['Systems Awareness', 'Community Engagement']
     },
+    cost: 'free',
+    exhibitionThemes: ['healing_through_design'],
+    targetAudience: 'all_ages',
     draws: ['explore'],
     connectedArtworks: [1, 4, 6],
     saves: 189,
@@ -962,12 +934,11 @@ export const activities: Activity[] = [
     icon: '🧵',
     description: '30+ fabric sellers offering dead-stock, upholstery, end-of-rolls at 75%+ off.',
     tags: {
-      values: ['Technical Circularity', 'Community Engagement'],
-      benefits: ['Material sourcing', 'Local supply chains', 'Dead-stock discovery'],
-      activityType: ['Shopping', 'Materials', 'Local'],
-      format: 'In-person',
-      commitment: 'Flexible'
+      impact: ['Technical Circularity', 'Community Engagement']
     },
+    cost: 'free',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'all_ages',
     draws: ['witness', 'exchange'],
     connectedArtworks: [1, 2, 4],
     saves: 345,
@@ -988,12 +959,11 @@ export const activities: Activity[] = [
     icon: '📦',
     description: 'P2P secondhand marketplace with 400 locker pickup points. Sellers get 80%.',
     tags: {
-      values: ['Technical Circularity', 'Community Engagement'],
-      benefits: ['Circular economy participation', 'Convenient exchange'],
-      activityType: ['Marketplace', 'P2P', 'Digital'],
-      format: 'Hybrid',
-      commitment: 'Flexible'
+      impact: ['Technical Circularity', 'Community Engagement']
     },
+    cost: 'free',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'all_ages',
     draws: ['exchange', 'witness'],
     connectedArtworks: [3, 5],
     saves: 567,
@@ -1014,12 +984,11 @@ export const activities: Activity[] = [
     icon: '📱',
     description: 'Mobile app browsing ~7,000 curated vintage items from physical stores.',
     tags: {
-      values: ['Technical Circularity', 'Spiritual Grounding'],
-      benefits: ['Quality secondhand', 'Curated vintage discovery'],
-      activityType: ['App', 'Vintage', 'Curated'],
-      format: 'Hybrid',
-      commitment: 'Flexible'
+      impact: ['Technical Circularity', 'Spiritual Grounding']
     },
+    cost: 'free',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'all_ages',
     draws: ['witness', 'exchange'],
     connectedArtworks: [1, 2],
     saves: 234,
@@ -1040,12 +1009,11 @@ export const activities: Activity[] = [
     icon: '🏺',
     description: "Israel's largest flea market: Yefet, Margoza, Ami'ad, Olei Zion streets.",
     tags: {
-      values: ['Community Engagement', 'Technical Circularity'],
-      benefits: ['Authentic reuse culture', 'Material sourcing', 'Local secondhand ecosystem'],
-      activityType: ['Market', 'Vintage', 'Culture'],
-      format: 'In-person',
-      commitment: 'Flexible'
+      impact: ['Community Engagement', 'Technical Circularity']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'all_ages',
     draws: ['witness', 'exchange', 'meet'],
     connectedArtworks: [1, 4, 6],
     saves: 678,
@@ -1066,12 +1034,11 @@ export const activities: Activity[] = [
     icon: '🏛️',
     description: '150+ year market, Sat Peddlers Market (~120 vendors), "Bubba Zahava" vintage stall.',
     tags: {
-      values: ['Community Engagement', 'Technical Circularity'],
-      benefits: ['Historical reuse culture', 'Textile history', 'Authentic secondhand'],
-      activityType: ['Market', 'Vintage', 'Historical'],
-      format: 'In-person',
-      commitment: 'Flexible'
+      impact: ['Community Engagement', 'Technical Circularity']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'all_ages',
     draws: ['witness', 'exchange', 'meet'],
     connectedArtworks: [1, 2, 6],
     saves: 345,
@@ -1094,12 +1061,11 @@ export const activities: Activity[] = [
     icon: '🧶',
     description: 'Drop-in mending sessions: creative repair, upcycling techniques, garment longevity guidance.',
     tags: {
-      values: ['Technical Circularity', 'Regenerative Intention'],
-      benefits: ['Visible mending skills', 'Product longevity', 'Slow fashion practice'],
-      activityType: ['Workshop', 'Making', 'Skill-building'],
-      format: 'Hybrid',
-      commitment: 'Drop-in'
+      impact: ['Technical Circularity', 'Regenerative Intention']
     },
+    cost: 'free',
+    exhibitionThemes: ['back_to_nature', 'everyday_circle'],
+    targetAudience: 'all_ages',
     draws: ['make', 'explore', 'meet'],
     connectedArtworks: [2, 3, 4],
     saves: 289,
@@ -1120,12 +1086,11 @@ export const activities: Activity[] = [
     icon: '🔧',
     description: 'Sewing machines, laser cutters, 3D printers. Open access maker space.',
     tags: {
-      values: ['Technical Circularity', 'Community Engagement'],
-      benefits: ['DIY fashion', 'Material experimentation', 'Tool access'],
-      activityType: ['Maker Space', 'Tools', 'Community'],
-      format: 'In-person',
-      commitment: 'Flexible membership'
+      impact: ['Technical Circularity', 'Community Engagement']
     },
+    cost: 'free',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'all_ages',
     draws: ['make', 'explore', 'meet'],
     connectedArtworks: [2, 3, 5],
     saves: 456,
@@ -1146,12 +1111,11 @@ export const activities: Activity[] = [
     icon: '⚙️',
     description: 'Sewing, laser cutting, 3D printing, CNC machines. Supervised public access.',
     tags: {
-      values: ['Technical Circularity', 'Community Engagement'],
-      benefits: ['Maker skills', 'Prototyping access'],
-      activityType: ['Maker Space', 'Tools', 'Training'],
-      format: 'In-person',
-      commitment: 'Flexible'
+      impact: ['Technical Circularity', 'Community Engagement']
     },
+    cost: 'free',
+    exhibitionThemes: ['healing_through_design'],
+    targetAudience: 'all_ages',
     draws: ['make', 'explore'],
     connectedArtworks: [3, 5],
     saves: 234,
@@ -1172,12 +1136,11 @@ export const activities: Activity[] = [
     icon: '🪚',
     description: 'Sewing, laser cutting, woodworking. Courses in maker skills.',
     tags: {
-      values: ['Technical Circularity'],
-      benefits: ['Craft skill development', 'Equipment access'],
-      activityType: ['Maker Space', 'Courses'],
-      format: 'In-person',
-      commitment: 'Flexible'
+      impact: ['Technical Circularity']
     },
+    cost: 'paid',
+    exhibitionThemes: ['healing_through_design'],
+    targetAudience: 'all_ages',
     draws: ['make', 'explore'],
     connectedArtworks: [5, 6],
     saves: 167,
@@ -1200,12 +1163,11 @@ export const activities: Activity[] = [
     icon: '🪡',
     description: 'Short/long-term sewing courses: machine sewing, pattern making, overlock.',
     tags: {
-      values: ['Technical Circularity'],
-      benefits: ['Garment construction', 'Repair skills', 'Pattern making mastery'],
-      activityType: ['Course', 'Sewing', 'Professional'],
-      format: 'In-person',
-      commitment: '8 weeks'
+      impact: ['Technical Circularity']
     },
+    cost: 'paid',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['make', 'explore'],
     connectedArtworks: [1, 2],
     saves: 312,
@@ -1226,12 +1188,11 @@ export const activities: Activity[] = [
     icon: '🧵',
     description: 'Industrial/domestic machines, small groups, Shenkar-trained instructor (25+ years).',
     tags: {
-      values: ['Technical Circularity'],
-      benefits: ['Professional sewing skills', 'Equipment familiarity'],
-      activityType: ['Course', 'Sewing', 'Professional'],
-      format: 'In-person',
-      commitment: 'Multi-session'
+      impact: ['Technical Circularity']
     },
+    cost: 'paid',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['make', 'explore'],
     connectedArtworks: [1, 2],
     saves: 234,
@@ -1252,12 +1213,11 @@ export const activities: Activity[] = [
     icon: '✂️',
     description: 'Sewing basics, pattern making, garment construction. Hebrew & English.',
     tags: {
-      values: ['Technical Circularity'],
-      benefits: ['Bilingual instruction', 'Family atmosphere'],
-      activityType: ['Course', 'Sewing', 'Bilingual'],
-      format: 'In-person',
-      commitment: 'Course series'
+      impact: ['Technical Circularity']
     },
+    cost: 'paid',
+    exhibitionThemes: ['healing_through_design'],
+    targetAudience: 'families',
     draws: ['make', 'explore'],
     connectedArtworks: [1, 2],
     saves: 189,
@@ -1278,12 +1238,11 @@ export const activities: Activity[] = [
     icon: '👙',
     description: 'Sewing, pattern making, swimwear, accessories specialization.',
     tags: {
-      values: ['Technical Circularity'],
-      benefits: ['Specialized garment types', 'Coastal location'],
-      activityType: ['Course', 'Sewing', 'Specialty'],
-      format: 'In-person',
-      commitment: 'Course series'
+      impact: ['Technical Circularity']
     },
+    cost: 'paid',
+    exhibitionThemes: ['healing_through_design'],
+    targetAudience: 'families',
     draws: ['make', 'explore'],
     connectedArtworks: [3, 5],
     saves: 156,
@@ -1304,12 +1263,11 @@ export const activities: Activity[] = [
     icon: '🎨',
     description: 'Sewing, embroidery, knitting, beading for kids (8-12) and adults.',
     tags: {
-      values: ['Technical Circularity', 'Spiritual Grounding'],
-      benefits: ['Intergenerational skills', 'Craft diversity'],
-      activityType: ['Course', 'Craft', 'Family'],
-      format: 'In-person',
-      commitment: 'Course series'
+      impact: ['Technical Circularity', 'Spiritual Grounding']
     },
+    cost: 'paid',
+    exhibitionThemes: ['healing_through_design'],
+    targetAudience: 'families',
     draws: ['make', 'meet'],
     connectedArtworks: [2, 6],
     saves: 123,
@@ -1330,12 +1288,11 @@ export const activities: Activity[] = [
     icon: '👟',
     description: 'World-class shoemaking by Nina Rosen (since 2007): sneakers, millinery, leather belts.',
     tags: {
-      values: ['Technical Circularity', 'Spiritual Grounding'],
-      benefits: ['Traditional leather techniques', 'Material innovation', 'Craft mastery'],
-      activityType: ['Course', 'Craft', 'Professional'],
-      format: 'In-person',
-      commitment: 'Multi-day or courses'
+      impact: ['Technical Circularity', 'Spiritual Grounding']
     },
+    cost: 'paid',
+    exhibitionThemes: ['healing_through_design'],
+    targetAudience: 'families',
     draws: ['make', 'explore'],
     connectedArtworks: [2, 5],
     saves: 267,
@@ -1356,12 +1313,11 @@ export const activities: Activity[] = [
     icon: '🏛️',
     description: '23 workshops including leather crafting in 18th-century building. Gallery, rooftop tours.',
     tags: {
-      values: ['Technical Circularity', 'Spiritual Grounding'],
-      benefits: ['Historic setting', 'Traditional craftsmanship', 'Material exploration'],
-      activityType: ['Workshop', 'Heritage', 'Tour'],
-      format: 'In-person',
-      commitment: 'One session'
+      impact: ['Technical Circularity', 'Spiritual Grounding']
     },
+    cost: 'paid',
+    exhibitionThemes: ['healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['make', 'explore', 'witness'],
     connectedArtworks: [2, 6],
     saves: 345,
@@ -1384,12 +1340,11 @@ export const activities: Activity[] = [
     icon: '🪢',
     description: '38 Bedouin women preserving 4,000-year-old weaving. Natural materials, Awasi wool.',
     tags: {
-      values: ['Spiritual Grounding', 'Community Engagement', 'Regenerative Intention'],
-      benefits: ['Traditional techniques', "Women's empowerment", 'Natural dyeing'],
-      activityType: ['Cultural', 'Heritage', 'Visit'],
-      format: 'In-person',
-      commitment: 'By appointment'
+      impact: ['Spiritual Grounding', 'Community Engagement', 'Regenerative Intention']
     },
+    cost: 'free',
+    exhibitionThemes: ['healing_through_design'],
+    targetAudience: 'all_ages',
     draws: ['explore', 'meet', 'witness'],
     connectedArtworks: [4, 6],
     saves: 412,
@@ -1410,12 +1365,11 @@ export const activities: Activity[] = [
     icon: '✨',
     description: '8th-generation filigree and embroidery. Nearly-lost Yemenite traditions.',
     tags: {
-      values: ['Spiritual Grounding', 'Regenerative Intention'],
-      benefits: ['Ancestral craft preservation', 'Cultural heritage'],
-      activityType: ['Cultural', 'Heritage', 'Workshop'],
-      format: 'In-person',
-      commitment: 'By appointment'
+      impact: ['Spiritual Grounding', 'Regenerative Intention']
     },
+    cost: 'free',
+    exhibitionThemes: ['healing_through_design'],
+    targetAudience: 'all_ages',
     draws: ['make', 'explore', 'witness'],
     connectedArtworks: [2, 6],
     saves: 289,
@@ -1438,12 +1392,11 @@ export const activities: Activity[] = [
     icon: '👗',
     description: 'Original 50s-90s vintage clothing. Mid-range prices.',
     tags: {
-      values: ['Technical Circularity', 'Spiritual Grounding'],
-      benefits: ['Curated vintage', 'Quality secondhand'],
-      activityType: ['Shopping', 'Vintage'],
-      format: 'In-person',
-      commitment: 'Flexible'
+      impact: ['Technical Circularity', 'Spiritual Grounding']
     },
+    cost: 'free',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'all_ages',
     draws: ['witness', 'exchange'],
     connectedArtworks: [1, 2],
     saves: 456,
@@ -1464,12 +1417,11 @@ export const activities: Activity[] = [
     icon: '💎',
     description: 'Luxury resale: Gucci, Chanel, designer pieces. High-end prices.',
     tags: {
-      values: ['Technical Circularity', 'Community Engagement'],
-      benefits: ['Circular luxury', 'High-end secondhand'],
-      activityType: ['Shopping', 'Luxury', 'Resale'],
-      format: 'In-person',
-      commitment: 'Flexible'
+      impact: ['Technical Circularity', 'Community Engagement']
     },
+    cost: 'free',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['witness', 'exchange'],
     connectedArtworks: [1, 5],
     saves: 234,
@@ -1490,12 +1442,11 @@ export const activities: Activity[] = [
     icon: '⚖️',
     description: 'Pay-by-weight vintage clothing. Budget-friendly.',
     tags: {
-      values: ['Technical Circularity'],
-      benefits: ['Affordable secondhand', 'Treasure hunting'],
-      activityType: ['Shopping', 'Vintage', 'Budget'],
-      format: 'In-person',
-      commitment: 'Flexible'
+      impact: ['Technical Circularity']
     },
+    cost: 'free',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['witness', 'exchange'],
     connectedArtworks: [1, 3],
     saves: 567,
@@ -1516,12 +1467,11 @@ export const activities: Activity[] = [
     icon: '👠',
     description: 'Luxury vintage and designer pieces. High-end.',
     tags: {
-      values: ['Technical Circularity', 'Spiritual Grounding'],
-      benefits: ['Curated luxury vintage', 'Quality investment pieces'],
-      activityType: ['Shopping', 'Luxury', 'Vintage'],
-      format: 'In-person',
-      commitment: 'Flexible'
+      impact: ['Technical Circularity', 'Spiritual Grounding']
     },
+    cost: 'free',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['witness', 'exchange'],
     connectedArtworks: [1, 2],
     saves: 312,
@@ -1542,12 +1492,11 @@ export const activities: Activity[] = [
     icon: '🏡',
     description: 'Vintage in 1920s home. Famous "10-Shek Sales".',
     tags: {
-      values: ['Technical Circularity', 'Spiritual Grounding'],
-      benefits: ['Historic setting', 'Budget-friendly finds'],
-      activityType: ['Shopping', 'Vintage', 'Experience'],
-      format: 'In-person',
-      commitment: 'Day trip'
+      impact: ['Technical Circularity', 'Spiritual Grounding']
     },
+    cost: 'free',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['witness', 'exchange'],
     connectedArtworks: [1, 6],
     saves: 289,
@@ -1570,12 +1519,11 @@ export const activities: Activity[] = [
     icon: '🎓',
     description: '4-year B.Des with "Rebooting Fashion" sustainability track, FISHSkin Project, CIRTex Innovation Center.',
     tags: {
-      values: ['Technical Circularity', 'Systems Awareness'],
-      benefits: ['Professional sustainable fashion training', 'Industry connections'],
-      activityType: ['Degree', 'Academic', 'Professional'],
-      format: 'In-person',
-      commitment: '4 years'
+      impact: ['Technical Circularity', 'Systems Awareness']
     },
+    cost: 'free',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['explore', 'make', 'meet'],
     connectedArtworks: [2, 4, 5],
     saves: 412,
@@ -1596,12 +1544,11 @@ export const activities: Activity[] = [
     icon: '📐',
     description: '"Sustainable Design and Development" (English). Slow design, local manufacturing focus.',
     tags: {
-      values: ['Systems Awareness', 'Technical Circularity'],
-      benefits: ['Academic rigor', 'Design education', 'Systems thinking'],
-      activityType: ['Course', 'Academic', 'Design'],
-      format: 'In-person',
-      commitment: 'Semester+'
+      impact: ['Systems Awareness', 'Technical Circularity']
     },
+    cost: 'paid',
+    exhibitionThemes: ['healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['explore', 'make'],
     connectedArtworks: [4, 5, 6],
     saves: 234,
@@ -1622,12 +1569,11 @@ export const activities: Activity[] = [
     icon: '🌿',
     description: '8 sessions starting April 19, 2026 (20:00-21:30). Upcycling, zero-waste, innovative materials. 3,900 NIS.',
     tags: {
-      values: ['Systems Awareness', 'Technical Circularity'],
-      benefits: ['Professional development', 'Bar-Ilan partnership', 'EU Green Entrepreneurship Program'],
-      activityType: ['Course', 'Professional', 'Online'],
-      format: 'Online',
-      commitment: '8 weeks'
+      impact: ['Systems Awareness', 'Technical Circularity']
     },
+    cost: 'paid',
+    exhibitionThemes: ['healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['explore', 'meet'],
     connectedArtworks: [2, 4],
     saves: 178,
@@ -1650,12 +1596,11 @@ export const activities: Activity[] = [
     icon: '🤝',
     description: 'Open forums, public lectures, "True Cost" screenings, Fashion Library project. Founded Sept 2016.',
     tags: {
-      values: ['Community Engagement', 'Systems Awareness'],
-      benefits: ['Industry connections', 'Free/donation events', 'Community building'],
-      activityType: ['Forum', 'Community', 'Events'],
-      format: 'Hybrid',
-      commitment: 'Ongoing membership'
+      impact: ['Community Engagement', 'Systems Awareness']
     },
+    cost: 'paid',
+    exhibitionThemes: ['healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['meet', 'explore', 'amplify'],
     connectedArtworks: [1, 4],
     saves: 534,
@@ -1676,12 +1621,11 @@ export const activities: Activity[] = [
     icon: '✊',
     description: 'Annual Fashion Revolution Week volunteer roles, ongoing campaigns.',
     tags: {
-      values: ['Community Engagement', 'Systems Awareness'],
-      benefits: ['Activist skills', 'Campaign participation', 'Global network'],
-      activityType: ['Volunteering', 'Activism', 'Campaign'],
-      format: 'Hybrid',
-      commitment: 'Ongoing'
+      impact: ['Community Engagement', 'Systems Awareness']
     },
+    cost: 'donation_based',
+    exhibitionThemes: ['healing_through_design'],
+    targetAudience: 'professionals',
     draws: ['amplify', 'meet', 'explore'],
     connectedArtworks: [1, 4],
     saves: 189,
@@ -1702,12 +1646,11 @@ export const activities: Activity[] = [
     icon: '🌍',
     description: 'Pop-up secondhand markets, advocacy, textile waste investigation.',
     tags: {
-      values: ['Community Engagement', 'Systems Awareness', 'Regenerative Intention'],
-      benefits: ['Activism experience', 'Policy engagement', 'Community organizing'],
-      activityType: ['Volunteering', 'Activism', 'Markets'],
-      format: 'Hybrid',
-      commitment: 'Ongoing'
+      impact: ['Community Engagement', 'Systems Awareness', 'Regenerative Intention']
     },
+    cost: 'free',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'all_ages',
     draws: ['amplify', 'meet', 'exchange'],
     connectedArtworks: [4, 6],
     saves: 234,
@@ -1728,12 +1671,11 @@ export const activities: Activity[] = [
     icon: '💜',
     description: 'Volunteer/donate/shop at secondhand stores employing people with disabilities.',
     tags: {
-      values: ['Community Engagement', 'Regenerative Intention'],
-      benefits: ['Social impact + circular economy', 'Inclusive employment'],
-      activityType: ['Social Enterprise', 'Volunteering', 'Shopping'],
-      format: 'In-person',
-      commitment: 'Flexible'
+      impact: ['Community Engagement', 'Regenerative Intention']
     },
+    cost: 'free',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'all_ages',
     draws: ['meet', 'exchange', 'amplify'],
     connectedArtworks: [1, 4],
     saves: 345,
@@ -1756,12 +1698,11 @@ export const activities: Activity[] = [
     icon: '🔬',
     description: 'SMART-UP™ enzymatic textile waste-to-yarn conversion. 10 tons in pilot weeks.',
     tags: {
-      values: ['Technical Circularity', 'Regenerative Intention'],
-      benefits: ['Industrial-scale waste transformation', 'Innovation access'],
-      activityType: ['Innovation', 'Research', 'Partnership'],
-      format: 'In-person',
-      commitment: 'Partnership'
+      impact: ['Technical Circularity', 'Regenerative Intention']
     },
+    cost: 'free',
+    exhibitionThemes: ['everyday_circle', 'healing_through_design'],
+    targetAudience: 'all_ages',
     draws: ['explore', 'meet'],
     connectedArtworks: [2, 4],
     saves: 156,
@@ -1782,12 +1723,11 @@ export const activities: Activity[] = [
     icon: '♻️',
     description: 'Textile collection bins. Good condition→reuse; worn→rags; wool/acrylic→recycling.',
     tags: {
-      values: ['Technical Circularity'],
-      benefits: ['Municipal infrastructure', 'Textile donation access'],
-      activityType: ['Donation', 'Recycling', 'Infrastructure'],
-      format: 'In-person',
-      commitment: 'One-time'
+      impact: ['Technical Circularity']
     },
+    cost: 'donation_based',
+    exhibitionThemes: ['healing_through_design'],
+    targetAudience: 'all_ages',
     draws: ['exchange', 'amplify'],
     connectedArtworks: [4],
     saves: 678,
@@ -1808,12 +1748,11 @@ export const activities: Activity[] = [
     icon: '🧬',
     description: 'Algae-based biodegradable fibers & natural dyes. 80% water reduction, zero waste.',
     tags: {
-      values: ['Technical Circularity', 'Regenerative Intention'],
-      benefits: ['Next-gen sustainable materials', 'Biomaterial innovation'],
-      activityType: ['Research', 'Innovation'],
-      format: 'Online research',
-      commitment: 'Flexible'
+      impact: ['Technical Circularity', 'Regenerative Intention']
     },
+    cost: 'donation_based',
+    exhibitionThemes: ['healing_through_design'],
+    targetAudience: 'all_ages',
     draws: ['explore'],
     connectedArtworks: [2, 6],
     saves: 234,
