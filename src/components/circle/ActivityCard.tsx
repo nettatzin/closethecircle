@@ -25,7 +25,7 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
   const activityIdStr = String(activity.id);
   const saved = isSaved(activityIdStr);
   const { iconName, color: categoryColor, tint: categoryTint, ring: categoryRing } = getActivityVisual(activity.type);
-  const EnergyIcon = activity.energyLevel === 'low-key' ? Feather : activity.energyLevel === 'hands-on' ? Flame : Dumbbell;
+  const EnergyIcon = activity.energyLevel === 'low_key' ? Feather : activity.energyLevel === 'hands_on' ? Flame : Dumbbell;
 
   // fire initiative_view once when card mounts
   useEffect(() => {

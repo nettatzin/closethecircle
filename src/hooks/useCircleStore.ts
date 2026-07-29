@@ -3,8 +3,8 @@ import { useState } from 'react';
 export function useCircleStore() {
   const [showWelcome, setShowWelcome] = useState(true);
   const [selectedDraws, setSelectedDraws] = useState<string[]>(['explore', 'meet', 'make']);
-  const [selectedEnergy, setSelectedEnergy] = useState<string[]>(['hands-on']);
-  const [locationFormat, setLocationFormat] = useState<string[]>(['physical']);
+  const [selectedEnergy, setSelectedEnergy] = useState<string[]>(['hands_on']);
+  const [locationFormat, setLocationFormat] = useState<string[]>(['in_person']);
   const [physicalLocation, setPhysicalLocation] = useState('Tel Aviv');
   const [physicalRadius, setPhysicalRadius] = useState('15km');
   const [digitalReach, setDigitalReach] = useState<string[]>(['israel', 'global']);

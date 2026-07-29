@@ -148,11 +148,11 @@ export function MainContent({
       // Filter by location format
       const locationMatch = locationFormat.length === 0 || 
         locationFormat.includes(activity.locationFormat) ||
-        (locationFormat.includes('physical') && activity.locationFormat === 'hybrid') ||
-        (locationFormat.includes('digital') && activity.locationFormat === 'hybrid');
+        (locationFormat.includes('in_person') && activity.locationFormat === 'hybrid') ||
+        (locationFormat.includes('online') && activity.locationFormat === 'hybrid');
       
       // Filter by digital reach (if digital is selected)
-      const reachMatch = !locationFormat.includes('digital') || 
+      const reachMatch = !locationFormat.includes('online') || 
         digitalReach.length === 0 ||
         digitalReach.includes(activity.region);
       
