@@ -119,14 +119,15 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
           {activity.location} · {activity.commitment}
         </p>
 
-        {/* Tier 1 — format + commitment chips */}
+        {/* Tier 1 — format + commitment + activity type chips */}
         <div className="flex flex-wrap gap-1.5 mb-4">
           <span className={chipClass}>{t(`format_${activity.locationFormat}` as any)}</span>
           <span className={chipClass}>{activity.commitment}</span>
+          <span className={chipClass}>{activity.type}</span>
         </div>
 
         {/* Impact tags — single row, expand to show all */}
-        <div className="mb-3">
+        <div className="mb-5">
           <div className="text-[9px] font-display text-muted-foreground uppercase tracking-[0.25em] mb-2">
             {t('impact_label')}
           </div>
@@ -151,18 +152,6 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
               {impactOpen ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
             </button>
           )}
-        </div>
-
-        {/* Activity type */}
-        <div className="mb-5">
-          <div className="text-[9px] font-display text-muted-foreground uppercase tracking-[0.25em] mb-2">
-            {t('activity_type_label')}
-          </div>
-          <div className="flex flex-wrap gap-1.5">
-            <span className="text-[10px] px-2.5 py-1 border border-foreground/15 text-muted-foreground rounded-full font-sans-thin whitespace-nowrap">
-              {activity.type}
-            </span>
-          </div>
         </div>
 
         {/* Expand/Collapse button */}
