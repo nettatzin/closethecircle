@@ -35,11 +35,11 @@ export function LocationFilter({
       {/* Format toggles */}
       <div className="flex gap-3">
         <motion.button
-          onClick={() => toggleFormat('physical')}
+          onClick={() => toggleFormat('in_person')}
           whileTap={{ scale: 0.98 }}
           className={cn(
             'flex-1 py-3 px-4 rounded-xl font-bold text-sm border-2 transition-all',
-            locationFormat.includes('physical')
+            locationFormat.includes('in_person')
               ? 'border-primary bg-primary/15 text-foreground'
               : 'border-border/40 bg-card text-muted-foreground'
           )}
@@ -47,11 +47,11 @@ export function LocationFilter({
           {t('in_person')}
         </motion.button>
         <motion.button
-          onClick={() => toggleFormat('digital')}
+          onClick={() => toggleFormat('online')}
           whileTap={{ scale: 0.98 }}
           className={cn(
             'flex-1 py-3 px-4 rounded-xl font-bold text-sm border-2 transition-all',
-            locationFormat.includes('digital')
+            locationFormat.includes('online')
               ? 'border-primary bg-primary/15 text-foreground'
               : 'border-border/40 bg-card text-muted-foreground'
           )}
@@ -62,12 +62,12 @@ export function LocationFilter({
 
       <div className={cn(
         'grid gap-4',
-        locationFormat.includes('physical') && locationFormat.includes('digital')
+        locationFormat.includes('in_person') && locationFormat.includes('online')
           ? 'grid-cols-1 md:grid-cols-2'
           : 'grid-cols-1'
       )}>
         {/* Physical location */}
-        {locationFormat.includes('physical') && (
+        {locationFormat.includes('in_person') && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
@@ -96,7 +96,7 @@ export function LocationFilter({
         )}
 
         {/* Digital reach */}
-        {locationFormat.includes('digital') && (
+        {locationFormat.includes('online') && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
