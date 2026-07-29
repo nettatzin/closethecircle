@@ -76,10 +76,8 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        mono: ['Inter', 'system-ui', 'sans-serif'],
-        serif: ['Tenor Sans', 'serif'],
-        display: ['Tenor Sans', 'serif'],
+        sans: ['Heebo', 'system-ui', 'sans-serif'],
+        display: ['Heebo', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",
