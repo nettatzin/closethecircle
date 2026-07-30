@@ -117,7 +117,7 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
             style={{ backgroundColor: effort.tint, color: effort.color }}
           >
             <EnergyIcon className="w-3 h-3" />
-            {activity.energyLabel}
+            {energyOptions.find(o => o.id === activity.energyLevel)?.label ?? ''}
           </span>
           <span className={cn(chipClass, 'inline-flex items-center gap-1')}>
             <FormatIcon className="w-3 h-3" />
