@@ -6,7 +6,7 @@ import { useDataset } from '@/i18n/dataset';
 import { useSession } from '@/hooks/useSession';
 import { ActivityCard } from './ActivityCard';
 import { ArtworkDetailModal } from './ArtworkDetailModal';
-import { CircleLine } from './LineArt';
+
 import { cn } from '@/lib/utils';
 import type { Activity, Artwork } from '@/data/activities';
 import type { AppMode } from '@/hooks/useCircleStore';
