@@ -14,7 +14,7 @@ interface ArtworkDetailModalProps {
 
 export function ArtworkDetailModal({ artwork, onClose, isSelected, onToggleSelect }: ArtworkDetailModalProps) {
   const [activeImage, setActiveImage] = useState(0);
-  const { isArtworkSaved, toggleArtworkSave, logEvent } = useSession();
+  const { isArtworkSaved, toggleArtworkSave } = useSession();
   const savedArtwork = artwork ? isArtworkSaved(artwork.id) : false;
 
   useEffect(() => {
@@ -51,10 +51,7 @@ export function ArtworkDetailModal({ artwork, onClose, isSelected, onToggleSelec
             className="relative w-full max-w-4xl max-h-[95vh] overflow-y-auto bg-card border border-foreground/15 rounded-t-2xl sm:rounded-sm shadow-2xl"
           >
             <button
-              onClick={() => {
-                toggleArtworkSave(artwork.id);
-                logEvent('artwork_save', { id: artwork.id });
-              }}
+              onClick={() => toggleArtworkSave(artwork.id)}
               aria-label="Save artwork"
               className={`absolute top-4 right-16 z-10 w-9 h-9 rounded-full backdrop-blur-sm border border-foreground/15 flex items-center justify-center transition-colors ${
                 savedArtwork ? 'bg-foreground text-background' : 'bg-background/80 hover:bg-foreground hover:text-background'
