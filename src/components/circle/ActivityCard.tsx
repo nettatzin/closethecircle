@@ -1,11 +1,12 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, MapPin, Bookmark, ChevronDown, ChevronUp, ExternalLink, Feather, Flame, Dumbbell } from 'lucide-react';
+import { Heart, MapPin, Bookmark, ChevronDown, ChevronUp, ExternalLink, Feather, Flame, Dumbbell, Globe, Repeat } from 'lucide-react';
 import { ShareMenu } from '@/components/circle/ShareMenu';
 import { useEffect, useState } from 'react';
 import type { Activity } from '@/data/activities';
 import { cn } from '@/lib/utils';
 import { useT } from '@/i18n/LanguageContext';
 import { getActivityVisual } from '@/lib/activityVisual';
+import { getEffortVisual } from '@/lib/effortColor';
 import { CircleIcon } from '@/components/circle/CircleIcon';
 import { useSession, markFirstSaveShown, wasFirstSaveShown } from '@/hooks/useSession';
 
@@ -26,6 +27,8 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
   const { iconName, color: categoryColor, tint: categoryTint, ring: categoryRing } = getActivityVisual(activity.type);
   const chipClass = 'text-[10px] px-2.5 py-1 border border-foreground/30 text-foreground rounded-full font-sans-thin whitespace-nowrap';
   const EnergyIcon = activity.energyLevel === 'low_key' ? Feather : activity.energyLevel === 'hands_on' ? Flame : Dumbbell;
+  const effort = getEffortVisual(activity.energyLevel);
+  const FormatIcon = activity.locationFormat === 'online' ? Globe : activity.locationFormat === 'hybrid' ? Repeat : MapPin;
 
   // fire initiative_view once when card mounts
   useEffect(() => {
@@ -68,15 +71,8 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
           style={{ border: `1px dashed ${categoryColor}` }}
         />
 
-        {/* Top row: energy pill + saves pill */}
-        <div className="relative flex items-center justify-between mb-3">
-          <div
-            className="px-2.5 py-1 rounded-full text-[10px] font-display tracking-wider uppercase flex items-center gap-1.5 shadow-sm"
-            style={{ backgroundColor: categoryColor, color: 'hsl(var(--background))' }}
-          >
-            <EnergyIcon className="w-3 h-3" strokeWidth={2.25} />
-            {activity.energyLabel}
-          </div>
+        {/* Top row: saves pill */}
+        <div className="relative flex items-center justify-end mb-3">
           <div
             className="px-2.5 py-1 rounded-full flex items-center gap-1.5 text-[10px] font-sans-thin bg-background/80"
             style={{ color: categoryColor, border: `1px solid ${categoryRing}` }}
@@ -114,21 +110,22 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
           {activity.name}
         </h3>
 
-        <p className="text-xs text-muted-foreground mb-4 flex items-center gap-1.5 font-sans-thin tracking-wide">
-          <MapPin className="w-3 h-3" />
-          {activity.location} · {activity.commitment}
-        </p>
-
-        {/* Tier 1 — format + commitment + activity type chips */}
-        <div className="flex flex-wrap gap-1.5 mb-4">
-          <span className={chipClass}>{t(`format_${activity.locationFormat}` as any)}</span>
-          <span className={chipClass}>{activity.commitment}</span>
+        {/* Tier 1 — energy + format + location chips */}
+        <div className="flex flex-wrap items-center gap-1.5 mb-4 mt-2.5">
           <span
             className="text-[10px] px-2.5 py-1 rounded-full font-sans-thin whitespace-nowrap flex items-center gap-1"
-            style={{ backgroundColor: categoryColor, color: 'hsl(var(--background))' }}
+            style={{ backgroundColor: effort.tint, color: effort.color, border: `1px solid ${effort.ring}` }}
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-background/80" />
-            {activity.type}
+            <EnergyIcon className="w-3 h-3" strokeWidth={2.25} />
+            {activity.energyLabel}
+          </span>
+          <span className={cn(chipClass, 'inline-flex items-center gap-1')}>
+            <FormatIcon className="w-3 h-3 opacity-70" />
+            {t(`format_${activity.locationFormat}` as any)}
+          </span>
+          <span className={cn(chipClass, 'inline-flex items-center gap-1')}>
+            <MapPin className="w-3 h-3 opacity-70" />
+            {activity.location}
           </span>
         </div>
 
@@ -159,6 +156,18 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
             </button>
           )}
         </div>
+
+        {/* Activity type */}
+        <div className="mb-5">
+          <div className="text-[9px] font-display text-muted-foreground uppercase tracking-[0.25em] mb-2">
+            {t('activity_type_label')}
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            <span className={chipClass}>{activity.type}</span>
+          </div>
+        </div>
+
+
 
         {/* Expand/Collapse button */}
         <motion.button
