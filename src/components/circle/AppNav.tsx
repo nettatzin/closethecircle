@@ -64,7 +64,7 @@ export function AppNav({ mode, setMode }: Props) {
 
   return (
     <div className="sticky top-0 z-40 bg-background/85 backdrop-blur-md border-b border-foreground/10 safe-area-top">
-      <div className="max-w-lg mx-auto px-5 py-2">
+      <div className="max-w-lg md:max-w-5xl lg:max-w-6xl mx-auto px-5 py-2">
         {/* Mobile bar */}
         <div className="flex md:hidden items-center justify-between">
           <span className="font-display text-xs tracking-[0.3em] uppercase text-foreground/80">
@@ -80,8 +80,8 @@ export function AppNav({ mode, setMode }: Props) {
         </div>
 
         {/* Desktop row */}
-        <div className="hidden md:flex items-center justify-between gap-4">
-          <nav className="flex items-center gap-5">
+        <div className="hidden md:flex items-center justify-between gap-6">
+          <nav className="flex-1 flex items-center justify-center gap-2 lg:gap-4">
             {NAV_ITEMS.map(({ mode: m, icon: Icon, key }) => {
               const active = mode === m;
               return (
@@ -89,7 +89,7 @@ export function AppNav({ mode, setMode }: Props) {
                   key={m}
                   onClick={() => setMode(m)}
                   className={cn(
-                    'relative flex items-center gap-2 px-4 py-2.5 rounded-sm text-sm font-display tracking-[0.16em] uppercase transition-colors',
+                    'relative flex items-center gap-2 px-3 lg:px-4 py-2.5 rounded-sm text-sm lg:text-base font-display tracking-[0.08em] lg:tracking-[0.12em] uppercase whitespace-nowrap transition-colors',
                     active ? 'text-foreground' : 'text-foreground/45 hover:text-foreground/80'
                   )}
                 >
@@ -100,7 +100,7 @@ export function AppNav({ mode, setMode }: Props) {
                       transition={{ type: 'spring', stiffness: 350, damping: 30 }}
                     />
                   )}
-                  <Icon className="w-4 h-4" />
+                  <Icon className="w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0" />
                   <span>{t(key)}</span>
                   {m === 'my_list' && <CountBadge count={savedCount} />}
                 </button>
