@@ -71,15 +71,8 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
           style={{ border: `1px dashed ${categoryColor}` }}
         />
 
-        {/* Top row: energy pill + saves pill */}
-        <div className="relative flex items-center justify-between mb-3">
-          <div
-            className="px-2.5 py-1 rounded-full text-[10px] font-display tracking-wider uppercase flex items-center gap-1.5 shadow-sm"
-            style={{ backgroundColor: categoryColor, color: 'hsl(var(--background))' }}
-          >
-            <EnergyIcon className="w-3 h-3" strokeWidth={2.25} />
-            {activity.energyLabel}
-          </div>
+        {/* Top row: saves pill */}
+        <div className="relative flex items-center justify-end mb-3">
           <div
             className="px-2.5 py-1 rounded-full flex items-center gap-1.5 text-[10px] font-sans-thin bg-background/80"
             style={{ color: categoryColor, border: `1px solid ${categoryRing}` }}
