@@ -52,13 +52,8 @@ export function MyListView({ onCloseCircle, setMode }: Props) {
 
   return (
     <div className="min-h-screen pb-16 safe-area-bottom">
-      <div className="max-w-lg mx-auto px-5 pt-6">
-        <header className="text-center mb-5">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="h-px flex-1 bg-foreground/20" />
-            <CircleLine className="w-6 h-6 opacity-70" strokeWidth={0.8} />
-            <div className="h-px flex-1 bg-foreground/20" />
-          </div>
+      <div className="max-w-lg lg:max-w-5xl mx-auto px-5 pt-6">
+        <header className="text-center mb-6">
           <h1 className="font-display text-2xl tracking-[0.15em] uppercase text-foreground">
             {t('mode_my_list')}
           </h1>
