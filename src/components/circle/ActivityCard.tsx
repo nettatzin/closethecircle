@@ -126,7 +126,7 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
             {t(`format_${activity.locationFormat}` as any)}
           </span>
           <span className={cn(chipClass, 'inline-flex items-center gap-1 max-w-[140px]')}>
-            <MapPin className="w-3 h-3 shrink-0" />
+            {activity.locationFormat !== 'online' && <MapPin className="w-3 h-3 shrink-0" />}
             <span className="truncate">
               {activity.locationFormat === 'online'
                 ? t(activity.region === 'global' ? 'region_global' : 'region_israel')
@@ -157,7 +157,7 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
               onClick={() => setImpactOpen(v => !v)}
               className="mt-1.5 text-[10px] font-display uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
             >
-              {impactOpen ? t('hide_details') : `+${activity.tags.impact.length} ${t('more_word')}`}
+              {impactOpen ? t('hide_details') : `+ ${activity.tags.impact.length - 2} ${t('more_word')}`}
               {impactOpen ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
             </button>
           )}
