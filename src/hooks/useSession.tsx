@@ -19,6 +19,9 @@ interface SessionCtx {
   savedIds: string[];
   isSaved: (id: string) => boolean;
   toggleSave: (id: string) => { saved: boolean; wasFirst: boolean };
+  savedArtworkIds: number[];
+  isArtworkSaved: (id: number) => boolean;
+  toggleArtworkSave: (id: number) => { saved: boolean; wasFirst: boolean };
   registerActivity: () => void;
   onIdle: (fn: () => void) => () => void;
 }
@@ -30,6 +33,7 @@ const LS = {
   saved: 'circle_saved_ids',
   emailCaptured: 'circle_email_captured',
   firstSaveShown: 'circle_first_save_shown',
+  savedArtworks: 'circle.savedArtworks',
 };
 
 function uuidv4() {
@@ -62,6 +66,16 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     if (typeof window === 'undefined') return [];
     try {
       return JSON.parse(localStorage.getItem(LS.saved) || '[]');
+    } catch {
+      return [];
+    }
+  });
+
+  const [savedArtworkIds, setSavedArtworkIds] = useState<number[]>(() => {
+    if (typeof window === 'undefined') return [];
+    try {
+      const parsed = JSON.parse(localStorage.getItem(LS.savedArtworks) || '[]');
+      return Array.isArray(parsed) ? parsed.filter((x) => typeof x === 'number') : [];
     } catch {
       return [];
     }
@@ -117,6 +131,23 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     return { saved: nowSaved, wasFirst };
   }, [logEvent]);
 
+  const isArtworkSaved = useCallback((id: number) => savedArtworkIds.includes(id), [savedArtworkIds]);
+
+  const toggleArtworkSave = useCallback<SessionCtx['toggleArtworkSave']>((id) => {
+    let wasFirst = false;
+    let nowSaved = false;
+    setSavedArtworkIds((prev) => {
+      const has = prev.includes(id);
+      const next = has ? prev.filter((x) => x !== id) : [...prev, id];
+      localStorage.setItem(LS.savedArtworks, JSON.stringify(next));
+      nowSaved = !has;
+      if (nowSaved && prev.length === 0) wasFirst = true;
+      return next;
+    });
+    logEvent(nowSaved ? 'artwork_save' : 'artwork_unsave', { id });
+    return { saved: nowSaved, wasFirst };
+  }, [logEvent]);
+
   // session_start on mount + kick off idle timer
   useEffect(() => {
     logEvent('session_start');
@@ -161,10 +192,13 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       savedIds,
       isSaved,
       toggleSave,
+      savedArtworkIds,
+      isArtworkSaved,
+      toggleArtworkSave,
       registerActivity,
       onIdle,
     }),
-    [sessionId, logEvent, hasEmailCaptured, markEmailCaptured, savedIds, isSaved, toggleSave, registerActivity, onIdle]
+    [sessionId, logEvent, hasEmailCaptured, markEmailCaptured, savedIds, isSaved, toggleSave, savedArtworkIds, isArtworkSaved, toggleArtworkSave, registerActivity, onIdle]
   );
 
   return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>;

@@ -1,6 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+export type AppMode = 'act' | 'my_list' | 'impact' | 'cashback' | 'artworks';
+
+const MODE_KEY = 'circle.mode';
+const MODES: AppMode[] = ['act', 'my_list', 'impact', 'cashback', 'artworks'];
 
 export function useCircleStore() {
+  const [mode, setMode] = useState<AppMode>(() => {
+    if (typeof window === 'undefined') return 'act';
+    const stored = localStorage.getItem(MODE_KEY) as AppMode | null;
+    return stored && MODES.includes(stored) ? stored : 'act';
+  });
+
+  useEffect(() => {
+    localStorage.setItem(MODE_KEY, mode);
+  }, [mode]);
+
   const [showWelcome, setShowWelcome] = useState(true);
   const [selectedDraws, setSelectedDraws] = useState<string[]>([]);
   const [selectedEnergy, setSelectedEnergy] = useState<string[]>([]);
@@ -52,6 +67,8 @@ export function useCircleStore() {
   };
 
   return {
+    mode,
+    setMode,
     showWelcome,
     setShowWelcome,
     selectedDraws,
