@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, MapPin, Bookmark, ChevronDown, ChevronUp, ExternalLink, Feather, Flame, Dumbbell, Globe, Repeat } from 'lucide-react';
+import { Heart, MapPin, Building2, Bookmark, ChevronDown, ChevronUp, ExternalLink, Feather, Flame, Dumbbell, Globe, Repeat } from 'lucide-react';
 import { ShareMenu } from '@/components/circle/ShareMenu';
 import { useEffect, useState } from 'react';
 import type { Activity } from '@/data/activities';
@@ -28,7 +28,7 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
   const chipClass = 'text-[10px] px-2.5 py-1 border border-foreground/30 text-foreground rounded-full font-sans-thin whitespace-nowrap';
   const EnergyIcon = activity.energyLevel === 'low_key' ? Feather : activity.energyLevel === 'hands_on' ? Flame : Dumbbell;
   const effort = getEffortVisual(activity.energyLevel);
-  const FormatIcon = activity.locationFormat === 'online' ? Globe : activity.locationFormat === 'hybrid' ? Repeat : MapPin;
+  const FormatIcon = activity.locationFormat === 'online' ? Globe : activity.locationFormat === 'hybrid' ? Repeat : Building2;
 
   // fire initiative_view once when card mounts
   useEffect(() => {
@@ -113,19 +113,23 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
         {/* Tier 1 — energy + format + location chips */}
         <div className="flex flex-wrap items-center gap-1.5 mb-4 mt-2.5">
           <span
-            className="text-[10px] px-2.5 py-1 rounded-full font-sans-thin whitespace-nowrap flex items-center gap-1"
-            style={{ backgroundColor: effort.tint, color: effort.color, border: `1px solid ${effort.ring}` }}
+            className="text-[10px] px-2.5 py-1 rounded-full font-sans-thin whitespace-nowrap inline-flex items-center gap-1"
+            style={{ backgroundColor: effort.tint, color: effort.color }}
           >
-            <EnergyIcon className="w-3 h-3" strokeWidth={2.25} />
+            <EnergyIcon className="w-3 h-3" />
             {activity.energyLabel}
           </span>
           <span className={cn(chipClass, 'inline-flex items-center gap-1')}>
-            <FormatIcon className="w-3 h-3 opacity-70" />
+            <FormatIcon className="w-3 h-3" />
             {t(`format_${activity.locationFormat}` as any)}
           </span>
-          <span className={cn(chipClass, 'inline-flex items-center gap-1')}>
-            <MapPin className="w-3 h-3 opacity-70" />
-            {activity.location}
+          <span className={cn(chipClass, 'inline-flex items-center gap-1 max-w-[140px]')}>
+            <MapPin className="w-3 h-3 shrink-0" />
+            <span className="truncate">
+              {activity.locationFormat === 'online'
+                ? t(activity.region === 'global' ? 'region_global' : 'region_israel')
+                : activity.location}
+            </span>
           </span>
         </div>
 
