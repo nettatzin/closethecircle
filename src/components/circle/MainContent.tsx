@@ -330,7 +330,7 @@ export function MainContent({
       <DottedRing className="absolute top-40 -right-20 w-56 h-56 opacity-[0.08] pointer-events-none" count={12} />
       <EllipseLine className="absolute bottom-40 -left-20 w-80 h-80 opacity-[0.05] pointer-events-none" />
 
-      <div className="max-w-lg mx-auto px-5 pt-8 relative">
+      <div className="max-w-lg md:max-w-5xl lg:max-w-6xl mx-auto px-5 md:px-8 pt-8 relative">
         {/* Header */}
         <motion.header
           initial={{ opacity: 0, y: -20 }}
@@ -348,7 +348,7 @@ export function MainContent({
           <p className="text-muted-foreground text-xs tracking-[0.2em] uppercase">
             {t('app_tagline')}
           </p>
-          <p className="text-muted-foreground text-sm mt-4 max-w-sm mx-auto leading-relaxed">
+          <p className="text-muted-foreground text-sm md:text-base mt-4 max-w-sm md:max-w-xl mx-auto leading-relaxed">
             {t('app_intro')}
           </p>
           <button
@@ -369,7 +369,7 @@ export function MainContent({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="relative mb-10"
+          className="relative mb-10 md:max-w-3xl md:mx-auto"
         >
           {/* Decorative ellipse connecting the four tiles */}
           <svg
@@ -385,7 +385,7 @@ export function MainContent({
             <ellipse cx="50" cy="50" rx="30" ry="22" transform="rotate(-14 50 50)" className="text-foreground/15" />
           </svg>
 
-          <div className="relative grid grid-cols-2 gap-x-4 gap-y-4">
+          <div className="relative grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-4">
             {tiles.map((tile, i) => (
               <FilterTile
                 key={tile.key}
@@ -458,41 +458,48 @@ export function MainContent({
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <div className="mb-6 bg-card/80 backdrop-blur-sm rounded-xl border border-border/60 p-5 shadow-soft">
-            {hasAnySelection && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-accent/10 text-accent rounded-full text-[10px] font-display uppercase tracking-[0.2em] mb-4"
-              >
-                <Sparkles className="w-3 h-3" />
-                {t('adapted_for_you')}
-              </motion.div>
-            )}
-            <div className="flex items-end justify-between gap-4">
-              <div>
+          <div className="mb-6 bg-card/80 backdrop-blur-sm rounded-xl border border-border/60 p-5 md:px-7 md:py-6 shadow-soft">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-8">
+              <div className="flex items-center gap-4 md:gap-5">
                 <div className="flex items-baseline gap-2">
-                  <span className="text-5xl font-display text-foreground leading-none tracking-tight">
+                  <span className="text-5xl md:text-6xl font-display text-foreground leading-none tracking-tight">
                     {filteredActivities.length}
                   </span>
                   <span className="text-sm text-muted-foreground font-display">
                     {t('of_word')} {activities.length}
                   </span>
                 </div>
-                <p className="text-xs text-muted-foreground font-display uppercase tracking-[0.2em] mt-1">
-                  {t('activities_found')}
-                </p>
+                <div className="hidden md:block h-10 w-px bg-border" />
+                <div>
+                  <p className="text-xs text-muted-foreground font-display uppercase tracking-[0.2em]">
+                    {t('activities_found')}
+                  </p>
+                  {hasAnySelection && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      className="mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 bg-accent/10 text-accent rounded-full text-[10px] font-display uppercase tracking-[0.2em]"
+                    >
+                      <Sparkles className="w-3 h-3" />
+                      {t('adapted_for_you')}
+                    </motion.div>
+                  )}
+                </div>
               </div>
-              {filteredActivities.length < activities.length && (
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={resetFilters}
-                  className="shrink-0 px-4 py-2 text-[10px] font-display uppercase tracking-[0.2em] text-primary-foreground bg-primary rounded-lg hover:bg-primary/90 transition-colors shadow-soft"
-                >
-                  {t('show_all')}
-                </motion.button>
-              )}
+
+              <div className="flex items-center gap-4 md:gap-5 md:shrink-0">
+                <PersistentEmailLink />
+                {filteredActivities.length < activities.length && (
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={resetFilters}
+                    className="shrink-0 px-4 py-2 text-[10px] font-display uppercase tracking-[0.2em] text-primary-foreground bg-primary rounded-lg hover:bg-primary/90 transition-colors shadow-soft"
+                  >
+                    {t('show_all')}
+                  </motion.button>
+                )}
+              </div>
             </div>
             <div className="mt-4 h-1 w-full bg-muted rounded-full overflow-hidden">
               <motion.div
@@ -501,9 +508,6 @@ export function MainContent({
                 transition={{ duration: 0.6, ease: 'easeOut' }}
                 className="h-full bg-accent rounded-full"
               />
-            </div>
-            <div className="mt-4 flex justify-end">
-              <PersistentEmailLink />
             </div>
           </div>
 
@@ -516,16 +520,18 @@ export function MainContent({
               <p className="text-sm text-muted-foreground italic">{t('no_activities_hint')}</p>
             </div>
           ) : (
-            <div className="space-y-4">
-              {filteredActivities.map((activity, index) => (
-                <ActivityCard
-                  key={activity.id}
-                  activity={activity}
-                  index={index}
-                  onCloseCircle={onCloseCircle}
-                  onSaved={(wasFirst) => { if (wasFirst && !hasEmailCaptured) setShowSaveInline(true); }}
-                />
-              ))}
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-5 items-start">
+                {filteredActivities.map((activity, index) => (
+                  <ActivityCard
+                    key={activity.id}
+                    activity={activity}
+                    index={index}
+                    onCloseCircle={onCloseCircle}
+                    onSaved={(wasFirst) => { if (wasFirst && !hasEmailCaptured) setShowSaveInline(true); }}
+                  />
+                ))}
+              </div>
 
               {/* "סיימתי" — explicit session end */}
               {savedIds.length > 0 && (
@@ -538,7 +544,7 @@ export function MainContent({
                   </button>
                 </div>
               )}
-            </div>
+            </>
           )}
         </motion.div>
       </div>
