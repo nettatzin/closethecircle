@@ -157,6 +157,18 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
           )}
         </div>
 
+        {/* Activity type */}
+        <div className="mb-5">
+          <div className="text-[9px] font-display text-muted-foreground uppercase tracking-[0.25em] mb-2">
+            {t('activity_type_label')}
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            <span className={chipClass}>{activity.type}</span>
+          </div>
+        </div>
+
+
+
         {/* Expand/Collapse button */}
         <motion.button
           onClick={() => setExpanded(!expanded)}
