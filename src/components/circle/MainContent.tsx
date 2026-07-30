@@ -520,16 +520,18 @@ export function MainContent({
               <p className="text-sm text-muted-foreground italic">{t('no_activities_hint')}</p>
             </div>
           ) : (
-            <div className="space-y-4">
-              {filteredActivities.map((activity, index) => (
-                <ActivityCard
-                  key={activity.id}
-                  activity={activity}
-                  index={index}
-                  onCloseCircle={onCloseCircle}
-                  onSaved={(wasFirst) => { if (wasFirst && !hasEmailCaptured) setShowSaveInline(true); }}
-                />
-              ))}
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-5 items-start">
+                {filteredActivities.map((activity, index) => (
+                  <ActivityCard
+                    key={activity.id}
+                    activity={activity}
+                    index={index}
+                    onCloseCircle={onCloseCircle}
+                    onSaved={(wasFirst) => { if (wasFirst && !hasEmailCaptured) setShowSaveInline(true); }}
+                  />
+                ))}
+              </div>
 
               {/* "סיימתי" — explicit session end */}
               {savedIds.length > 0 && (
@@ -542,7 +544,7 @@ export function MainContent({
                   </button>
                 </div>
               )}
-            </div>
+            </>
           )}
         </motion.div>
       </div>
