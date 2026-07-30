@@ -110,21 +110,22 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
           {activity.name}
         </h3>
 
-        <p className="text-xs text-muted-foreground mb-4 flex items-center gap-1.5 font-sans-thin tracking-wide">
-          <MapPin className="w-3 h-3" />
-          {activity.location} · {activity.commitment}
-        </p>
-
-        {/* Tier 1 — format + commitment + activity type chips */}
-        <div className="flex flex-wrap gap-1.5 mb-4">
-          <span className={chipClass}>{t(`format_${activity.locationFormat}` as any)}</span>
-          <span className={chipClass}>{activity.commitment}</span>
+        {/* Tier 1 — energy + format + location chips */}
+        <div className="flex flex-wrap items-center gap-1.5 mb-4 mt-2.5">
           <span
             className="text-[10px] px-2.5 py-1 rounded-full font-sans-thin whitespace-nowrap flex items-center gap-1"
-            style={{ backgroundColor: categoryColor, color: 'hsl(var(--background))' }}
+            style={{ backgroundColor: effort.tint, color: effort.color, border: `1px solid ${effort.ring}` }}
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-background/80" />
-            {activity.type}
+            <EnergyIcon className="w-3 h-3" strokeWidth={2.25} />
+            {activity.energyLabel}
+          </span>
+          <span className={cn(chipClass, 'inline-flex items-center gap-1')}>
+            <FormatIcon className="w-3 h-3 opacity-70" />
+            {t(`format_${activity.locationFormat}` as any)}
+          </span>
+          <span className={cn(chipClass, 'inline-flex items-center gap-1')}>
+            <MapPin className="w-3 h-3 opacity-70" />
+            {activity.location}
           </span>
         </div>
 
