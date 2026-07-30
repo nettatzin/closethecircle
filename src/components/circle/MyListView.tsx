@@ -77,19 +77,21 @@ export function MyListView({ onCloseCircle, setMode }: Props) {
               onCta={() => setMode('act')}
             />
           ) : (
-            <div className="space-y-5">
-              <AnimatePresence initial={false}>
-                {savedActivities.map((activity, index) => (
-                  <motion.div
-                    key={activity.id}
-                    layout
-                    exit={{ opacity: 0, scale: 0.96, height: 0 }}
-                    transition={{ duration: 0.25 }}
-                  >
-                    <ActivityCard activity={activity} index={index} onCloseCircle={onCloseCircle} />
-                  </motion.div>
-                ))}
-              </AnimatePresence>
+            <div className="mx-auto max-w-lg">
+              <div className="space-y-5">
+                <AnimatePresence initial={false}>
+                  {savedActivities.map((activity, index) => (
+                    <motion.div
+                      key={activity.id}
+                      layout
+                      exit={{ opacity: 0, scale: 0.96, height: 0 }}
+                      transition={{ duration: 0.25 }}
+                    >
+                      <ActivityCard activity={activity} index={index} onCloseCircle={onCloseCircle} />
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
             </div>
           )
         ) : savedArtworks.length === 0 ? (
