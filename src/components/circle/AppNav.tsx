@@ -24,7 +24,7 @@ const NAV_ITEMS: NavItem[] = [
 
 function CountBadge({ count }: { count: number }) {
   return (
-    <span className="ms-1 inline-flex min-w-[1.25rem] justify-center rounded-full bg-foreground/10 px-1.5 py-[1px] text-[10px] tabular-nums font-sans text-foreground/70">
+    <span className="ms-1.5 inline-flex min-w-[1.35rem] justify-center rounded-full bg-foreground/10 px-1.5 py-[2px] text-xs tabular-nums font-sans text-foreground/70">
       {count}
     </span>
   );
