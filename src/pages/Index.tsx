@@ -8,7 +8,6 @@ import { CashbackView } from '@/components/circle/CashbackView';
 import { MyListView } from '@/components/circle/MyListView';
 import { AppNav } from '@/components/circle/AppNav';
 import { useCircleStore } from '@/hooks/useCircleStore';
-import { useLang, useT } from '@/i18n/LanguageContext';
 import type { Activity } from '@/data/activities';
 
 const Index = () => {

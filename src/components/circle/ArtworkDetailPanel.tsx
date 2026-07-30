@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ExternalLink, ChevronLeft, ChevronRight, Check, Plus } from 'lucide-react';
+import { X, ExternalLink, ChevronLeft, ChevronRight, Check, Plus, Bookmark } from 'lucide-react';
+import { useSession } from '@/hooks/useSession';
 import { useEffect, useRef, useState } from 'react';
 import type { Artwork } from '@/data/activities';
 import { CircleLine } from './LineArt';
@@ -15,6 +16,8 @@ interface Props {
 export function ArtworkDetailPanel({ artwork, isSelected, onToggleSelect, onClose }: Props) {
   const t = useT();
   const [activeImage, setActiveImage] = useState(0);
+  const { isArtworkSaved, toggleArtworkSave, logEvent } = useSession();
+  const savedArtwork = isArtworkSaved(artwork.id);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -39,6 +42,19 @@ export function ArtworkDetailPanel({ artwork, isSelected, onToggleSelect, onClos
         <span className="text-[10px] font-display tracking-[0.3em] uppercase text-muted-foreground">
           {t('now_viewing')}
         </span>
+        <div className="flex items-center gap-2">
+        <button
+          onClick={() => {
+            toggleArtworkSave(artwork.id);
+            logEvent('artwork_save', { id: artwork.id });
+          }}
+          aria-label="Save artwork"
+          className={`w-8 h-8 rounded-full border border-foreground/20 flex items-center justify-center transition-colors ${
+            savedArtwork ? 'bg-foreground text-background' : 'hover:bg-foreground hover:text-background'
+          }`}
+        >
+          <Bookmark className="w-3.5 h-3.5" fill={savedArtwork ? 'currentColor' : 'none'} />
+        </button>
         <button
           onClick={onClose}
           className="w-8 h-8 rounded-full border border-foreground/20 flex items-center justify-center hover:bg-foreground hover:text-background transition-colors"
@@ -46,6 +62,7 @@ export function ArtworkDetailPanel({ artwork, isSelected, onToggleSelect, onClos
         >
           <X className="w-3.5 h-3.5" />
         </button>
+        </div>
       </div>
 
       {/* Large gallery */}
