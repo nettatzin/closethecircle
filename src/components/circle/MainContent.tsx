@@ -330,7 +330,7 @@ export function MainContent({
       <DottedRing className="absolute top-40 -right-20 w-56 h-56 opacity-[0.08] pointer-events-none" count={12} />
       <EllipseLine className="absolute bottom-40 -left-20 w-80 h-80 opacity-[0.05] pointer-events-none" />
 
-      <div className="max-w-lg mx-auto px-5 pt-8 relative">
+      <div className="max-w-lg md:max-w-5xl lg:max-w-6xl mx-auto px-5 md:px-8 pt-8 relative">
         {/* Header */}
         <motion.header
           initial={{ opacity: 0, y: -20 }}
@@ -348,7 +348,7 @@ export function MainContent({
           <p className="text-muted-foreground text-xs tracking-[0.2em] uppercase">
             {t('app_tagline')}
           </p>
-          <p className="text-muted-foreground text-sm mt-4 max-w-sm mx-auto leading-relaxed">
+          <p className="text-muted-foreground text-sm md:text-base mt-4 max-w-sm md:max-w-xl mx-auto leading-relaxed">
             {t('app_intro')}
           </p>
           <button
@@ -369,7 +369,7 @@ export function MainContent({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="relative mb-10"
+          className="relative mb-10 md:max-w-3xl md:mx-auto"
         >
           {/* Decorative ellipse connecting the four tiles */}
           <svg
@@ -385,7 +385,7 @@ export function MainContent({
             <ellipse cx="50" cy="50" rx="30" ry="22" transform="rotate(-14 50 50)" className="text-foreground/15" />
           </svg>
 
-          <div className="relative grid grid-cols-2 gap-x-4 gap-y-4">
+          <div className="relative grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-4">
             {tiles.map((tile, i) => (
               <FilterTile
                 key={tile.key}
