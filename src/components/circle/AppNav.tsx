@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Sparkles, Bookmark, BarChart2, Coins, Palette, type LucideIcon } from 'lucide-react';
 import { useLang, useT } from '@/i18n/LanguageContext';
@@ -111,7 +112,8 @@ export function AppNav({ mode, setMode }: Props) {
       </div>
 
       {/* Mobile drawer */}
-      <AnimatePresence>
+      {createPortal(
+        <AnimatePresence>
         {open && (
           <>
             <motion.div
@@ -181,7 +183,9 @@ export function AppNav({ mode, setMode }: Props) {
             </motion.aside>
           </>
         )}
-      </AnimatePresence>
+        </AnimatePresence>,
+        document.body
+      )}
     </div>
   );
 }
