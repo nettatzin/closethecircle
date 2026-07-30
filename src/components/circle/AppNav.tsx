@@ -154,16 +154,16 @@ export function AppNav({ mode, setMode }: Props) {
                         setOpen(false);
                       }}
                       className={cn(
-                        'flex items-center gap-3 min-h-[48px] px-3 rounded-sm text-start transition-colors',
+                        'flex items-center gap-4 min-h-[52px] px-3 rounded-sm text-start transition-colors',
                         active ? 'bg-foreground text-background' : 'text-foreground/75 hover:bg-foreground/5'
                       )}
                     >
-                      <Icon className="w-4 h-4 flex-shrink-0" />
-                      <span className="flex-1 text-[11px] font-display tracking-[0.22em] uppercase">{t(key)}</span>
+                      <Icon className="w-5 h-5 flex-shrink-0" />
+                      <span className="flex-1 text-sm font-display tracking-[0.2em] uppercase">{t(key)}</span>
                       {m === 'my_list' && (
                         <span
                           className={cn(
-                            'inline-flex min-w-[1.35rem] justify-center rounded-full px-1.5 py-[1px] text-[10px] tabular-nums',
+                            'inline-flex min-w-[1.35rem] justify-center rounded-full px-1.5 py-[1px] text-xs tabular-nums',
                             active ? 'bg-background/20 text-background' : 'bg-foreground/10 text-foreground/70'
                           )}
                         >
