@@ -42,7 +42,7 @@ export function ArtworksView() {
       <SpiralLine className="absolute -top-10 -right-16 w-72 h-72 opacity-[0.06] pointer-events-none" />
       <EllipseLine className="absolute bottom-40 -right-20 w-80 h-80 opacity-[0.05] pointer-events-none" />
 
-      <div className="max-w-lg mx-auto px-5 pt-2 relative">
+      <div className="max-w-lg lg:max-w-5xl mx-auto px-5 pt-2 relative">
         {/* Header */}
         <motion.header
           initial={{ opacity: 0, y: -10 }}
@@ -115,7 +115,7 @@ export function ArtworksView() {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
             {filtered.map((artwork, i) => (
               <motion.button
                 key={artwork.id}

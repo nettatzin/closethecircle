@@ -6,7 +6,7 @@ import { useDataset } from '@/i18n/dataset';
 import { useSession } from '@/hooks/useSession';
 import { ActivityCard } from './ActivityCard';
 import { ArtworkDetailModal } from './ArtworkDetailModal';
-import { CircleLine } from './LineArt';
+
 import { cn } from '@/lib/utils';
 import type { Activity, Artwork } from '@/data/activities';
 import type { AppMode } from '@/hooks/useCircleStore';
@@ -52,13 +52,8 @@ export function MyListView({ onCloseCircle, setMode }: Props) {
 
   return (
     <div className="min-h-screen pb-16 safe-area-bottom">
-      <div className="max-w-lg mx-auto px-5 pt-6">
-        <header className="text-center mb-5">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="h-px flex-1 bg-foreground/20" />
-            <CircleLine className="w-6 h-6 opacity-70" strokeWidth={0.8} />
-            <div className="h-px flex-1 bg-foreground/20" />
-          </div>
+      <div className="max-w-lg lg:max-w-5xl mx-auto px-5 pt-6">
+        <header className="text-center mb-6">
           <h1 className="font-display text-2xl tracking-[0.15em] uppercase text-foreground">
             {t('mode_my_list')}
           </h1>
@@ -82,19 +77,21 @@ export function MyListView({ onCloseCircle, setMode }: Props) {
               onCta={() => setMode('act')}
             />
           ) : (
-            <div className="space-y-5">
-              <AnimatePresence initial={false}>
-                {savedActivities.map((activity, index) => (
-                  <motion.div
-                    key={activity.id}
-                    layout
-                    exit={{ opacity: 0, scale: 0.96, height: 0 }}
-                    transition={{ duration: 0.25 }}
-                  >
-                    <ActivityCard activity={activity} index={index} onCloseCircle={onCloseCircle} />
-                  </motion.div>
-                ))}
-              </AnimatePresence>
+            <div className="mx-auto max-w-lg">
+              <div className="space-y-5">
+                <AnimatePresence initial={false}>
+                  {savedActivities.map((activity, index) => (
+                    <motion.div
+                      key={activity.id}
+                      layout
+                      exit={{ opacity: 0, scale: 0.96, height: 0 }}
+                      transition={{ duration: 0.25 }}
+                    >
+                      <ActivityCard activity={activity} index={index} onCloseCircle={onCloseCircle} />
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
             </div>
           )
         ) : savedArtworks.length === 0 ? (
@@ -105,7 +102,7 @@ export function MyListView({ onCloseCircle, setMode }: Props) {
             onCta={() => setMode('artworks')}
           />
         ) : (
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
             <AnimatePresence initial={false}>
               {savedArtworks.map((artwork, i) => (
                 <motion.div
@@ -172,7 +169,7 @@ function EmptyState({
       <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">{body}</p>
       <button
         onClick={onCta}
-        className="mt-2 px-6 py-3 bg-primary text-primary-foreground rounded-sm font-display text-[11px] tracking-[0.25em] uppercase hover:opacity-90 transition-opacity"
+        className="mt-2 px-6 py-3 bg-foreground text-background rounded-sm font-display text-[11px] tracking-[0.25em] uppercase hover:bg-foreground/90 transition-colors"
       >
         {cta}
       </button>
