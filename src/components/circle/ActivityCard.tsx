@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import type { Activity } from '@/data/activities';
 import { cn } from '@/lib/utils';
 import { useT } from '@/i18n/LanguageContext';
+import { useDataset } from '@/i18n/dataset';
 import { getActivityVisual } from '@/lib/activityVisual';
 import { getEffortVisual } from '@/lib/effortColor';
 import { CircleIcon } from '@/components/circle/CircleIcon';
@@ -19,6 +20,7 @@ interface ActivityCardProps {
 
 export function ActivityCard({ activity, index, onCloseCircle, onSaved }: ActivityCardProps) {
   const t = useT();
+  const { energyOptions } = useDataset();
   const { isSaved, toggleSave, logEvent } = useSession();
   const [expanded, setExpanded] = useState(false);
   const [impactOpen, setImpactOpen] = useState(false);
@@ -117,7 +119,7 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
             style={{ backgroundColor: effort.tint, color: effort.color }}
           >
             <EnergyIcon className="w-3 h-3" />
-            {activity.energyLabel}
+            {energyOptions.find(o => o.id === activity.energyLevel)?.label ?? ''}
           </span>
           <span className={cn(chipClass, 'inline-flex items-center gap-1')}>
             <FormatIcon className="w-3 h-3" />
