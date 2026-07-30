@@ -64,12 +64,21 @@ export function AppNav({ mode, setMode }: Props) {
 
   return (
     <div className="sticky top-0 z-40 bg-background/85 backdrop-blur-md border-b border-foreground/10 safe-area-top">
-      <div className="max-w-lg md:max-w-5xl lg:max-w-6xl mx-auto px-5 py-2">
+      <div className="max-w-lg md:max-w-5xl lg:max-w-5xl mx-auto px-5 py-2">
         {/* Mobile bar */}
         <div className="flex md:hidden items-center justify-between">
-          <span className="font-display text-xs tracking-[0.3em] uppercase text-foreground/80">
-            {t(NAV_ITEMS.find((i) => i.mode === mode)!.key)}
-          </span>
+          {(() => {
+            const current = NAV_ITEMS.find((i) => i.mode === mode)!;
+            const CurrentIcon = current.icon;
+            return (
+              <div className="flex items-center gap-2">
+                <CurrentIcon className="w-4 h-4 text-foreground/80" />
+                <span className="font-display text-sm tracking-[0.15em] uppercase text-foreground/80">
+                  {t(current.key)}
+                </span>
+              </div>
+            );
+          })()}
           <button
             onClick={() => setOpen(true)}
             aria-label={t('menu_open')}

@@ -102,7 +102,7 @@ export function MyListView({ onCloseCircle, setMode }: Props) {
             onCta={() => setMode('artworks')}
           />
         ) : (
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
             <AnimatePresence initial={false}>
               {savedArtworks.map((artwork, i) => (
                 <motion.div
@@ -169,7 +169,7 @@ function EmptyState({
       <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">{body}</p>
       <button
         onClick={onCta}
-        className="mt-2 px-6 py-3 bg-primary text-primary-foreground rounded-sm font-display text-[11px] tracking-[0.25em] uppercase hover:opacity-90 transition-opacity"
+        className="mt-2 px-6 py-3 bg-foreground text-background rounded-sm font-display text-[11px] tracking-[0.25em] uppercase hover:bg-foreground/90 transition-colors"
       >
         {cta}
       </button>
