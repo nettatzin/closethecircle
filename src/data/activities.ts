@@ -9,7 +9,7 @@ export interface Activity {
   id: number;
   name: string;
   type: string;
-  energyLevel: 'low_key' | 'hands_on' | 'deep_work';;
+  energyLevel: 'low_key' | 'hands_on' | 'deep_work';
   commitment: string;
   location: string;
   locationFormat: 'in_person' | 'online' | 'hybrid';
