@@ -24,7 +24,7 @@ const NAV_ITEMS: NavItem[] = [
 
 function CountBadge({ count }: { count: number }) {
   return (
-    <span className="ms-1 inline-flex min-w-[1.25rem] justify-center rounded-full bg-foreground/10 px-1.5 py-[1px] text-[10px] tabular-nums font-sans text-foreground/70">
+    <span className="ms-1.5 inline-flex min-w-[1.35rem] justify-center rounded-full bg-foreground/10 px-1.5 py-[2px] text-xs tabular-nums font-sans text-foreground/70">
       {count}
     </span>
   );
@@ -67,7 +67,7 @@ export function AppNav({ mode, setMode }: Props) {
       <div className="max-w-lg mx-auto px-5 py-2">
         {/* Mobile bar */}
         <div className="flex md:hidden items-center justify-between">
-          <span className="font-display text-[11px] tracking-[0.3em] uppercase text-foreground/80">
+          <span className="font-display text-xs tracking-[0.3em] uppercase text-foreground/80">
             {t(NAV_ITEMS.find((i) => i.mode === mode)!.key)}
           </span>
           <button
@@ -80,8 +80,8 @@ export function AppNav({ mode, setMode }: Props) {
         </div>
 
         {/* Desktop row */}
-        <div className="hidden md:flex items-center justify-between gap-2">
-          <nav className="flex items-center gap-1">
+        <div className="hidden md:flex items-center justify-between gap-4">
+          <nav className="flex items-center gap-5">
             {NAV_ITEMS.map(({ mode: m, icon: Icon, key }) => {
               const active = mode === m;
               return (
@@ -89,7 +89,7 @@ export function AppNav({ mode, setMode }: Props) {
                   key={m}
                   onClick={() => setMode(m)}
                   className={cn(
-                    'relative flex items-center gap-1.5 px-2.5 py-2 rounded-sm text-[10px] font-display tracking-[0.18em] uppercase transition-colors',
+                    'relative flex items-center gap-2 px-4 py-2.5 rounded-sm text-sm font-display tracking-[0.16em] uppercase transition-colors',
                     active ? 'text-foreground' : 'text-foreground/45 hover:text-foreground/80'
                   )}
                 >
@@ -100,7 +100,7 @@ export function AppNav({ mode, setMode }: Props) {
                       transition={{ type: 'spring', stiffness: 350, damping: 30 }}
                     />
                   )}
-                  <Icon className="w-3.5 h-3.5" />
+                  <Icon className="w-4 h-4" />
                   <span>{t(key)}</span>
                   {m === 'my_list' && <CountBadge count={savedCount} />}
                 </button>
@@ -154,16 +154,16 @@ export function AppNav({ mode, setMode }: Props) {
                         setOpen(false);
                       }}
                       className={cn(
-                        'flex items-center gap-3 min-h-[48px] px-3 rounded-sm text-start transition-colors',
+                        'flex items-center gap-4 min-h-[52px] px-3 rounded-sm text-start transition-colors',
                         active ? 'bg-foreground text-background' : 'text-foreground/75 hover:bg-foreground/5'
                       )}
                     >
-                      <Icon className="w-4 h-4 flex-shrink-0" />
-                      <span className="flex-1 text-[11px] font-display tracking-[0.22em] uppercase">{t(key)}</span>
+                      <Icon className="w-5 h-5 flex-shrink-0" />
+                      <span className="flex-1 text-sm font-display tracking-[0.2em] uppercase">{t(key)}</span>
                       {m === 'my_list' && (
                         <span
                           className={cn(
-                            'inline-flex min-w-[1.35rem] justify-center rounded-full px-1.5 py-[1px] text-[10px] tabular-nums',
+                            'inline-flex min-w-[1.35rem] justify-center rounded-full px-1.5 py-[1px] text-xs tabular-nums',
                             active ? 'bg-background/20 text-background' : 'bg-foreground/10 text-foreground/70'
                           )}
                         >
