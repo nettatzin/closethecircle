@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ExternalLink, ChevronLeft, ChevronRight, Check, Plus } from 'lucide-react';
+import { X, ExternalLink, ChevronLeft, ChevronRight, Check, Plus, Bookmark } from 'lucide-react';
+import { useSession } from '@/hooks/useSession';
 import { useEffect, useState } from 'react';
 import type { Artwork } from '@/data/activities';
 import { CircleLine } from './LineArt';
@@ -13,6 +14,8 @@ interface ArtworkDetailModalProps {
 
 export function ArtworkDetailModal({ artwork, onClose, isSelected, onToggleSelect }: ArtworkDetailModalProps) {
   const [activeImage, setActiveImage] = useState(0);
+  const { isArtworkSaved, toggleArtworkSave, logEvent } = useSession();
+  const savedArtwork = artwork ? isArtworkSaved(artwork.id) : false;
 
   useEffect(() => {
     setActiveImage(0);
@@ -47,6 +50,19 @@ export function ArtworkDetailModal({ artwork, onClose, isSelected, onToggleSelec
             onClick={(e) => e.stopPropagation()}
             className="relative w-full max-w-4xl max-h-[95vh] overflow-y-auto bg-card border border-foreground/15 rounded-t-2xl sm:rounded-sm shadow-2xl"
           >
+            <button
+              onClick={() => {
+                toggleArtworkSave(artwork.id);
+                logEvent('artwork_save', { id: artwork.id });
+              }}
+              aria-label="Save artwork"
+              className={`absolute top-4 right-16 z-10 w-9 h-9 rounded-full backdrop-blur-sm border border-foreground/15 flex items-center justify-center transition-colors ${
+                savedArtwork ? 'bg-foreground text-background' : 'bg-background/80 hover:bg-foreground hover:text-background'
+              }`}
+            >
+              <Bookmark className="w-4 h-4" fill={savedArtwork ? 'currentColor' : 'none'} />
+            </button>
+
             <button
               onClick={onClose}
               className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-background/80 backdrop-blur-sm border border-foreground/15 flex items-center justify-center hover:bg-foreground hover:text-background transition-colors"
