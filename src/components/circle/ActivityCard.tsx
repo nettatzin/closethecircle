@@ -76,10 +76,10 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
         {/* Top row: saves pill */}
         <div className="relative flex items-center justify-end mb-3">
           <div
-            className="px-2.5 py-1 rounded-full flex items-center gap-1.5 text-xs font-sans-thin bg-background/80"
+            className="px-2.5 py-1 rounded-full flex items-center gap-1.5 text-sm font-sans-thin bg-background/80"
             style={{ color: categoryColor, border: `1px solid ${categoryRing}` }}
           >
-            <Heart className="w-3.5 h-3.5" fill="currentColor" />
+            <Heart className="w-4 h-4" fill="currentColor" />
             {activity.saves}
           </div>
         </div>
