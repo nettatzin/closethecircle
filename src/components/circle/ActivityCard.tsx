@@ -179,10 +179,10 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
         <motion.button
           onClick={() => setExpanded(!expanded)}
           whileTap={{ scale: 0.99 }}
-          className="w-full py-2.5 mb-3 rounded-sm font-display text-xs tracking-[0.15em] uppercase text-foreground border border-foreground/25 bg-transparent hover:bg-foreground/5 transition-all flex items-center justify-center gap-2"
+          className="w-full py-2.5 mb-3 rounded-sm font-display text-sm tracking-[0.15em] uppercase text-foreground border border-foreground/25 bg-transparent hover:bg-foreground/5 transition-all flex items-center justify-center gap-2"
         >
           {expanded ? t('hide_details') : t('view_details')}
-          {expanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+          {expanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
         </motion.button>
 
         {/* Expanded details */}
@@ -192,13 +192,13 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="mb-4 p-4 border border-foreground/15 rounded-sm overflow-hidden bg-muted/40"
+              className="mb-3 p-4 border border-foreground/15 rounded-sm overflow-hidden bg-muted/40"
             >
-              <p className="text-[15px] text-foreground leading-relaxed mb-4 font-sans-thin">
+              <p className="text-base text-foreground leading-relaxed mb-3 font-sans-thin">
                 {activity.description}
               </p>
 
-              <div className="flex flex-wrap gap-1.5 mb-2">
+              <div className="flex flex-wrap gap-1 mb-2">
                 {activity.exhibitionThemes.map(theme => (
                   <span key={theme} className={chipClass}>
                     {t(`theme_${theme}` as any)}
@@ -206,11 +206,11 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
                 ))}
               </div>
 
-              <div className="flex flex-wrap gap-1.5 mb-2">
+              <div className="flex flex-wrap gap-1 mb-2">
                 <span className={chipClass}>{t(`audience_${activity.targetAudience}` as any)}</span>
               </div>
 
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex flex-wrap gap-1">
                 <span className={chipClass}>{t(`cost_${activity.cost}` as any)}</span>
               </div>
             </motion.div>
@@ -223,10 +223,10 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
             onClick={() => onCloseCircle(activity)}
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
-            className="flex-1 py-3 rounded-sm font-display text-xs tracking-[0.18em] uppercase flex items-center justify-center gap-2 bg-foreground text-background hover:bg-foreground/90 transition-colors"
+            className="flex-1 py-3 rounded-sm font-display text-sm tracking-[0.18em] uppercase flex items-center justify-center gap-2 bg-foreground text-background hover:bg-foreground/90 transition-colors"
           >
             {t('close_circle')}
-            <ExternalLink className="w-3.5 h-3.5" />
+            <ExternalLink className="w-4 h-4" />
           </motion.button>
 
           <motion.button
