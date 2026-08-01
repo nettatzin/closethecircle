@@ -107,26 +107,26 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
       </div>
 
       {/* Content */}
-      <div className="px-5 pb-5 pt-2">
-        <h3 className="font-display text-lg text-foreground mb-1.5 leading-snug tracking-wide">
+      <div className="px-5 pb-4 pt-1.5">
+        <h3 className="font-display text-xl text-foreground mb-1 leading-snug tracking-wide">
           {activity.name}
         </h3>
 
         {/* Tier 1 — energy + format + location chips */}
-        <div className="flex flex-wrap items-center gap-1.5 mb-4 mt-2.5">
+        <div className="flex flex-wrap items-center gap-1.5 mb-3 mt-2">
           <span
-            className="text-xs px-2.5 py-1 rounded-full font-sans-thin whitespace-nowrap inline-flex items-center gap-1"
+            className="text-sm px-2.5 py-1 rounded-full font-sans-thin whitespace-nowrap inline-flex items-center gap-1"
             style={{ backgroundColor: effort.tint, color: effort.color }}
           >
-            <EnergyIcon className="w-3.5 h-3.5" />
+            <EnergyIcon className="w-4 h-4" />
             {energyOptions.find(o => o.id === activity.energyLevel)?.label ?? ''}
           </span>
           <span className={cn(chipClass, 'inline-flex items-center gap-1')}>
-            <FormatIcon className="w-3.5 h-3.5" />
+            <FormatIcon className="w-4 h-4" />
             {t(`format_${activity.locationFormat}` as any)}
           </span>
-          <span className={cn(chipClass, 'inline-flex items-center gap-1 max-w-[140px]')}>
-            {activity.locationFormat !== 'online' && <MapPin className="w-3.5 h-3.5 shrink-0" />}
+          <span className={cn(chipClass, 'inline-flex items-center gap-1 max-w-[150px]')}>
+            {activity.locationFormat !== 'online' && <MapPin className="w-4 h-4 shrink-0" />}
             <span className="truncate">
               {activity.locationFormat === 'online'
                 ? t(activity.region === 'global' ? 'region_global' : 'region_israel')
