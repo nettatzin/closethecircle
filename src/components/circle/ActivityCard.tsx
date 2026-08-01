@@ -27,7 +27,7 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
   const activityIdStr = String(activity.id);
   const saved = isSaved(activityIdStr);
   const { iconName, color: categoryColor, tint: categoryTint, ring: categoryRing } = getActivityVisual(activity.type);
-  const chipClass = 'text-xs px-2.5 py-1 border border-foreground/30 text-foreground rounded-full font-sans-thin whitespace-nowrap';
+  const chipClass = 'text-sm px-2.5 py-1 border border-foreground/30 text-foreground rounded-full font-sans-thin whitespace-nowrap';
   const EnergyIcon = activity.energyLevel === 'low_key' ? Feather : activity.energyLevel === 'hands_on' ? Flame : Dumbbell;
   const effort = getEffortVisual(activity.energyLevel);
   const FormatIcon = activity.locationFormat === 'online' ? Globe : activity.locationFormat === 'hybrid' ? Repeat : Building2;
