@@ -27,7 +27,7 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
   const activityIdStr = String(activity.id);
   const saved = isSaved(activityIdStr);
   const { iconName, color: categoryColor, tint: categoryTint, ring: categoryRing } = getActivityVisual(activity.type);
-  const chipClass = 'text-xs px-2.5 py-1 border border-foreground/30 text-foreground rounded-full font-sans-thin whitespace-nowrap';
+  const chipClass = 'text-sm px-2.5 py-1 border border-foreground/30 text-foreground rounded-full font-sans-thin whitespace-nowrap';
   const EnergyIcon = activity.energyLevel === 'low_key' ? Feather : activity.energyLevel === 'hands_on' ? Flame : Dumbbell;
   const effort = getEffortVisual(activity.energyLevel);
   const FormatIcon = activity.locationFormat === 'online' ? Globe : activity.locationFormat === 'hybrid' ? Repeat : Building2;
@@ -76,10 +76,10 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
         {/* Top row: saves pill */}
         <div className="relative flex items-center justify-end mb-3">
           <div
-            className="px-2.5 py-1 rounded-full flex items-center gap-1.5 text-xs font-sans-thin bg-background/80"
+            className="px-2.5 py-1 rounded-full flex items-center gap-1.5 text-sm font-sans-thin bg-background/80"
             style={{ color: categoryColor, border: `1px solid ${categoryRing}` }}
           >
-            <Heart className="w-3.5 h-3.5" fill="currentColor" />
+            <Heart className="w-4 h-4" fill="currentColor" />
             {activity.saves}
           </div>
         </div>
@@ -107,26 +107,26 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
       </div>
 
       {/* Content */}
-      <div className="px-5 pb-5 pt-2">
-        <h3 className="font-display text-lg text-foreground mb-1.5 leading-snug tracking-wide">
+      <div className="px-5 pb-4 pt-1.5">
+        <h3 className="font-display text-xl text-foreground mb-1 leading-snug tracking-wide">
           {activity.name}
         </h3>
 
         {/* Tier 1 — energy + format + location chips */}
-        <div className="flex flex-wrap items-center gap-1.5 mb-4 mt-2.5">
+        <div className="flex flex-wrap items-center gap-1.5 mb-3 mt-2">
           <span
-            className="text-xs px-2.5 py-1 rounded-full font-sans-thin whitespace-nowrap inline-flex items-center gap-1"
+            className="text-sm px-2.5 py-1 rounded-full font-sans-thin whitespace-nowrap inline-flex items-center gap-1"
             style={{ backgroundColor: effort.tint, color: effort.color }}
           >
-            <EnergyIcon className="w-3.5 h-3.5" />
+            <EnergyIcon className="w-4 h-4" />
             {energyOptions.find(o => o.id === activity.energyLevel)?.label ?? ''}
           </span>
           <span className={cn(chipClass, 'inline-flex items-center gap-1')}>
-            <FormatIcon className="w-3.5 h-3.5" />
+            <FormatIcon className="w-4 h-4" />
             {t(`format_${activity.locationFormat}` as any)}
           </span>
-          <span className={cn(chipClass, 'inline-flex items-center gap-1 max-w-[140px]')}>
-            {activity.locationFormat !== 'online' && <MapPin className="w-3.5 h-3.5 shrink-0" />}
+          <span className={cn(chipClass, 'inline-flex items-center gap-1 max-w-[150px]')}>
+            {activity.locationFormat !== 'online' && <MapPin className="w-4 h-4 shrink-0" />}
             <span className="truncate">
               {activity.locationFormat === 'online'
                 ? t(activity.region === 'global' ? 'region_global' : 'region_israel')
@@ -136,14 +136,14 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
         </div>
 
         {/* Impact tags — single row, expand to show all */}
-        <div className="mb-5">
-          <div className="text-[11px] font-display text-muted-foreground uppercase tracking-[0.2em] mb-2">
+        <div className="mb-3.5">
+          <div className="text-xs font-display text-muted-foreground uppercase tracking-[0.2em] mb-1.5">
             {t('impact_label')}
           </div>
           <div
             className={cn(
-              'flex flex-wrap gap-1.5 overflow-hidden transition-[max-height] duration-300',
-              impactOpen ? 'max-h-40' : 'max-h-8'
+              'flex flex-wrap gap-1 overflow-hidden transition-[max-height] duration-300',
+              impactOpen ? 'max-h-44' : 'max-h-9'
             )}
           >
             {activity.tags.impact.map(tag => (
@@ -155,20 +155,20 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
           {activity.tags.impact.length > 2 && (
             <button
               onClick={() => setImpactOpen(v => !v)}
-              className="mt-1.5 text-xs font-display uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+              className="mt-1 text-sm font-display uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
             >
               {impactOpen ? t('hide_details') : `+ ${activity.tags.impact.length - 2} ${t('more_word')}`}
-              {impactOpen ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+              {impactOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
             </button>
           )}
         </div>
 
         {/* Activity type */}
-        <div className="mb-5">
-          <div className="text-[11px] font-display text-muted-foreground uppercase tracking-[0.2em] mb-2">
+        <div className="mb-3.5">
+          <div className="text-xs font-display text-muted-foreground uppercase tracking-[0.2em] mb-1.5">
             {t('activity_type_label')}
           </div>
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap gap-1">
             <span className={chipClass}>{activity.type}</span>
           </div>
         </div>
@@ -179,10 +179,10 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
         <motion.button
           onClick={() => setExpanded(!expanded)}
           whileTap={{ scale: 0.99 }}
-          className="w-full py-2.5 mb-3 rounded-sm font-display text-xs tracking-[0.15em] uppercase text-foreground border border-foreground/25 bg-transparent hover:bg-foreground/5 transition-all flex items-center justify-center gap-2"
+          className="w-full py-2.5 mb-3 rounded-sm font-display text-sm tracking-[0.15em] uppercase text-foreground border border-foreground/25 bg-transparent hover:bg-foreground/5 transition-all flex items-center justify-center gap-2"
         >
           {expanded ? t('hide_details') : t('view_details')}
-          {expanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+          {expanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
         </motion.button>
 
         {/* Expanded details */}
@@ -192,13 +192,13 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="mb-4 p-4 border border-foreground/15 rounded-sm overflow-hidden bg-muted/40"
+              className="mb-3 p-4 border border-foreground/15 rounded-sm overflow-hidden bg-muted/40"
             >
-              <p className="text-[15px] text-foreground leading-relaxed mb-4 font-sans-thin">
+              <p className="text-base text-foreground leading-relaxed mb-3 font-sans-thin">
                 {activity.description}
               </p>
 
-              <div className="flex flex-wrap gap-1.5 mb-2">
+              <div className="flex flex-wrap gap-1 mb-2">
                 {activity.exhibitionThemes.map(theme => (
                   <span key={theme} className={chipClass}>
                     {t(`theme_${theme}` as any)}
@@ -206,11 +206,11 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
                 ))}
               </div>
 
-              <div className="flex flex-wrap gap-1.5 mb-2">
+              <div className="flex flex-wrap gap-1 mb-2">
                 <span className={chipClass}>{t(`audience_${activity.targetAudience}` as any)}</span>
               </div>
 
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex flex-wrap gap-1">
                 <span className={chipClass}>{t(`cost_${activity.cost}` as any)}</span>
               </div>
             </motion.div>
@@ -223,10 +223,10 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
             onClick={() => onCloseCircle(activity)}
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
-            className="flex-1 py-3 rounded-sm font-display text-xs tracking-[0.18em] uppercase flex items-center justify-center gap-2 bg-foreground text-background hover:bg-foreground/90 transition-colors"
+            className="flex-1 py-3 rounded-sm font-display text-sm tracking-[0.18em] uppercase flex items-center justify-center gap-2 bg-foreground text-background hover:bg-foreground/90 transition-colors"
           >
             {t('close_circle')}
-            <ExternalLink className="w-3.5 h-3.5" />
+            <ExternalLink className="w-4 h-4" />
           </motion.button>
 
           <motion.button
