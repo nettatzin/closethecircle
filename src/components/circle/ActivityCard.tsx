@@ -136,14 +136,14 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
         </div>
 
         {/* Impact tags — single row, expand to show all */}
-        <div className="mb-5">
-          <div className="text-[11px] font-display text-muted-foreground uppercase tracking-[0.2em] mb-2">
+        <div className="mb-3.5">
+          <div className="text-xs font-display text-muted-foreground uppercase tracking-[0.2em] mb-1.5">
             {t('impact_label')}
           </div>
           <div
             className={cn(
-              'flex flex-wrap gap-1.5 overflow-hidden transition-[max-height] duration-300',
-              impactOpen ? 'max-h-40' : 'max-h-8'
+              'flex flex-wrap gap-1 overflow-hidden transition-[max-height] duration-300',
+              impactOpen ? 'max-h-44' : 'max-h-9'
             )}
           >
             {activity.tags.impact.map(tag => (
@@ -155,20 +155,20 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
           {activity.tags.impact.length > 2 && (
             <button
               onClick={() => setImpactOpen(v => !v)}
-              className="mt-1.5 text-xs font-display uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+              className="mt-1 text-sm font-display uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
             >
               {impactOpen ? t('hide_details') : `+ ${activity.tags.impact.length - 2} ${t('more_word')}`}
-              {impactOpen ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+              {impactOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
             </button>
           )}
         </div>
 
         {/* Activity type */}
-        <div className="mb-5">
-          <div className="text-[11px] font-display text-muted-foreground uppercase tracking-[0.2em] mb-2">
+        <div className="mb-3.5">
+          <div className="text-xs font-display text-muted-foreground uppercase tracking-[0.2em] mb-1.5">
             {t('activity_type_label')}
           </div>
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap gap-1">
             <span className={chipClass}>{activity.type}</span>
           </div>
         </div>
