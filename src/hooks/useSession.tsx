@@ -37,6 +37,7 @@ const LS = {
   emailCaptured: 'circle_email_captured',
   firstSaveShown: 'circle_first_save_shown',
   savedArtworks: 'circle.savedArtworks',
+  circleScope: 'circle.scope',
 };
 
 function uuidv4() {
@@ -83,6 +84,16 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       return [];
     }
   });
+
+  const [circleScope, setCircleScopeState] = useState<'mine' | 'everyone'>(() => {
+    if (typeof window === 'undefined') return 'mine';
+    return localStorage.getItem(LS.circleScope) === 'everyone' ? 'everyone' : 'mine';
+  });
+
+  const setCircleScope = useCallback((s: 'mine' | 'everyone') => {
+    setCircleScopeState(s);
+    localStorage.setItem(LS.circleScope, s);
+  }, []);
 
   const idleListeners = useRef<Set<() => void>>(new Set());
   const idleTimer = useRef<number | null>(null);
@@ -198,10 +209,12 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       savedArtworkIds,
       isArtworkSaved,
       toggleArtworkSave,
+      circleScope,
+      setCircleScope,
       registerActivity,
       onIdle,
     }),
-    [sessionId, logEvent, hasEmailCaptured, markEmailCaptured, savedIds, isSaved, toggleSave, savedArtworkIds, isArtworkSaved, toggleArtworkSave, registerActivity, onIdle]
+    [sessionId, logEvent, hasEmailCaptured, markEmailCaptured, savedIds, isSaved, toggleSave, savedArtworkIds, isArtworkSaved, toggleArtworkSave, circleScope, setCircleScope, registerActivity, onIdle]
   );
 
   return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>;
