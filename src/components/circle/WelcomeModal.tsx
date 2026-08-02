@@ -22,16 +22,16 @@ export function WelcomeModal({ isOpen, onClose }: WelcomeModalProps) {
         >
           <SpiralLine className="absolute -top-16 -left-16 w-64 h-64 opacity-[0.07] pointer-events-none" />
 
-          <div className="min-h-full w-full flex flex-col items-center justify-center px-6 py-10 gap-8 max-w-2xl mx-auto text-center">
-            <div className="relative h-20 flex items-center justify-center">
+          <div className="min-h-full w-full flex flex-col items-center justify-center px-5 py-8 md:py-10 gap-5 md:gap-6 max-w-3xl mx-auto text-center">
+            <div className="relative h-28 md:h-32 flex items-center justify-center shrink-0">
               <motion.div
                 animate={{ rotate: [0, 360] }}
                 transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
                 className="absolute inset-0 flex items-center justify-center"
               >
-                <EllipseLine className="w-24 h-24 opacity-80" strokeWidth={0.6} />
+                <EllipseLine className="w-40 h-40 md:w-48 md:h-48 opacity-80" strokeWidth={0.5} />
               </motion.div>
-              <span className="font-display text-[11px] tracking-[0.3em] uppercase text-foreground relative">
+              <span className="font-display text-base md:text-lg tracking-[0.3em] uppercase text-foreground relative">
                 {t('app_title')}
               </span>
             </div>
@@ -40,7 +40,7 @@ export function WelcomeModal({ isOpen, onClose }: WelcomeModalProps) {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.5 }}
-              className="space-y-5"
+              className="space-y-3 md:space-y-4"
             >
               <h1 className="font-display text-2xl md:text-4xl text-foreground leading-snug">
                 המעגל לא מסתיים במוזיאון. ואתן ואתם - כבר בתוכו.
@@ -52,6 +52,7 @@ export function WelcomeModal({ isOpen, onClose }: WelcomeModalProps) {
                 וזה מה שהמעגל מחזיר: חיבור, ריפוי, ושגשוג.
               </p>
             </motion.div>
+
 
             <motion.div
               initial={{ opacity: 0, scale: 0.98 }}
