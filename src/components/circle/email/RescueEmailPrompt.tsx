@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useSession } from '@/hooks/useSession';
+import { isBlockingModalOpen } from '@/lib/modalFlag';
 import { EmailField } from './EmailField';
 
 const LS_DISMISSED = 'circle_rescue_dismissed';
@@ -14,13 +15,22 @@ export function RescueEmailPrompt() {
   useEffect(() => {
     if (localStorage.getItem(LS_DISMISSED) === '1') return;
     if (hasEmailCaptured) return;
-    const t = window.setTimeout(() => {
-      if (localStorage.getItem(LS_DISMISSED) !== '1' && !hasEmailCaptured) {
-        setOpen(true);
+    // Wait for a quiet moment: never interrupt the welcome banner or the
+    // "close the circle" ripple, which this prompt would otherwise cover.
+    const startedAt = Date.now();
+    const id = window.setInterval(() => {
+      if (localStorage.getItem(LS_DISMISSED) === '1' || hasEmailCaptured) {
+        window.clearInterval(id);
+        return;
       }
-    }, 3000);
-    return () => window.clearTimeout(t);
+      if (Date.now() - startedAt < 3000) return;
+      if (isBlockingModalOpen()) return;
+      window.clearInterval(id);
+      setOpen(true);
+    }, 1000);
+    return () => window.clearInterval(id);
   }, [hasEmailCaptured]);
+
 
   const dismiss = () => {
     localStorage.setItem(LS_DISMISSED, '1');

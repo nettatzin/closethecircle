@@ -1,6 +1,8 @@
+import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { EllipseLine, SpiralLine } from './LineArt';
 import { useT } from '@/i18n/LanguageContext';
+import { registerBlockingModal } from '@/lib/modalFlag';
 import museumVideo from '@/assets/museum-video.mp4.asset.json';
 
 interface WelcomeModalProps {
@@ -10,6 +12,13 @@ interface WelcomeModalProps {
 
 export function WelcomeModal({ isOpen, onClose }: WelcomeModalProps) {
   const t = useT();
+
+  useEffect(() => {
+    if (!isOpen) return;
+    return registerBlockingModal();
+  }, [isOpen]);
+
+
   return (
     <AnimatePresence>
       {isOpen && (
