@@ -59,6 +59,15 @@ export function MyListView({ onCloseCircle, setMode }: Props) {
           </h1>
         </header>
 
+        <div className="flex justify-center mb-4">
+          <button
+            onClick={() => setMode('impact')}
+            className="px-5 py-2.5 rounded-2xl border border-foreground/20 bg-card text-sm text-foreground hover:bg-foreground/5 transition-colors"
+          >
+            המעגל שלי
+          </button>
+        </div>
+
         <div className="flex items-center justify-center gap-2 mb-6">
           <button className={chip(tab === 'initiatives')} onClick={() => setTab('initiatives')}>
             {t('my_list_tab_initiatives')} ({savedActivities.length})

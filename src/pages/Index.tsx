@@ -3,7 +3,7 @@ import { WelcomeModal } from '@/components/circle/WelcomeModal';
 import { RippleModal } from '@/components/circle/RippleModal';
 import { MainContent } from '@/components/circle/MainContent';
 import { ArtworksView } from '@/components/circle/ArtworksView';
-import { ImpactView } from '@/components/circle/ImpactView';
+import { MyCircleView } from '@/components/circle/MyCircleView';
 import { CashbackView } from '@/components/circle/CashbackView';
 import { MyListView } from '@/components/circle/MyListView';
 import { AppNav } from '@/components/circle/AppNav';
@@ -108,7 +108,7 @@ const Index = () => {
       ) : mode === 'my_list' ? (
         <MyListView onCloseCircle={handleCloseCircle} setMode={store.setMode} />
       ) : mode === 'impact' ? (
-        <ImpactView />
+        <MyCircleView />
       ) : mode === 'cashback' ? (
         <CashbackView />
       ) : (
