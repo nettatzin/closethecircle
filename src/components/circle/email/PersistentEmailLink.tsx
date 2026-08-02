@@ -9,7 +9,7 @@ export function PersistentEmailLink({ className }: { className?: string }) {
         onClick={() => setOpen(true)}
         className={
           className ??
-          'text-[11px] font-display tracking-[0.2em] uppercase text-muted-foreground hover:text-foreground underline underline-offset-4 decoration-dotted transition-colors'
+          'text-sm font-display tracking-[0.16em] uppercase text-muted-foreground hover:text-foreground underline underline-offset-4 decoration-dotted transition-colors'
         }
         dir="rtl"
       >
