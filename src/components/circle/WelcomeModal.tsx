@@ -22,16 +22,16 @@ export function WelcomeModal({ isOpen, onClose }: WelcomeModalProps) {
         >
           <SpiralLine className="absolute -top-16 -left-16 w-64 h-64 opacity-[0.07] pointer-events-none" />
 
-          <div className="min-h-full w-full flex flex-col items-center justify-center px-5 py-5 md:py-6 gap-3 md:gap-4 max-w-2xl mx-auto text-center">
-            <div className="relative h-20 md:h-24 flex items-center justify-center shrink-0">
+          <div className="min-h-full w-full flex flex-col items-center justify-center px-5 py-4 md:py-5 gap-2 md:gap-3 max-w-2xl mx-auto text-center">
+            <div className="relative h-14 md:h-20 flex items-center justify-center shrink-0 -mt-2">
               <motion.div
                 animate={{ rotate: [0, 360] }}
                 transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
                 className="absolute inset-0 flex items-center justify-center"
               >
-                <EllipseLine className="w-28 h-28 md:w-36 md:h-36 opacity-80" strokeWidth={0.5} />
+                <EllipseLine className="w-24 h-24 md:w-32 md:h-32 opacity-80" strokeWidth={0.5} />
               </motion.div>
-              <span className="font-display text-sm md:text-base tracking-[0.3em] uppercase text-foreground relative">
+              <span className="font-display text-base md:text-lg tracking-[0.3em] uppercase text-foreground relative">
                 {t('app_title')}
               </span>
             </div>
@@ -40,15 +40,15 @@ export function WelcomeModal({ isOpen, onClose }: WelcomeModalProps) {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.5 }}
-              className="space-y-2 md:space-y-3"
+              className="space-y-1.5 md:space-y-2"
             >
-              <h1 className="font-display text-xl md:text-3xl text-foreground leading-snug">
+              <h1 className="font-display text-2xl md:text-4xl text-foreground leading-snug">
                 המעגל לא מסתיים במוזיאון. ואתן ואתם - כבר בתוכו.
               </h1>
-              <p className="text-muted-foreground text-sm md:text-base leading-relaxed">
+              <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
                 המתנות שאספתם עדיין טריות. כאן תבחרו איך הן נכנסות לחיים שלכם - בזמן שלכם. בקצב שלכם. במקום שלכם.
               </p>
-              <p className="text-foreground text-sm md:text-base italic leading-relaxed">
+              <p className="text-foreground text-base md:text-lg italic leading-relaxed">
                 וזה מה שהמעגל מחזיר: חיבור, ריפוי, ושגשוג.
               </p>
             </motion.div>
@@ -73,7 +73,7 @@ export function WelcomeModal({ isOpen, onClose }: WelcomeModalProps) {
               onClick={onClose}
               whileHover={{ scale: 1.01 }}
               whileTap={{ scale: 0.99 }}
-              className="w-full max-w-sm py-3 px-6 rounded-sm font-display text-xs tracking-[0.25em] uppercase bg-foreground text-background hover:bg-foreground/90 transition-colors"
+              className="w-full max-w-sm py-3 px-6 rounded-sm font-display text-sm tracking-[0.25em] uppercase bg-foreground text-background hover:bg-foreground/90 transition-colors"
             >
               {t('start_exploring')}
             </motion.button>
