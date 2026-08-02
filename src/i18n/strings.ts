@@ -88,7 +88,7 @@ const en = {
   welcome_h1_line1: 'The exhibition sparked it.',
   welcome_h1_line2: 'You keep it alive.',
   welcome_sub: 'Every circle you close opens new ones',
-  start_exploring: 'Start exploring',
+  start_exploring: 'I am in',
 
   // Ripple
   ripple_community: 'This circle exists because others closed circles before',
@@ -209,7 +209,7 @@ const he: typeof en = {
   welcome_h1_line1: 'התערוכה הציתה את הניצוץ.',
   welcome_h1_line2: 'אתם שומרים אותו דולק.',
   welcome_sub: 'כל מעגל שאתם סוגרים פותח חדשים',
-  start_exploring: 'יוצאים לחקור',
+  start_exploring: 'אני בפנים',
 
   ripple_community: 'המעגל הזה קיים כי אחרים סגרו מעגלים לפניכם',
   ripple_close_cta: 'סגרו את המעגל הזה ←',
