@@ -58,7 +58,7 @@ export function WelcomeModal({ isOpen, onClose }: WelcomeModalProps) {
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2, duration: 0.5 }}
-              className="w-full rounded-sm overflow-hidden border border-foreground/15"
+              className="w-full max-w-2xl rounded-sm overflow-hidden border border-foreground/15"
             >
               <video
                 src={museumVideo.url}
@@ -66,7 +66,7 @@ export function WelcomeModal({ isOpen, onClose }: WelcomeModalProps) {
                 loop
                 muted
                 playsInline
-                className="w-full h-auto object-cover"
+                className="w-full h-auto max-h-[38vh] object-cover"
               />
             </motion.div>
 
@@ -74,7 +74,8 @@ export function WelcomeModal({ isOpen, onClose }: WelcomeModalProps) {
               onClick={onClose}
               whileHover={{ scale: 1.01 }}
               whileTap={{ scale: 0.99 }}
-              className="w-full max-w-md py-4 px-8 rounded-sm font-display text-xs tracking-[0.25em] uppercase bg-foreground text-background hover:bg-foreground/90 transition-colors"
+              className="w-full max-w-md py-4 px-8 rounded-sm font-display text-sm tracking-[0.25em] uppercase bg-foreground text-background hover:bg-foreground/90 transition-colors"
+
             >
               {t('start_exploring')}
             </motion.button>
