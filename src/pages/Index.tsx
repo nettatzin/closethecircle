@@ -14,6 +14,26 @@ const Index = () => {
   const store = useCircleStore();
   const mode = store.mode;
 
+  // Mobile browsers block window.open() called asynchronously (outside the tap
+  // gesture). So we open the tab synchronously on click and set its URL later.
+  const openLater = (url?: string) => {
+    if (!url) return;
+    let win: Window | null = null;
+    try {
+      win = window.open('', '_blank');
+    } catch {
+      win = null;
+    }
+    setTimeout(() => {
+      if (win && !win.closed) {
+        win.location.href = url;
+      } else {
+        window.location.href = url;
+      }
+      setTimeout(() => store.setShowRipple(false), 2000);
+    }, 2000);
+  };
+
   const handleCloseCircle = (activity: Activity) => {
     if (activity.showCommunityMessage) {
       store.setRippleActivity(activity);
@@ -21,19 +41,13 @@ const Index = () => {
     } else {
       store.setRippleActivity(activity);
       store.setShowRipple('ripple');
-      setTimeout(() => {
-        window.open(activity.url, '_blank');
-        setTimeout(() => store.setShowRipple(false), 2000);
-      }, 2000);
+      openLater(activity.url);
     }
   };
 
   const handleCommunityConfirm = () => {
     store.setShowRipple('ripple');
-    setTimeout(() => {
-      window.open(store.rippleActivity?.url, '_blank');
-      setTimeout(() => store.setShowRipple(false), 2000);
-    }, 2000);
+    openLater(store.rippleActivity?.url);
   };
 
   return (
