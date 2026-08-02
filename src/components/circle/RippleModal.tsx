@@ -1,6 +1,8 @@
+import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Activity } from '@/data/activities';
 import { useT } from '@/i18n/LanguageContext';
+import { registerBlockingModal } from '@/lib/modalFlag';
 
 interface RippleModalProps {
   mode: false | 'community' | 'ripple';
@@ -11,7 +13,14 @@ interface RippleModalProps {
 
 export function RippleModal({ mode, activity, onConfirm, onClose }: RippleModalProps) {
   const t = useT();
-  if (!mode || !activity) return null;
+  const visible = Boolean(mode && activity);
+
+  useEffect(() => {
+    if (!visible) return;
+    return registerBlockingModal();
+  }, [visible]);
+
+  if (!visible) return null;
 
   return (
     <AnimatePresence>
@@ -19,9 +28,10 @@ export function RippleModal({ mode, activity, onConfirm, onClose }: RippleModalP
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 flex items-center justify-center p-6"
+        className="fixed inset-0 z-[70] flex items-center justify-center p-6"
         style={{ background: 'var(--gradient-overlay)', backdropFilter: 'blur(10px)' }}
       >
+
         {mode === 'community' ? (
           <motion.div
             initial={{ opacity: 0, y: 30, scale: 0.95 }}
