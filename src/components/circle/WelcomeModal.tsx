@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { EllipseLine, SpiralLine } from './LineArt';
 import { useT } from '@/i18n/LanguageContext';
+import museumVideo from '@/assets/museum-video.mp4.asset.json';
 
 interface WelcomeModalProps {
   isOpen: boolean;
@@ -16,19 +17,13 @@ export function WelcomeModal({ isOpen, onClose }: WelcomeModalProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 flex items-center justify-center p-6"
-          style={{ background: 'var(--gradient-overlay)', backdropFilter: 'blur(12px)' }}
+          className="fixed inset-0 z-50 overflow-y-auto bg-background"
+          dir="rtl"
         >
-          <motion.div
-            initial={{ opacity: 0, y: 30, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="bg-background rounded-sm p-10 max-w-md w-full text-center border border-foreground/20 relative overflow-hidden"
-          >
-            <SpiralLine className="absolute -top-12 -right-12 w-48 h-48 opacity-[0.08] pointer-events-none" />
+          <SpiralLine className="absolute -top-16 -left-16 w-64 h-64 opacity-[0.07] pointer-events-none" />
 
-            <div className="relative h-20 mb-8 flex items-center justify-center">
+          <div className="min-h-full w-full flex flex-col items-center justify-center px-6 py-10 gap-8 max-w-2xl mx-auto text-center">
+            <div className="relative h-20 flex items-center justify-center">
               <motion.div
                 animate={{ rotate: [0, 360] }}
                 transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
@@ -36,28 +31,53 @@ export function WelcomeModal({ isOpen, onClose }: WelcomeModalProps) {
               >
                 <EllipseLine className="w-24 h-24 opacity-80" strokeWidth={0.6} />
               </motion.div>
-            <span className="font-display text-[10px] tracking-[0.3em] uppercase text-foreground relative">{t('app_title')}</span>
+              <span className="font-display text-[11px] tracking-[0.3em] uppercase text-foreground relative">
+                {t('app_title')}
+              </span>
             </div>
 
-            <h2 className="font-display text-2xl md:text-3xl text-foreground mb-5 leading-tight tracking-wide">
-              {t('welcome_h1_line1')}
-              <br />
-              {t('welcome_h1_line2')}
-            </h2>
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1, duration: 0.5 }}
+              className="space-y-5"
+            >
+              <h1 className="font-display text-2xl md:text-4xl text-foreground leading-snug">
+                המעגל לא מסתיים במוזיאון. ואתן ואתם - כבר בתוכו.
+              </h1>
+              <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
+                המתנות שאספתם עדיין טריות. כאן תבחרו איך הן נכנסות לחיים שלכם - בזמן שלכם. בקצב שלכם. במקום שלכם.
+              </p>
+              <p className="text-foreground text-base md:text-lg italic leading-relaxed">
+                וזה מה שהמעגל מחזיר: חיבור, ריפוי, ושגשוג.
+              </p>
+            </motion.div>
 
-            <p className="text-muted-foreground text-sm italic mb-8 max-w-xs mx-auto leading-relaxed">
-              {t('welcome_sub')}
-            </p>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              className="w-full rounded-sm overflow-hidden border border-foreground/15"
+            >
+              <video
+                src={museumVideo.url}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-auto object-cover"
+              />
+            </motion.div>
 
             <motion.button
               onClick={onClose}
               whileHover={{ scale: 1.01 }}
               whileTap={{ scale: 0.99 }}
-              className="w-full py-4 px-8 rounded-sm font-display text-xs tracking-[0.25em] uppercase bg-foreground text-background hover:bg-foreground/90 transition-colors"
+              className="w-full max-w-md py-4 px-8 rounded-sm font-display text-xs tracking-[0.25em] uppercase bg-foreground text-background hover:bg-foreground/90 transition-colors"
             >
               {t('start_exploring')}
             </motion.button>
-          </motion.div>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
