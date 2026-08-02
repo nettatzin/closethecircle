@@ -14,25 +14,36 @@ const Index = () => {
   const store = useCircleStore();
   const mode = store.mode;
 
-  // Mobile browsers block window.open() called asynchronously (outside the tap
-  // gesture). So we open the tab synchronously on click and set its URL later.
+  // Desktop: open a tab synchronously on tap (async window.open gets blocked),
+  // then point it at the URL after the ripple animation.
+  // Mobile: opening a blank tab immediately steals focus and hides the ripple
+  // popup, so we let the animation play and then navigate in the same tab.
   const openLater = (url?: string) => {
     if (!url) return;
+    const isMobile =
+      typeof window !== 'undefined' &&
+      (window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768);
+
     let win: Window | null = null;
-    try {
-      win = window.open('', '_blank');
-    } catch {
-      win = null;
+    if (!isMobile) {
+      try {
+        win = window.open('', '_blank');
+      } catch {
+        win = null;
+      }
     }
+
     setTimeout(() => {
       if (win && !win.closed) {
         win.location.href = url;
+        setTimeout(() => store.setShowRipple(false), 2000);
       } else {
+        store.setShowRipple(false);
         window.location.href = url;
       }
-      setTimeout(() => store.setShowRipple(false), 2000);
     }, 2000);
   };
+
 
   const handleCloseCircle = (activity: Activity) => {
     if (activity.showCommunityMessage) {
