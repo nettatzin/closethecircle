@@ -459,42 +459,39 @@ export function MainContent({
           transition={{ delay: 0.2 }}
         >
           <div className="mb-6 bg-card/80 backdrop-blur-sm rounded-xl border border-border/60 p-5 md:px-7 md:py-6 shadow-soft">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-8">
-              <div className="flex items-center gap-4 md:gap-5">
-                <div className="flex items-baseline gap-2">
-                  <span className="text-5xl md:text-6xl font-display text-foreground leading-none tracking-tight">
-                    {filteredActivities.length}
-                  </span>
-                  <span className="text-sm text-muted-foreground font-display">
-                    {t('of_word')} {activities.length}
-                  </span>
-                </div>
-                <div className="hidden md:block h-10 w-px bg-border" />
-                <div>
-                  <p className="text-sm text-muted-foreground font-display uppercase tracking-[0.18em]">
-                    {t('activities_found')}
-                  </p>
-                  {hasAnySelection && (
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 bg-accent/10 text-accent rounded-full text-xs font-display uppercase tracking-[0.18em]"
-                    >
-                      <Sparkles className="w-3.5 h-3.5" />
-                      {t('adapted_for_you')}
-                    </motion.div>
-                  )}
-                </div>
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5 md:gap-8">
+              {/* Left: count + label on one readable line */}
+              <div className="flex items-baseline gap-3 md:gap-4">
+                <span className="text-3xl md:text-4xl font-display text-foreground leading-none tracking-tight">
+                  {filteredActivities.length}
+                </span>
+                <span className="text-base md:text-lg text-muted-foreground font-display">
+                  {t('of_word')} {activities.length}
+                </span>
+                <span className="text-base md:text-lg text-foreground font-display">
+                  {t('activities_found')}
+                </span>
+                {hasAnySelection && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="inline-flex items-center gap-1.5 px-3 py-1 bg-accent/10 text-accent rounded-full text-sm font-display uppercase tracking-[0.16em]"
+                  >
+                    <Sparkles className="w-4 h-4" />
+                    {t('adapted_for_you')}
+                  </motion.div>
+                )}
               </div>
 
-              <div className="flex items-center gap-4 md:gap-5 md:shrink-0">
+              {/* Right: actions */}
+              <div className="flex items-center gap-3 md:gap-4 md:shrink-0">
                 <PersistentEmailLink />
                 {filteredActivities.length < activities.length && (
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={resetFilters}
-                    className="shrink-0 px-4 py-2 text-xs font-display uppercase tracking-[0.18em] text-primary-foreground bg-primary rounded-lg hover:bg-primary/90 transition-colors shadow-soft"
+                    className="shrink-0 px-4 py-2 text-sm font-display uppercase tracking-[0.16em] text-primary-foreground bg-primary rounded-lg hover:bg-primary/90 transition-colors shadow-soft"
                   >
                     {t('show_all')}
                   </motion.button>
