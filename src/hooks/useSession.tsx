@@ -22,8 +22,11 @@ interface SessionCtx {
   savedArtworkIds: number[];
   isArtworkSaved: (id: number) => boolean;
   toggleArtworkSave: (id: number) => { saved: boolean; wasFirst: boolean };
+  circleScope: 'mine' | 'everyone';
+  setCircleScope: (s: 'mine' | 'everyone') => void;
   registerActivity: () => void;
   onIdle: (fn: () => void) => () => void;
+
 }
 
 const SessionContext = createContext<SessionCtx | null>(null);
