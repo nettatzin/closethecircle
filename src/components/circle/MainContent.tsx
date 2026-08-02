@@ -471,16 +471,16 @@ export function MainContent({
                 </div>
                 <div className="hidden md:block h-10 w-px bg-border" />
                 <div>
-                  <p className="text-xs text-muted-foreground font-display uppercase tracking-[0.2em]">
+                  <p className="text-sm text-muted-foreground font-display uppercase tracking-[0.18em]">
                     {t('activities_found')}
                   </p>
                   {hasAnySelection && (
                     <motion.div
                       initial={{ opacity: 0, scale: 0.95 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      className="mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 bg-accent/10 text-accent rounded-full text-[10px] font-display uppercase tracking-[0.2em]"
+                      className="mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 bg-accent/10 text-accent rounded-full text-xs font-display uppercase tracking-[0.18em]"
                     >
-                      <Sparkles className="w-3 h-3" />
+                      <Sparkles className="w-3.5 h-3.5" />
                       {t('adapted_for_you')}
                     </motion.div>
                   )}
@@ -494,7 +494,7 @@ export function MainContent({
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={resetFilters}
-                    className="shrink-0 px-4 py-2 text-[10px] font-display uppercase tracking-[0.2em] text-primary-foreground bg-primary rounded-lg hover:bg-primary/90 transition-colors shadow-soft"
+                    className="shrink-0 px-4 py-2 text-xs font-display uppercase tracking-[0.18em] text-primary-foreground bg-primary rounded-lg hover:bg-primary/90 transition-colors shadow-soft"
                   >
                     {t('show_all')}
                   </motion.button>
@@ -538,7 +538,7 @@ export function MainContent({
                 <div className="pt-8 pb-4 flex justify-center" dir="rtl">
                   <button
                     onClick={() => { logEvent('session_end_tapped'); setShowSessionEnd(true); }}
-                    className="px-6 py-3 rounded-sm border border-foreground/25 hover:border-foreground/60 text-foreground font-display text-[11px] tracking-[0.25em] uppercase transition-colors"
+                    className="px-6 py-3 rounded-sm border border-foreground/25 hover:border-foreground/60 text-foreground font-display text-sm tracking-[0.22em] uppercase transition-colors"
                   >
                     סיימתי
                   </button>
