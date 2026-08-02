@@ -23,8 +23,8 @@ export function EnergyCard({ icon, label, time, selected, onClick }: EnergyCardP
       )}
     >
       <div className="text-xl mb-1.5 opacity-90">{icon}</div>
-      <div className="font-display text-[11px] leading-tight tracking-[0.08em] uppercase mb-1">{label}</div>
-      <div className={cn('text-[9px] italic leading-tight', selected ? 'text-background/70' : 'text-muted-foreground')}>
+      <div className="font-display text-sm leading-tight tracking-[0.06em] uppercase mb-1">{label}</div>
+      <div className={cn('text-xs italic leading-tight', selected ? 'text-background/70' : 'text-muted-foreground')}>
         {time}
       </div>
     </motion.button>

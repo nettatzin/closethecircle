@@ -59,10 +59,10 @@ function FilterTile({ Icon, title, count, onClick, delay = 0, theme }: FilterTil
           active ? theme.activeIconBg : theme.iconBg
         } ${theme.iconColor}`}
       >
-        <Icon className="w-4 h-4" strokeWidth={1.6} />
+        <Icon className="w-5 h-5" strokeWidth={1.6} />
       </span>
       <span
-        className={`font-display text-xs leading-tight tracking-[0.12em] uppercase transition-colors ${theme.labelColor}`}
+        className={`font-display text-sm leading-tight tracking-[0.1em] uppercase transition-colors ${theme.labelColor}`}
       >
         {title}
       </span>
@@ -345,10 +345,10 @@ export function MainContent({
           <h1 className="font-display text-4xl md:text-5xl text-foreground tracking-[0.15em] uppercase mb-3">
             {t('app_title')}
           </h1>
-          <p className="text-muted-foreground text-xs tracking-[0.2em] uppercase">
+          <p className="text-muted-foreground text-sm tracking-[0.18em] uppercase">
             {t('app_tagline')}
           </p>
-          <p className="text-muted-foreground text-sm md:text-base mt-4 max-w-sm md:max-w-xl mx-auto leading-relaxed">
+          <p className="text-muted-foreground text-base md:text-lg mt-4 max-w-sm md:max-w-xl mx-auto leading-relaxed">
             {t('app_intro')}
           </p>
           <button
@@ -356,7 +356,7 @@ export function MainContent({
               resetFilters();
               setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
             }}
-            className="mt-3 text-[11px] font-display uppercase tracking-[0.22em] text-foreground/70 hover:text-foreground underline underline-offset-4 decoration-foreground/30 hover:decoration-foreground transition-colors"
+            className="mt-3 text-sm font-display uppercase tracking-[0.18em] text-foreground/70 hover:text-foreground underline underline-offset-4 decoration-foreground/30 hover:decoration-foreground transition-colors"
           >
             {t('show_me_all')}
           </button>
@@ -426,16 +426,16 @@ export function MainContent({
         >
           <button
             onClick={handleReadyClick}
-            className="group inline-flex items-center gap-2 px-6 py-3 rounded-sm border border-accent/60 bg-accent/10 hover:bg-accent hover:text-accent-foreground text-foreground font-display text-[11px] tracking-[0.22em] uppercase transition-all shadow-soft"
+            className="group inline-flex items-center gap-2 px-6 py-3 rounded-sm border border-accent/60 bg-accent/10 hover:bg-accent hover:text-accent-foreground text-foreground font-display text-sm tracking-[0.18em] uppercase transition-all shadow-soft"
           >
-            <Sparkles className="w-3.5 h-3.5 text-accent group-hover:text-accent-foreground transition-colors" />
+            <Sparkles className="w-4 h-4 text-accent group-hover:text-accent-foreground transition-colors" />
             {t('ready_cta')}
-            <ArrowDown className="w-3.5 h-3.5 transition-transform group-hover:translate-y-0.5" />
+            <ArrowDown className="w-4 h-4 transition-transform group-hover:translate-y-0.5" />
           </button>
 
-          <div className="mt-4 min-h-[2.5rem] max-w-sm">
+          <div className="mt-4 min-h-[2.75rem] max-w-sm">
             {vibeLoading && !vibe ? (
-              <p className="text-xs text-muted-foreground italic animate-pulse">
+              <p className="text-sm text-muted-foreground italic animate-pulse">
                 {t('vibe_loading')}
               </p>
             ) : vibe ? (
@@ -443,7 +443,7 @@ export function MainContent({
                 key={vibe}
                 initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-sm text-foreground/80 italic leading-relaxed"
+                className="text-base text-foreground/80 italic leading-relaxed"
               >
                 {vibe}
               </motion.p>
