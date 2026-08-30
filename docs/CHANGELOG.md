@@ -1,4 +1,14 @@
+## 2026-08-30 — A1: AAT anchoring columns on tag_vocabulary
 
+`alter table tag_vocabulary add column aat_id text, add column aat_parents text,
+add column family_aat_id text;` — run via execute_sql against EXAI.
+
+Prerequisite for the vocabulary gate. `aat_parents` stores the full parent chain
+as returned by AAT so the family depth (currently 4) can be re-cut later without
+re-querying Getty, and so the DMH reconciliation pass has the chain to work
+against. `family_aat_id` makes the family node itself traceable.
+
+Table remains empty — 0 rows. No data written.
 ## 2026-08-30 — Live audit, documentation consolidation, backlog correction
 
 Read-only audit of EXAI, Lovable, GitHub and Linear. **No code shipped, no database mutated, no workflow touched.** All changes are to documentation and Linear.
