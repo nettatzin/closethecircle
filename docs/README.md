@@ -31,7 +31,7 @@ Docs rot because they contain state. `decisions.md` doesn't rot, because it only
 
 | Layer | Owner |
 |---|---|
-| `docs/` | Claude Code |
+| `docs/` | This chat + GitHub web UI until 2026-09-09; Claude Code after opening |
 | `src/` | Lovable |
 | EXAI database | chat via Supabase MCP |
 | Linear | chat via Linear MCP |
@@ -146,7 +146,7 @@ Curation side (never through the app):
 
 ```
 closethecircle/
-├─ docs/               ← this folder; Claude Code owns it
+├─ docs/               ← this folder (see Ownership above)
 ├─ src/                ← Lovable owns this
 ├─ supabase/
 │  ├─ config.toml      ⚠️ still points at the dummy project — S-120
