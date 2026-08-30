@@ -1,4 +1,3 @@
-# PREPEND to docs/CHANGELOG.md — insert directly below the `---` under the header
 
 ## 2026-08-30 — Live audit, documentation consolidation, backlog correction
 
