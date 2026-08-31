@@ -1,3 +1,48 @@
+## 2026-08-31 — Vocabulary gate built; materials clustered; matching v1 tested and rejected
+
+### Schema (EXAI, all via execute_sql)
+- `tag_vocabulary` + `aat_id`, `aat_parents`, `family_aat_id`, `family_depth`,
+  `family_source`, `review_status`, `model_family`, `reviewed_at`
+- `tag_vocabulary` check constraints on `family_source` (aat|model|manual) and
+  `review_status` (pending|approved|rejected)
+- `tag_intake` + `resolved_value`; unique `(dimension, raw_value, source_id)`
+  — without it, re-triggering the flow duplicates rows and the selector then
+  silently skips values
+
+### Functions — all service_role only, anon and authenticated revoked
+- `gate_selector(p_limit, p_dimension)` — ungated values by set difference
+- `gate_context(p_dimension)` — vocabulary + aliases as one JSON row
+- `gate_apply_alias(...)` — alias, intake, rewrites source arrays, dedupes tags
+- `gate_apply_aat(...)` — facet guard, family via SQL, vocabulary, attributes, intake
+- `gate_apply_intake(...)` — logs pending, writes no tag
+- `aat_family(p_parents, p_depth)` — family from the stored chain
+- `recut_families(p_depth)` — re-derives every AAT family, no Getty call
+
+### n8n
+- New workflow `The Circle — Vocabulary Gate` (`a1o2K8y5pFDxa1PZ`), manual trigger,
+  inactive. Supabase reached over `/rest/v1/rpc/` with the existing `supabaseApi`
+  credential — no Postgres credential exists or is needed.
+
+### Data
+- 64 materials clustered into 6 families: 39 AAT-derived, 25 model-suggested and
+  approved by Netta. 795 of ~850 material occurrences covered (93.5%).
+- 26 values left in `tag_intake` by decision — objects, conditions, generic terms.
+  Not failures.
+- Array rewrites: `electronic` → `electronics` (7 global_initiatives, 2
+  facebook_communities); `fabric` → `textile` (1 global_initiatives).
+  `electronics` was later removed from the vocabulary as wrong-facet; the array
+  rewrite was correct and was left in place.
+
+### Tested
+- Materials-only tag affinity run against live data. Computes correctly, distribution
+  unusable — binary rather than graded, 157 activities scoring exactly 1.000 against
+  zilber-whale-shark. Cause is density: 2.27 materials and 1.92 process per activity,
+  1–4 per artwork. Not fixable by weighting. See `spec_matching_v2.md`.
+
+### Docs
+- Added `docs/prompts/pipeline_materials.md`, `docs/prompts/spec_matching_v2.md`
+- Removed `docs/prompts/prompt_gate_runtime.md` (superseded)
+
 ## 2026-08-30 — A1: AAT anchoring columns on tag_vocabulary
 
 `alter table tag_vocabulary add column aat_id text, add column aat_parents text,
