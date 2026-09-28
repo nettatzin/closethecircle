@@ -13,7 +13,7 @@ Decisions live in `decisions.md`. App behaviour lives in `app_spec.md`. When liv
 
 ## 1. Object inventory
 
-**Tables (8)** — `global_initiatives` · `facebook_communities` · `financial_benefits` · `artists` · `artworks` · `sources` · `artwork_sources` · `tags`
+**Tables (9)** — `global_initiatives` · `facebook_communities` · `financial_benefits` · `artists` · `artworks` · `sources` · `artwork_sources` · `tags` · `il_cities`
 
 **Views (2)** — `v_activities` · `artwork_principle_scores`
 
@@ -94,6 +94,8 @@ Both: PK `id uuid`, UNIQUE `url`. The UNIQUE constraint is the source of 409s on
 **`global_initiatives` only (4):** `artwork_correlations` jsonb (legacy framework scores, superseded by the numeric columns) · `source` text default `'sonar'` · `category_group` text (unused) · `last_verified` date
 
 **`facebook_communities` only (4):** `community_type` · `privacy` · `estimated_size` · `source_url`
+
+**Location (D4, 2026-09-27):** `lat` `lng` double · `nearest_city` text → `il_cities.name_he` · `city_distance_km` numeric(5,1) · `geo_precision` (`place` | `national` | `not_found`). Set only for `location ILIKE 'Israel%'` and `format IN ('in_person','hybrid')`, via `set_nearest_city()` (service role). `il_cities`: 69 cities, `name_he` UNIQUE, `aliases text[]` used by `city_from_text()`.
 
 **Not yet added:** `name_he` `description_he` `how_to_join_he` `visitor_action_he` `translation_status` (S-71) · `return_type` (proposed, S-126) · `curator_status` (proposed, D20/S-124)
 
