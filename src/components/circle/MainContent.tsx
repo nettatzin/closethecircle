@@ -5,11 +5,10 @@ import { useT, useLang } from '@/i18n/LanguageContext';
 import { FilterChip } from './FilterChip';
 import { EnergyCard } from './EnergyCard';
 import { LocationFilter } from './LocationFilter';
-import { ArtworkCarousel } from './ArtworkCarousel';
 import { ActivityCard } from './ActivityCard';
 import { SpiralLine, EllipseLine, CircleLine, DottedRing } from './LineArt';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Sparkles, ArrowDown, Compass, Flame, MapPin, Palette, Plus, type LucideIcon } from 'lucide-react';
+import { Sparkles, ArrowDown, Compass, Flame, MapPin, Plus, type LucideIcon } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import type { Activity } from '@/data/activities';
 import { SaveEmailInline } from './email/SaveEmailInline';
@@ -17,7 +16,7 @@ import { SessionEndPrompt } from './email/SessionEndPrompt';
 import { PersistentEmailLink } from './email/PersistentEmailLink';
 import { useSession } from '@/hooks/useSession';
 
-type SectionKey = 'draws' | 'energy' | 'where' | 'artwork';
+type SectionKey = 'draws' | 'energy' | 'where';
 
 interface TileTheme {
   bg: string;      // inactive card bg
@@ -112,8 +111,6 @@ export function MainContent({
   setPhysicalRadius,
   digitalReach,
   toggleDigitalReach,
-  selectedArtworks,
-  toggleArtwork,
   onCloseCircle,
   resetFilters,
 }: MainContentProps) {
@@ -156,19 +153,15 @@ export function MainContent({
         digitalReach.length === 0 ||
         digitalReach.includes(activity.region);
       
-      // Filter by selected artworks (any match)
-      const artworkMatch = selectedArtworks.length === 0 || 
-        activity.connectedArtworks.some(id => selectedArtworks.includes(id));
-      
-      return drawsMatch && energyMatch && locationMatch && reachMatch && artworkMatch;
+      return drawsMatch && energyMatch && locationMatch && reachMatch;
     });
-  }, [activities, selectedDraws, selectedEnergy, locationFormat, digitalReach, selectedArtworks]);
+  }, [activities, selectedDraws, selectedEnergy, locationFormat, digitalReach]);
 
   const [activeSection, setActiveSection] = useState<SectionKey | null>(null);
 
   const hasAnySelection =
     selectedDraws.length + selectedEnergy.length + locationFormat.length +
-    digitalReach.length + selectedArtworks.length > 0;
+    digitalReach.length > 0;
 
   // Fetch climate vibe sentence when preferences change (debounced)
   useEffect(() => {
@@ -186,7 +179,7 @@ export function MainContent({
             energy: selectedEnergy,
             locationFormat,
             digitalReach,
-            artworkCount: selectedArtworks.length,
+            artworkCount: 0,
             activityCount: filteredActivities.length,
           },
         });
@@ -205,7 +198,6 @@ export function MainContent({
     selectedEnergy.join(','),
     locationFormat.join(','),
     digitalReach.join(','),
-    selectedArtworks.join(','),
     filteredActivities.length,
   ]);
 
@@ -265,16 +257,6 @@ export function MainContent({
         />
       ),
     },
-    artwork: {
-      title: t('section_artwork'),
-      count: selectedArtworks.length,
-      body: (
-        <>
-          <p className="text-xs text-muted-foreground mb-3 italic">{t('artwork_hint')}</p>
-          <ArtworkCarousel selectedArtworks={selectedArtworks} toggleArtwork={toggleArtwork} />
-        </>
-      ),
-    },
   };
 
   // Filter tiles — earthy tinted palette per category
@@ -307,16 +289,6 @@ export function MainContent({
         iconBg: 'bg-[hsl(38,45%,82%)]', activeIconBg: 'bg-[hsl(30,50%,42%)] text-white',
         iconColor: 'text-[hsl(28,45%,32%)]',
         labelColor: 'text-[hsl(28,45%,25%)]',
-      },
-    },
-    {
-      key: 'artwork', Icon: Palette,
-      theme: {
-        bg: 'bg-[hsl(340,40%,94%)]', border: 'border-[hsl(340,30%,78%)]',
-        activeBg: 'bg-[hsl(340,45%,88%)]', activeBorder: 'border-[hsl(340,40%,50%)]',
-        iconBg: 'bg-[hsl(340,35%,86%)]', activeIconBg: 'bg-[hsl(340,45%,48%)] text-white',
-        iconColor: 'text-[hsl(340,45%,35%)]',
-        labelColor: 'text-[hsl(340,45%,28%)]',
       },
     },
   ];
@@ -371,7 +343,7 @@ export function MainContent({
           transition={{ delay: 0.1 }}
           className="relative mb-10 md:max-w-3xl md:mx-auto"
         >
-          {/* Decorative ellipse connecting the four tiles */}
+          {/* Decorative ellipse connecting the preference tiles */}
           <svg
             viewBox="0 0 100 100"
             preserveAspectRatio="none"
@@ -385,7 +357,7 @@ export function MainContent({
             <ellipse cx="50" cy="50" rx="30" ry="22" transform="rotate(-14 50 50)" className="text-foreground/15" />
           </svg>
 
-          <div className="relative grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-4">
+          <div className="relative grid grid-cols-1 sm:grid-cols-3 gap-x-4 gap-y-4">
             {tiles.map((tile, i) => (
               <FilterTile
                 key={tile.key}
