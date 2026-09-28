@@ -1,3 +1,25 @@
+## 2026-09-27 — D4: nearest city for Israeli physical/hybrid initiatives
+
+### Schema (EXAI, all via execute_sql)
+- New table `il_cities` (id, name_he UNIQUE, name_en, lat, lng, aliases text[]) — Netta's list of 69 cities. RLS on, anon/authenticated SELECT
+- `global_initiatives` + `facebook_communities`: `lat`, `lng`, `nearest_city` (FK → il_cities.name_he), `city_distance_km`, `geo_precision` (place | national | not_found)
+- `city_from_text(text)` — matches a location string against city aliases (longest alias wins)
+- `set_nearest_city(p_table, p_id, p_lat, p_lng, p_national, p_place)` — named city wins, else national, else not_found, else haversine to closest city. Service role only
+- `v_activities` now also returns `nearest_city`, `city_distance_km`, `geo_precision` (appended at the end)
+
+### n8n
+- `The Circle — D4a Geocode Cities` (`J2iysuC9OTuZScZZ`) — Nominatim, 1 req/s, fills il_cities coordinates. Inactive, rerunnable
+- `The Circle — D4b Nearest City` (`W0VK7jEefw9Fzioi`) — places rows with `geo_precision IS NULL`. Inactive, rerunnable
+
+### Data
+- 63 cities geocoded; 6 set by hand (אריאל, ביתר עילית, מעלה אדומים, גבעת זאב, מודיעין עילית, קריית מלאכי — OSM files West Bank cities outside `countrycodes=il`; Ariel matched a street in Ramat Gan)
+- 158 Israeli physical/hybrid rows: 77 place, 80 national ("Israel", "Israel - National" etc.), 1 not_found ("HaYekev neighborhood" — awaiting Netta)
+- 11 rows corrected by hand: Tel Aviv neighbourhoods (centroid-nearest was Holon/Givatayim), Modi'in (geocoded to Jerusalem), 6 kibbutzim/regions Nominatim could not find. The alias match now prevents the first two classes
+
+### Open
+- Arab cities are absent from the list (נצרת, רהט, אום אל-פחם, שפרעם, טייבה…) — asked whether intentional
+- `nearest_city` is Hebrew; the app filter reads it directly
+
 ## 2026-08-31 — Vocabulary gate built; materials clustered; matching v1 tested and rejected
 
 ### Schema (EXAI, all via execute_sql)
