@@ -73,18 +73,8 @@ export function ActivityCard({ activity, index, onCloseCircle, onSaved }: Activi
           style={{ border: `1px dashed ${categoryColor}` }}
         />
 
-        {/* Top row: saves pill — temporarily hidden like count; restore when needed */}
-        {false && (
-          <div className="relative flex items-center justify-end mb-3">
-            <div
-              className="px-2.5 py-1 rounded-full flex items-center gap-1.5 text-sm font-sans-thin bg-background/80"
-              style={{ color: categoryColor, border: `1px solid ${categoryRing}` }}
-            >
-              <Heart className="w-4 h-4" fill="currentColor" />
-              {activity.saves}
-            </div>
-          </div>
-        )}
+        {/* Saves pill (like count) temporarily hidden — data remains in activities.ts */}
+
 
         {/* Ellipse */}
         <div className="relative flex items-center justify-center">
