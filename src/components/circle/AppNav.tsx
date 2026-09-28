@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Sparkles, Bookmark, BarChart2, Coins, Palette, type LucideIcon } from 'lucide-react';
+import { Menu, X, Sparkles, Bookmark, BarChart2, type LucideIcon } from 'lucide-react';
 import { useLang, useT } from '@/i18n/LanguageContext';
 import { useSession } from '@/hooks/useSession';
 import type { AppMode } from '@/hooks/useCircleStore';
@@ -18,8 +18,6 @@ const NAV_ITEMS: NavItem[] = [
   { mode: 'act', icon: Sparkles, key: 'mode_act' },
   { mode: 'my_list', icon: Bookmark, key: 'mode_my_list' },
   { mode: 'impact', icon: BarChart2, key: 'mode_impact' },
-  { mode: 'cashback', icon: Coins, key: 'mode_cashback' },
-  { mode: 'artworks', icon: Palette, key: 'tab_artworks' },
 ];
 
 function CountBadge({ count }: { count: number }) {

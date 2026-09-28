@@ -3,13 +3,14 @@ import { useEffect, useState } from 'react';
 export type AppMode = 'act' | 'my_list' | 'impact' | 'cashback' | 'artworks';
 
 const MODE_KEY = 'circle.mode';
-const MODES: AppMode[] = ['act', 'my_list', 'impact', 'cashback', 'artworks'];
+// Cashback and artworks remain implemented but are temporarily hidden.
+const VISIBLE_MODES: AppMode[] = ['act', 'my_list', 'impact'];
 
 export function useCircleStore() {
   const [mode, setMode] = useState<AppMode>(() => {
     if (typeof window === 'undefined') return 'act';
     const stored = localStorage.getItem(MODE_KEY) as AppMode | null;
-    return stored && MODES.includes(stored) ? stored : 'act';
+    return stored && VISIBLE_MODES.includes(stored) ? stored : 'act';
   });
 
   useEffect(() => {
