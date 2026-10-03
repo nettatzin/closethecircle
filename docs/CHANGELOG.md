@@ -1,3 +1,30 @@
+## 2026-09-28 — D0 Hebrew rows, pending gate, n8n pipeline rebuilt (D6)
+
+### Schema (EXAI, all via execute_sql)
+- Both initiative tables: `curator_status` text NOT NULL default `'pending'`, CHECK (`pending` | `approved` | `rejected`); all existing rows set `approved` (D20)
+- Both initiative tables: `name_he`, `description_he` text, `translation_status` text NOT NULL default `'pending'` (`pending` | `machine` | `reviewed`)
+- `v_activities` filters on `curator_status = 'approved'` (in addition to `is_verified_active = true AND relevance_score IS NOT NULL`) and returns `name_he`, `description_he`, `translation_status` at the end
+- `il_cities`: 14 Arab cities added (83 in total), with coordinates and aliases
+
+### Data
+- All 372 rows translated to Hebrew (`name_he`, `description_he`, status `machine`) with Claude Sonnet 5. A spot check found invented invitations ("come visit"), so the prompt gained a no-invented-invitations rule and the first 100 rows were re-run with it. 1 row failed validation on the re-run, kept its earlier Hebrew and stays `pending` for the next run
+- Cost: Claude about $0.80 for all translation runs. An earlier Gemini 3.1 Pro attempt spent about ₪3.86 of prepaid Gemini credit for 2 saved rows (5 retries per failed call on 503 overload errors); Gemini was then removed and retries turned off everywhere (D32)
+- 4 test rows inserted as `pending` by the new pipeline (Kfar Saba repair café, a community fridge network, the Rehovot toy library, Kaima farm). Not visible in the app
+
+### n8n
+- New: `The Circle — Discovery` (`maili5sVWycFyQ0i`), `The Circle — Add Links` (`Q9goXorlxj0vps7L`), `The Circle — Classify` (`xf490HVAL7XhX5zc`). See `prompts/n8n_flows.md`
+- `The Circle — Translate to Hebrew` (`wcP5gs4snAb81msf`) and `The Circle — D4b Nearest City` (`W0VK7jEefw9Fzioi`) gained a `When Called by Pipeline` trigger, so the two forms run them as sub-workflows
+- Archived: `Vnoy1WxaEQrOwwJT` (EXAI Workflow, 12 Perplexity nodes) and `1waLzKfHTHeMRvs9` (Classify Staging Batch). `WILlmVNe2TXrz6AK` exai-workflow still to archive by hand
+- `draws` is now classified for every new row (S-75); location is constrained to four shapes; per-item pairing everywhere; failed calls leave rows for retry instead of writing `-1`
+- Measured: Discovery about $0.06 per new row ($0.12 for 2 rows in one category); Add Links about $0.04 per link, $0 for duplicates
+- `prompts/n8n_prompts.md` and `prompts/n8n_gaps.md` rewritten for the new flows
+
+### Decisions
+- D20 ruled; D29–D33 added (discovery engine, separate Israel/global runs, five principle scores kept, Hebrew in the pipeline on Claude, Add Links + Apify)
+
+### Open
+- Facebook links via Apify (needs Netta's Apify token) · a curator screen for pending rows (approval is SQL for now) · D3 category definition · Hebrew labels for category values (proposal written, waiting on S-127 and the exhibition theme names) · `HaYekev neighborhood` city
+
 ## 2026-09-27 — D4: nearest city for Israeli physical/hybrid initiatives
 
 ### Schema (EXAI, all via execute_sql)
