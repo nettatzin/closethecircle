@@ -1,3 +1,21 @@
+## 2026-10-03 — Rebuild step 2 (data layer, minus D3)
+
+### Schema (EXAI, all via execute_sql)
+- New `vocab_labels` (`field`, `value`, `label_he`, `label_en`, `sort_order`; PK `field, value`), RLS on, public read. 117 Hebrew labels loaded from the Hebrew Labels doc; commitment and theme labels taken from the live app (theme names provisional until the official ones)
+- `v_activities` now `security_invoker = true` and returns `energy_level` (from `effort`: `less_than_a_minute` + `up_to_10_minutes` → `low_key`, `1_hour` → `hands_on`, `dedicated` → `deep_work`) and `region` (`israel` when `location` starts with Israel, else `global`) at the end. 372 rows; anon sees 372
+- Visitor tables created per contracts §10: `sessions`, `session_events`, `saves`, `email_captures` (with `consented_updates`, UNIQUE `session_id, email`). RLS on; anon/authenticated INSERT only, no SELECT (S-119)
+- Write grants revoked from anon/authenticated on `global_initiatives`, `facebook_communities`, `il_cities`, `vocab_labels`, `v_activities`; SELECT kept (S-116, partial: other content tables not yet reviewed)
+
+### Data
+- `activity_type` `event|ongoing_initiative` → `event` (1 row); `time_commitment` `ongoing_initiative` → `ongoing` (1 row)
+
+### Decisions
+- S-127 / D2: three commitment levels ruled as option A (137 / 23 / 212). Re-tagging `effort` (option C) can follow after launch
+- Hosting: Vercel, as in the Rebuild Plan's stack decision (proposed D34)
+
+### Open
+- D3 category definition · official Hebrew theme names · QR code target · initiative images · email approach · `HaYekev neighborhood` city · 7 pending rows (4 Israeli test rows + RefillMyBottle, Buy Nothing Project, CIRC Hub)
+
 ## 2026-09-28 — D0 Hebrew rows, pending gate, n8n pipeline rebuilt (D6)
 
 ### Schema (EXAI, all via execute_sql)
