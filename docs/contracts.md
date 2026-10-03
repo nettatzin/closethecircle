@@ -23,11 +23,11 @@ Decisions live in `decisions.md`. App behaviour lives in `app_spec.md`. When liv
 
 ## 2. `v_activities` — the only object the visitor app queries
 
-UNION ALL of both initiative tables, each side filtered to `is_verified_active = true AND relevance_score IS NOT NULL` (D1 interim).
+UNION ALL of both initiative tables, each side filtered to `is_verified_active = true AND relevance_score IS NOT NULL AND curator_status = 'approved'` (D1 interim + the 2026-09-28 pending gate). A pipeline row becomes visible only when a curator sets **both** `curator_status = 'approved'` and `is_verified_active = true`.
 
-**Live columns:** `id · activity_kind · name · url · category · description · how_to_join · activity_evidence · audience · language · location · participation_type · exhibition_themes · materials · process · community_archetype · impact_tags · technical_circularity · spiritual_grounding · community_engagement · systems_awareness · regenerative_intention · activity_type · skill_level · time_commitment · effort · cost · format · target_audience · visitor_action · relevance_score · is_commercial · draws`
+**Live columns:** `id · activity_kind · name · url · category · description · how_to_join · activity_evidence · audience · language · location · participation_type · exhibition_themes · materials · process · community_archetype · impact_tags · technical_circularity · spiritual_grounding · community_engagement · systems_awareness · regenerative_intention · activity_type · skill_level · time_commitment · effort · cost · format · target_audience · visitor_action · relevance_score · is_commercial · draws · nearest_city · city_distance_km · geo_precision · name_he · description_he · translation_status`
 
-`is_verified_active` appears in the `WHERE`, not the `SELECT` — correct, not a gap.
+`is_verified_active` and `curator_status` appear in the `WHERE`, not the `SELECT` — correct, not a gap.
 
 ### ⚠️ Divergences from the original spec — S-117
 
@@ -91,13 +91,17 @@ Both: PK `id uuid`, UNIQUE `url`. The UNIQUE constraint is the source of 409s on
 | numeric | the five principles |
 | other | `id` `relevance_score` int · `is_commercial` `is_verified_active` bool · `date_discovered` date · `created_at` `updated_at` timestamptz |
 
-**`global_initiatives` only (4):** `artwork_correlations` jsonb (legacy framework scores, superseded by the numeric columns) · `source` text default `'sonar'` · `category_group` text (unused) · `last_verified` date
+**`global_initiatives` only (4):** `artwork_correlations` jsonb (legacy framework scores, superseded by the numeric columns) · `source` text default `'sonar'` (`'claude_web_search'` for rows from the 2026-09-28 Discovery workflow) · `category_group` text (unused) · `last_verified` date
 
 **`facebook_communities` only (4):** `community_type` · `privacy` · `estimated_size` · `source_url`
 
-**Location (D4, 2026-09-27):** `lat` `lng` double · `nearest_city` text → `il_cities.name_he` · `city_distance_km` numeric(5,1) · `geo_precision` (`place` | `national` | `not_found`). Set only for `location ILIKE 'Israel%'` and `format IN ('in_person','hybrid')`, via `set_nearest_city()` (service role). `il_cities`: 69 cities, `name_he` UNIQUE, `aliases text[]` used by `city_from_text()`.
+**Location (D4, 2026-09-27):** `lat` `lng` double · `nearest_city` text → `il_cities.name_he` · `city_distance_km` numeric(5,1) · `geo_precision` (`place` | `national` | `not_found`). Set only for `location ILIKE 'Israel%'` and `format IN ('in_person','hybrid')`, via `set_nearest_city()` (service role). `il_cities`: 83 cities (Netta's 69 + 14 Arab cities, added 2026-09-28), `name_he` UNIQUE, `aliases text[]` used by `city_from_text()`.
 
-**Not yet added:** `name_he` `description_he` `how_to_join_he` `visitor_action_he` `translation_status` (S-71) · `return_type` (proposed, S-126) · `curator_status` (proposed, D20/S-124)
+**Hebrew (2026-09-28):** `name_he` `description_he` text · `translation_status` text NOT NULL default `'pending'` (`pending` | `machine` | `reviewed`). All 372 rows `machine` except those awaiting a retry.
+
+**Curation (2026-09-28):** `curator_status` text NOT NULL default `'pending'`, CHECK (`pending` | `approved` | `rejected`). Existing rows set `approved`; new rows from n8n arrive `pending`.
+
+**Not yet added:** `how_to_join_he` `visitor_action_he` · `return_type` (proposed, S-126)
 
 ---
 
@@ -114,6 +118,8 @@ Both: PK `id uuid`, UNIQUE `url`. The UNIQUE constraint is the source of 409s on
 | `target_audience` | families · professionals · students · all_ages |
 | `exhibition_themes` | back_to_nature · everyday_circle · healing_through_design |
 | `draws` | explore · make · meet · exchange · amplify · witness |
+| `participation_type` | community · direct_action · content · organization · platform · event · education |
+| `location` (new rows) | `Israel - <town or city in English>` · `Israel - National` · `Global` · `Global - Online` — enforced by the n8n Classify validator; legacy rows hold ~65 free-text values |
 | `activity_kind` (view) | initiative · **fb_community** |
 
 **Uncontrolled by design:** `materials` · `process` · `community_archetype` · `impact_tags`. Free-form arrays with a head-heavy distribution — a small number of values covers the large majority of instances, which is what makes the family-graph approach (D15) tractable. **Do not lock these retroactively.** Run `state.sql` Q7 for the current shape.
@@ -266,11 +272,12 @@ Saves are private to their own session. Aggregate counts via a security-definer 
 
 ## 11. Hebrew layer contract
 
-- Add to both initiative tables: `name_he` `description_he` `how_to_join_he` `visitor_action_he` + `translation_status` (`pending` / `machine` / `reviewed`)
+- Built 2026-09-28 on both tables: `name_he` `description_he` + `translation_status` (`pending` / `machine` / `reviewed`). Not built: `how_to_join_he` `visitor_action_he`
+- Written by n8n `The Circle — Translate to Hebrew` (`wcP5gs4snAb81msf`), Claude Sonnet 5; prompt in `prompts/n8n_prompts.md` §4
 - Expose in `v_activities`; app selects `_he` with `COALESCE` fallback per field
-- Vocabulary values are **not** translated in the DB — `vocabDisplay.ts` handles them
+- Vocabulary values are **not** translated in the DB today. Proposed: a `vocab_labels` table (`field`, `value`, `label_he`) read by the app, waiting on S-127 and the exhibition theme names
 - Hebrew-native rows (`name ~ '[א-ת]'`): copy `name → name_he` as-is. **Never round-trip Hebrew through English**
-- Validation gate before any status flip: all fields non-empty · Hebrew characters present · length ratio 0.4×–2.5× · no leaked instruction text
+- Validation gate before any status flip: all fields non-empty · Hebrew characters present · length ratio 0.25×–2.5× (sources over 60 characters) · no leaked instruction text
 - D6 open: whether HE display before review is allowed
 
 ⚠️ Recount the Hebrew-native vs English split before running — run `state.sql` Q2. The earlier estimate predates substantial growth in the Facebook table.
@@ -285,5 +292,5 @@ Saves are private to their own session. Aggregate counts via a security-definer 
 - The Lovable dummy project is unreachable via Supabase MCP — use `Lovable:query_database` with the Lovable project ID
 - Close all n8n browser tabs before MCP writes — the UI cache silently overwrites node-level edits
 - Lovable owns `src/`. Never hand-edit while a Lovable prompt runs
-- Run the classifier prompt verbatim before any initiative insert, so tag vocabulary matches existing rows
+- New initiatives enter only through the n8n Discovery or Add Links forms, which run the classifier, translator and nearest-city steps. A manual insert must leave `relevance_score` NULL and `translation_status` `pending` so those workflows pick it up
 - Israeli repair initiatives operate under two names — קפה תיקון and בר תיקון. Searching one undercounts
