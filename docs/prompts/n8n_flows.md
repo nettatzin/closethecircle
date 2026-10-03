@@ -1,148 +1,134 @@
 # n8n Workflows — Flow Documentation
 
-**Extracted:** 2026-08-30 from live n8n
-**Purpose:** record what each workflow does, node by node. Prompts live in `prompts.md`.
+**Extracted:** 2026-09-28 from live n8n (instance `exai.app.n8n.cloud`)
+**Purpose:** record what each workflow does, node by node. Prompts live in `n8n_prompts.md`. Open items live in `n8n_gaps.md`.
 
-⚠️ These workflows are **not up to date with the project** and there is no plan to update them before the exhibition. Divergences are listed in `gaps.md`.
+All workflows are **inactive** and run on demand: from their form, or manually in the n8n editor. Nothing is scheduled.
+
+⚠️ **Close all n8n browser tabs before any MCP write.** The UI cache silently overwrites node-level changes.
 
 ---
 
-# Workflow 1 — `Vnoy1WxaEQrOwwJT`
+## Map
 
-**Name:** "My workflow" *(unnamed)*
-**Description:** 12 parallel Perplexity searches (one per sustainability category) merging into dedup, insert, and Claude classification pipeline
-**Nodes:** 25 · **Active:** false, manual trigger only
-**Created:** 2026-02-28 · **Last updated:** 2026-07-02 · **Tag:** `version 0.1`
+```
+Discovery form ──┐                                   ┌─> Classify ──> Translate to Hebrew ──> D4b Nearest City
+                 ├─> dedup ─> liveness ─> insert ────┤        (each is a sub-workflow; each selects its own
+Add Links form ──┘            (pending)              │         rows by status, so each is also rerunnable alone)
+                                                     └─> Run Summary (cost + outcome per run)
+```
 
-## What it does
+Every new row lands with `curator_status = 'pending'` and is invisible to `v_activities` until approved (see "Approving rows").
 
-Discovers new sustainability initiatives via Perplexity across 12 categories, deduplicates them against what's already in Supabase, inserts the new ones, then classifies each with Claude across the five exhibition principles plus secondary tags.
-
-## Node inventory
-
-### Trigger and exclusion setup
-
-| Node | Type | Does |
+| Workflow | ID | Role |
 |---|---|---|
-| `When clicking 'Execute workflow'` | manualTrigger | Manual run only |
-| `Get Existing URLs` | supabase | Fetches **all** rows from `global_initiatives`, ordered `created_at.desc`. Feeds the exclusion list |
-| `Build Exclusion List` | code | Sorts by `date_discovered` desc, caps at **300 most recent**, emits `- {name} \| {url}` lines as `exclusionText`. Prepends a NOTE line when truncated |
+| The Circle — Discovery | `maili5sVWycFyQ0i` | Finds new initiatives with Claude web search |
+| The Circle — Add Links | `Q9goXorlxj0vps7L` | Adds up to 5 links a curator found |
+| The Circle — Classify | `xf490HVAL7XhX5zc` | Sub-workflow: tags, draws, 5 principle scores, location |
+| The Circle — Translate to Hebrew | `wcP5gs4snAb81msf` | Sub-workflow: `name_he`, `description_he` |
+| The Circle — D4b Nearest City | `W0VK7jEefw9Fzioi` | Sub-workflow: `nearest_city` for Israeli physical/hybrid rows |
+| The Circle — D4a Geocode Cities | `J2iysuC9OTuZScZZ` | One-off: coordinates for `il_cities` |
+| The Circle — Vocabulary Gate | `a1o2K8y5pFDxa1PZ` | Separate concern: materials tags against Getty AAT |
 
-### Discovery — 12 Perplexity nodes
+**Archived 2026-09-28** (restorable from n8n's Archived view): `Vnoy1WxaEQrOwwJT` EXAI Workflow (12 Perplexity nodes; Perplexity retired its Sonar chat-completions API on 2026-09-27) and `1waLzKfHTHeMRvs9` Classify Staging Batch. `WILlmVNe2TXrz6AK` exai-workflow (old copy from 2 March) is not open to the MCP connector — archive by hand.
 
-`Perplexity Cat1` … `Perplexity Cat12`, all `sonar-pro`, 200000ms timeout, credential `Wqbs3PSWpjWWkBT8`.
+**Credentials:** Supabase `BfA4Ac77KpWcwy3y` ("Supabase account", service role) · Anthropic `T7Xa9V6dU1QKqzNo` ("Anthropic account 3", Netta's own key).
 
-Each asks for 5 new initiatives in its category, injects the live exclusion list, and demands strict JSON.
+---
 
-| Node | Category |
+# The Circle — Discovery · `maili5sVWycFyQ0i`
+
+**Trigger:** n8n form "The Circle — Run Discovery".
+
+| Form field | Values |
 |---|---|
-| Cat1 | Circular fashion |
-| Cat2 | Biomaterials & material innovation |
-| Cat3 | Repair & reuse |
-| Cat4 | Traditional craft preservation |
-| Cat5 | Species & ecosystem protection |
-| Cat6 | Citizen science & biodiversity |
-| Cat7 | Regenerative agriculture & food |
-| **Cat8** | **Ocean & water** ← the only node the trigger fires |
-| Cat9 | Zero waste & plastic-free |
-| Cat10 | Permacomputing & slow tech |
-| Cat11 | Community commons |
-| Cat12 | Urban ecology |
-
-### Aggregation, dedup, insert
+| Scope (required) | `Israel` or `Global` — one scope per run, never mixed (Netta, 2026-09-28) |
+| Categories | Checkboxes for the 12 categories; empty = all 12 |
+| Max new results per category | 1–5, default 5 |
 
 | Node | Type | Does |
 |---|---|---|
-| `Merge All Results` | merge v3.2 | Combines Perplexity outputs. **No parameters set at all** |
-| `Code in JavaScript` | code | Parses each `choices[0].message.content` as JSON; regex fallback for markdown-wrapped output. Both failure paths silent |
-| `Get many rows` | supabase | Fetches all `global_initiatives` again (separate from the exclusion fetch). `executeOnce` |
-| `Code in JavaScript1` | code | Filters out URLs already in the DB. `executeOnce` |
-| `Code in JavaScript2` | code | **Identical logic to the previous node.** Re-reads from `Code in JavaScript`, so it doesn't even chain. Redundant |
-| `Create a row` | supabase | Inserts new rows, `autoMapInputData`. No skip guard for empty input |
+| `Get Existing Initiatives` / `Get Existing Facebook Communities` | HTTP GET, `executeOnce` | name, url, category of every row, newest first |
+| `Build Prompts` | code | **One template for all categories.** Holds the category table (name + search ideas). Builds one prompt per chosen category, with that category's 40 most recent names as the exclusion list |
+| `Discover (Claude web search)` | HTTP POST `api.anthropic.com/v1/messages` | `claude-sonnet-5`, `max_tokens` 8000, tool `web_search_20250305` with `max_uses: 3`. One call per category, 1 s apart. No retries |
+| `Parse and Dedup` | code | Pulls every complete `{…}` object from the answer (survives a cut-off answer). Normalises URLs (lower case, no protocol, no `www.`/`m.`, no tracking parameters, no trailing slash) and drops anything already in either table or repeated in the run. Forces the location into the run's scope. Emits one `call` item per category with tokens and searches |
+| `New Candidate?` | if | Candidates that are not duplicates |
+| `Liveness Check` | HTTP GET the URL | 15 s timeout, 5 at a time, never errors |
+| `Judge Liveness` | code | Alive = 2xx/3xx, or 401/403/429/999 (site blocks bots but is up) |
+| `Alive?` → `Insert as Pending` | HTTP POST `global_initiatives` | name, url, category, description, participation_type, how_to_join, activity_evidence, audience, language, location, `date_discovered` = today, `source = 'claude_web_search'`. `curator_status` and `translation_status` take their defaults (`pending`) |
+| `Classify New Rows` → `Translate to Hebrew` → `Set Nearest City` | Execute Workflow, `executeOnce`, wait | The three sub-workflows, in that order |
+| `Run Summary` | code | Categories run, call errors, candidates, duplicates, dead links, inserted, web searches, tokens, `discovery_cost_usd_estimate` |
 
-### Classification
+**Measured cost (2026-09-28):** Israel · Community commons, max 5 → 3 searches, 28.7k in / 3.1k out tokens, 2 rows inserted, **$0.12**. About $0.06 per new row; a full 12-category run ≈ $1.50. Classify + Hebrew + city add about $0.01 per row.
 
-| Node | Type | Does |
-|---|---|---|
-| `Get unclassified` | supabase | Filter `relevance_score IS NULL`. `executeOnce` |
-| `Message a model1` | langchain.anthropic v1 | Claude `claude-sonnet-4-6` classifies each row. Credential `0VsjL5YULq7SwA3O` |
-| `Code in JavaScript3` | code | Parses Claude's JSON (handles four possible response shapes), strips code fences, **pairs responses to rows by array index**, sets `is_verified_active: true`, writes `relevance_score: -1` on parse failure |
-| `Update a row` | supabase | Updates by `id`, `autoMapInputData` |
-
-## Wiring, as it actually is
-
-```
-Trigger → Get Existing URLs → Build Exclusion List → Perplexity Cat8
-                                                          ↓
-Cat1  → Merge [0]                                    Merge [5]
-Cat3  → Merge [0]   ← collides with Cat1
-Cat2  → Merge [1]
-        Merge [2]   ← empty
-Cat4–12 → Merge [3]…[11]
-                          ↓
-Merge All Results → Code in JavaScript → Get many rows → Code in JavaScript1
-   → Code in JavaScript2 → Create a row → Get unclassified → Message a model1
-   → Code in JavaScript3 → Update a row
-```
-
-**Two wiring defects:** only Cat8 fires, so 11 of 12 categories never run. And Cat1 and Cat3 share Merge input 0 while input 2 sits empty.
+**Adding a category (D3):** add one line to `CATEGORIES` in `Build Prompts` and one checkbox to the form. Also add it to the Add Links form and to the category list in its `Parse Link` node.
 
 ---
 
-# Workflow 2 — `1waLzKfHTHeMRvs9`
+# The Circle — Add Links · `Q9goXorlxj0vps7L`
 
-**Name:** "The Circle — Classify Staging Batch"
-**Description:** One-off classification pipeline for `staging_clean.json`. Loop batches of 10 → Claude classifier → merge with row → insert to `global_initiatives`
-**Nodes:** 8 · **Active:** false, manual trigger only
-**Created:** 2026-07-04 · **Last updated:** 2026-07-04
-
-## What it does
-
-A **one-off backfill**, not a recurring pipeline. Takes already-discovered initiatives pasted directly into a code node, classifies them in batches of 10, and inserts them. Built the day of the 2026-07-04 session — the same session that ran the URL liveness audit and decided the Tavily + Haiku pivot.
-
-Skips discovery and dedup entirely. It exists to classify a batch that was researched elsewhere.
-
-## Node inventory
+**Trigger:** n8n form "The Circle — Add Links": Link 1 (required) to Link 5, Category (optional, "Let Claude decide" by default, applies to all links), Notes (optional, e.g. a Facebook group's About text).
 
 | Node | Type | Does |
 |---|---|---|
-| `Start` | manualTrigger | Manual run only |
-| `Load Staging JSON` | code | **Data is pasted inline into the code itself.** Currently holds 13 Ocean & water initiatives from `deep_research_batch_2026-07-03` and `deep_research_israel_2026-07-03`. Throws if the array is empty |
-| `Loop 10 at a time` | splitInBatches v3 | Batch size 10. Output 0 → `Done`, output 1 → classifier |
-| `Classify Initiative` | langchain.chainLlm v1.9 | The classifier chain. Internal batching: **5 at a time, 500ms delay** |
-| `Claude Sonnet 4.6` | lmChatAnthropic v1.5 | Sub-node model. `maxTokensToSample: 2000`, **`temperature: 0.2`**. Credential `T7Xa9V6dU1QKqzNo` |
-| `Merge Classification with Row` | code, runOnceForEachItem | Strips code fences, parses JSON, **merges original row + defaults + classification**, stamps `date_discovered` as today. Falls back to an all-null defaults object on parse failure |
-| `Insert to global_initiatives` | supabase | Inserts. Ignores `_classification_error, _raw_llm_output, confidence, confidence_reason, _note, source, status, activity_evidence_url` |
-| `Done` | set | Emits "Batch classification complete" |
+| `Get Existing …` ×2 | HTTP GET, `executeOnce` | name, url of every row |
+| `Prepare Links` | code | One item per filled link; adds `https://` if missing; same URL normalisation as Discovery; marks duplicates; Facebook URLs → `facebook_communities`, all others → `global_initiatives` |
+| `Not in Catalogue?` | if | Duplicates go to `Already in Catalogue` and cost nothing |
+| `Fetch Page` | HTTP GET | 20 s timeout, never errors |
+| `Build Read Prompt` | code | Strips scripts/styles/tags, keeps meta descriptions, first 12,000 characters. Marks a non-Facebook link dead on 404/410/5xx/no response |
+| `Read Link (Claude)` | HTTP POST Anthropic | `claude-sonnet-5`, `max_tokens` 3000, `web_search` `max_uses: 2` as a fallback when the page text is not enough (login walls) |
+| `Parse Link` | code | Outcome per link: added / dead link / could not read. Category from the form, else Claude's pick from the 12 |
+| `Readable?` → `Insert as Pending` | HTTP POST to the row's table | Same fields as Discovery (no `source` column on `facebook_communities`) |
+| `Classify New Rows` → `Translate to Hebrew` → `Set Nearest City` → `Run Summary` | | As in Discovery. The summary lists each link's result and `read_cost_usd_estimate` |
 
-## Wiring
+**Measured cost (2026-09-28):** one website (kaima.org.il) → $0.04; two duplicates → $0.
 
+**Facebook:** pages and groups sit behind a login wall, so today they are described from the Notes field plus a web search. Reading public pages and groups through Apify is backlog (needs an Apify token).
+
+---
+
+# The Circle — Classify · `xf490HVAL7XhX5zc`
+
+**Triggers:** `Start (manual test)` and `When Called by Pipeline` (Execute Workflow Trigger, passthrough).
+**Selects:** rows in either table with `relevance_score IS NULL` and `curator_status = 'pending'`, oldest first, 25 per table per run.
+
+| Node | Does |
+|---|---|
+| `Get Unclassified Initiatives` / `… Facebook Communities` → `Tag …` → `All Unclassified` | Rows of both tables, tagged with their table name |
+| `Classify (Claude)` + `Claude Sonnet 5` | chainLlm, batch 5, 500 ms apart. `claude-sonnet-5`, temperature 0.2, `maxTokensToSample` 1200, thinking off, no retries. Prompt: `n8n_prompts.md` §2 |
+| `Parse and Validate` | Per item, paired to its row via `$('All Unclassified').item` (not by index). Enforces every closed vocabulary, 0–1 scores rounded to 3 decimals, `draws` ⊂ the 6 values (at least 1), themes ⊂ the 3 values, `location` shape, `relevance_score` 1–5. Tag arrays normalised to snake_case, deduped |
+| `Valid?` → `Save Classification` | PATCH by `id`. Invalid rows go to `Needs Retry` and stay unclassified, so the next run retries them. No `-1` sentinel |
+
+Writes the **five principle scores** (kept by decision, 2026-09-28) but runs **no artwork matching**.
+
+---
+
+# The Circle — Translate to Hebrew · `wcP5gs4snAb81msf`
+
+**Triggers:** `Start` and `When Called by Pipeline`.
+**Selects:** `translation_status = 'pending'` in both tables (currently up to 140 + 60 per run).
+
+`Translate to Hebrew (Claude)` — chainLlm on `claude-sonnet-5`, `maxTokensToSample` 600, thinking off, batch 5, 500 ms apart, no retries. `Parse and Validate` — Hebrew present, length 0.25–2.5× the source, no leaked instructions; Hebrew-only source names are copied as-is. `Save Hebrew` PATCHes `name_he`, `description_he`, `translation_status = 'machine'`. Failures stay `pending`.
+
+Backfill of all 372 rows completed 2026-09-28 (see CHANGELOG).
+
+---
+
+# The Circle — D4b Nearest City · `W0VK7jEefw9Fzioi`
+
+Unchanged from 2026-09-27 except the new `When Called by Pipeline` trigger and `executeOnce` on both reads. Selects `location ILIKE 'Israel%'`, `format IN ('in_person','hybrid')`, `geo_precision IS NULL`. Vague locations → national; places → Nominatim → `set_nearest_city()`.
+
+---
+
+## Approving rows
+
+Until a curator screen exists (backlog), approval is SQL. `v_activities` requires **both** flags:
+
+```sql
+update global_initiatives
+set curator_status = 'approved', is_verified_active = true
+where id = '…';
+-- same for facebook_communities
 ```
-Start → Load Staging JSON → Loop 10 at a time
-                                 ├─[0]→ Done
-                                 └─[1]→ Classify Initiative ← Claude Sonnet 4.6 (ai_languageModel)
-                                            ↓
-                                   Merge Classification with Row
-                                            ↓
-                                   Insert to global_initiatives
-                                            ↓
-                                   Loop 10 at a time  (loops back)
-```
 
-## How it differs from Workflow 1
-
-| | Workflow 1 | Workflow 2 |
-|---|---|---|
-| Input | Perplexity discovery | JSON pasted into a code node |
-| Dedup | Yes, against DB | **None** — relies on the `url` UNIQUE constraint to reject dupes |
-| Model node | `anthropic` v1 | `chainLlm` + `lmChatAnthropic` sub-node |
-| Temperature | not set | **0.2** |
-| Pairing | by array index | **by item**, `runOnceForEachItem` — safer |
-| Missing fields | omitted | filled with an explicit **defaults object** |
-| `is_verified_active` | set `true` | **not set** — rows land NULL |
-| `date_discovered` | from the prompt | stamped in code |
-| Credential | `0VsjL5YULq7SwA3O` | `T7Xa9V6dU1QKqzNo` |
-
-**Workflow 2's item-level pairing and defaults object are the better design.** Workflow 1's index pairing is the known fragility (S-50). If the pipeline is ever revived, port Workflow 2's approach.
-
-⚠️ **Workflow 2 not setting `is_verified_active` is the likely origin of the ~127 NULL rows** recorded in S-76. Those rows were later resolved; the mechanism was never confirmed. This is a plausible explanation.
+Reject: `set curator_status = 'rejected'`.
