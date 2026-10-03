@@ -5,7 +5,7 @@ State → `state.sql`. Work status → Linear. Data contracts → `contracts.md`
 
 D-numbers are permanent. Never reuse, never renumber. A reversal gets a new D-number; the old row moves to Superseded with a pointer.
 
-Last updated: 2026-08-30
+Last updated: 2026-09-28
 
 ### Status grades
 
@@ -30,7 +30,6 @@ Last updated: 2026-08-30
 | D14 | `climate-vibes` edge function | Redeploy to EXAI / rewrite to call Anthropic / remove. **Removal recommended** — already a listed candidate in the repo changelog | S-118, S-120 | this session; CHANGELOG 2026-07-15 |
 | D18 | Activity ordering mechanism | Sort by match score, or filter-hard-then-order-gently. Score-ranking reads as a leaderboard, against the exhibition's stance. Sub-questions: results per screen, stable vs reshuffled, empty state | S-65 | this session |
 | D19 | Impact tab numbers | Source the yield rates / show honest ranges / drop numbers and show the shape of what returns. Every constant is currently invented | S-126 | this session |
-| D20 | Curator review gating model | Classifier stops setting the flag (queue), or a separate `curator_status` column. **Option 2 lower risk** — leaves the n8n pipeline undisturbed | S-124 | this session |
 | D22 | App typography and palette | App uses **Heebo**; exhibition brand is FbHarduf-Black + Assistant. Palette base is close (`--ink` ≈ Ink, `--bone` ≈ Cream, `--sage` ≈ Moss) but lacks Terracotta, Sand, Ochre, Sky — which `returnTypes.ts` already references. A reconciliation, not a redesign | S-66 | this session |
 | D28 | Relevance mechanism | Tag affinity alone cannot carry it — tested against live data, distribution is binary not graded (157 activities scored exactly 1.000 against one artwork), and 45 activities carry no materials at all. Cause is density: 2.27 materials and 1.92 process per activity, 1–4 per artwork. Not fixable by weighting. **Proposal:** `0.5 · cosine + 0.2 · tag_affinity + 0.3 · principle_alignment + community_bonus`, spec in `spec_matching_v2.md` with a kill-criteria test. **Amends D15** — the tag family graph stays, but as one term of three rather than the mechanism | S-122 | this session |
 
@@ -50,6 +49,12 @@ Last updated: 2026-08-30
 | D26 | How ungated values are identified | Set difference, not a flag column. The unit is the value, not the row. `gate_selector` diffs values in use against `tag_vocabulary ∪ tag_aliases ∪ tag_intake`. Idempotent; identical path for backfill and live traffic. Prose is the exception and needs `tag_intake` as a ledger — not yet built | 2026-08-31 | this session |
 | D27 | Family depth is a DB parameter | Not a prompt instruction. `aat_parents` stored verbatim so `recut_families(n)` re-derives every family without re-querying Getty. Depth 4 in force. Depth 4 → 5 families, largest 10; depth 5 → 9, largest 5; depth 6 → 14, largest 4. Final cut decided from the score distribution | 2026-08-31 | this session |
 | D12 | Who drafts the tag family table | Claude drafts from live data, Netta reviews and approves. In force — 25 model-suggested material families approved 2026-08-31. Mechanism formalised as D25 | 2026-08-31 | this session |
+| D20 | Curator review gating model | **Separate `curator_status` column** (`pending` / `approved` / `rejected`), not the classifier flag. Existing rows `approved`; new rows default `pending`; `v_activities` shows only `approved`. Approval also sets `is_verified_active = true`, which the view still requires | 2026-09-28 | Netta, pipeline doc decision 4 |
+| D29 | Discovery engine | **Claude Sonnet 5 with web search** replaces Perplexity (its Sonar chat-completions API was retired 2026-09-27). One prompt template instead of 12 category prompts; max 3 searches and 5 results per category, for cost | 2026-09-28 | Netta, pipeline doc decision 1 |
+| D30 | Israel vs global discovery | **Separate runs**, triggered independently from the Discovery form, never mixed in one run | 2026-09-28 | Netta, pipeline doc decision 2 |
+| D31 | Five principle scores | **Keep writing them** on every new row. No artwork↔initiative matching runs in the pipeline for now | 2026-09-28 | Netta, pipeline doc decision 3 |
+| D32 | Hebrew translation | **Inside the pipeline**, one call per row, status `machine`, validated before save. Model **Claude Sonnet 5**. Gemini 3.1 Pro won the 10-row blind test 7–3 and was adopted, then reversed the same day: its retries and hidden thinking tokens ran up cost | 2026-09-28 | Netta, pipeline doc decision 5 |
+| D33 | Links a curator finds | **Add Links form**, up to 5 per run, same chain as discovery. Facebook: Apify for public pages and groups (not built — needs a token), Notes field for private groups | 2026-09-28 | Netta, pipeline doc decisions 6 + manual links |
 
 ## DE FACTO
 
@@ -99,3 +104,5 @@ Constraints on every decision, not decisions themselves.
 D1–D10 are the original sequence, verified 2026-08-30 against the three pre-consolidation spec files (now retired) — consistent across all three, no collisions.
 
 D11–D22 added 2026-08-30. An earlier draft of this file mis-assigned D3 and D9 to new decisions; those are now **D21** and **D15**. If any Linear issue references "the D3 user model," it means D21.
+
+D29–D33 and the D20 ruling added 2026-09-28 (n8n pipeline rebuild). Not to be confused with the rebuild plan's scope labels D0–D6 ("D0 Hebrew", "D4 nearest city" …), which live in the plan doc and CHANGELOG, not in this register.
